@@ -1,0 +1,26 @@
+{
+  "name": "2021-fall-group-moose",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "node server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jhu-oose/2021-fall-group-moose.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jhu-oose/2021-fall-group-moose/issues"
+  },
+  "homepage": "https://github.com/jhu-oose/2021-fall-group-moose#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

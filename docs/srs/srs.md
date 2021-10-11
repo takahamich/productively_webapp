@@ -23,16 +23,13 @@ As a user, I want to be able to create a <app name> account so that my informati
 As a user, I want to be able to log in to my <app name> account so that my information is stored in the system.
 As a user, I want to be able to add tasks to my google calendar from <app name> so that I can keep track of my goals across all platforms.
 As a user, I want to be given periodic check-ins that inform me of how I handled my work and studying compared to what I was expecting so that I can learn how to plan my work more effectively.
-As a user, I want to be able to track whether I’ve reached my daily goals so that I can understand what might be lacking in how I structure my time.
-|
+As a user, I want to be able to track whether I’ve reached my daily goals so that I can understand what might be lacking in how I structure my time. |
 | **Nice to Have**:
 As a user, I want to be able to upload my course schedule to the system so that I am able to view important course timelines in my calendar.
 As a user, I want to be able to view recommendations for other tools so that I am able to get more information and learnings on better ways to manager my time.
 As a user, I want to organize my workload concurrently with my broader career goals through an intuitive UI so that I may better understand how my career decisions coincide with my current work.
 As a user, I want to automatically be given recommendations for how I can better space out my workload based on my activity in the application so that I can discover more options for myself that I might not have considered otherwise.
-As a user, I want to be reminded of my upcoming tasks even when I am not actively viewing the app so that I can easily remember to complete my tasks
-
-|
+As a user, I want to be reminded of my upcoming tasks even when I am not actively viewing the app so that I can easily remember to complete my tasks |
 
 | **Software Architecture** |
 | -------- |

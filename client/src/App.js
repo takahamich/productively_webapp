@@ -5,7 +5,6 @@ import { useEffect , useState } from "react";
 import 'react-calendar/dist/Calendar.css';
 import Calendars from './components/Calendars.js';
 import styled from 'styled-components'
-import {Dropdown, Option} from "./components/Dropdown";
 import TaskButton from "./components/TaskButton";
 import Task from "./components/Task";
 
@@ -26,12 +25,6 @@ function App() {
         </CalendarWrapper>
         <ButtonWrapper>
           <TaskButton onClick={handleOnClick}/>
-          <Dropdown action="/">
-                <Option selected value="Select task priority" />
-                <Option value="Low priority: 1" />
-                <Option value="Medium priority: 2" />
-                <Option value="High priority: 3" />
-            </Dropdown> 
         </ButtonWrapper>
       </TopWrapper>
       {/* <BodyWrapper>

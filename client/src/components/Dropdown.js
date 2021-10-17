@@ -23,10 +23,11 @@ export const DropdownWrapper = styled.form`
   display: flex;
   flex-flow: column;
   justify-content: flex-start;
+  margin-top: 10px;
 `;
 
 export const StyledSelect = styled.select`
-  max-width: 100%;
+  max-width: 75%;
   height: 100%;
   padding: 0.5rem;
   margin-bottom: 1rem;

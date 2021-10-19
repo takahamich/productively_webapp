@@ -1,7 +1,7 @@
-import logo from './logo.svg';
-// import './App.css';
-// import Calendar from 'react-calendar';
+import React from 'react';
+import './App.css'
 import { useEffect , useState } from "react";
+import Login from './components/Login';
 import 'react-calendar/dist/Calendar.css';
 import Calendars from './components/Calendars.js';
 import styled from 'styled-components'
@@ -10,15 +10,22 @@ import Task from "./components/Task";
 
 
 function App() {
+  const [token, setToken] = useState();
   const [toggle, setToggle] = useState(false);
 
-// Handle when the user creates the create task button
+  if(!token) {
+    return <Login setToken={setToken} />
+  }
+
+  // Handle when the user creates the create task button
   function handleOnClick(){
     setToggle(!toggle);
-}
+  } 
+
   return (
-    <ParentWrapper>
-      <SubParentWrapper selected={toggle}>
+  <ParentWrapper>
+    <h1>Welcome Home, User</h1>
+    <SubParentWrapper selected={toggle}>
       <TopWrapper>
         <CalendarWrapper>
           <Calendars/>
@@ -34,8 +41,8 @@ function App() {
         <TaskWrapper/>
       </BodyWrapper> */}
       {toggle && <Task onClick={handleOnClick}/>}
-      </SubParentWrapper>
-    </ParentWrapper>
+    </SubParentWrapper>
+  </ParentWrapper>
   )
 }
 
@@ -107,12 +114,5 @@ const CalendarWrapper = styled.div`
   width: 100%
  
 `;
-
-// const TaskWrapper = styled.div`
-//   // background: orange;
-//   height: 100vh;
-//   width: 80vw; 
-// `;
-
 
 export default App;

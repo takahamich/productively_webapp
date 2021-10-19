@@ -13,7 +13,18 @@
   }
 }
 
+.wrapper {
+  padding: 20px;
+}
+
+header h1{
+  padding: 20px;
+  font-style: italic;
+}
+
+
 .App-header {
+  padding: 20px;
   background-color: #282c34;
   min-height: 100vh;
   display: flex;

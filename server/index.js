@@ -1,13 +1,13 @@
-const express = require("express");
-
-const PORT = process.env.PORT || 3001;
-
+const express = require('express');
+const cors = require('cors')
 const app = express();
 
-app.get("/api", (req, res) => {
-    res.json({ message: "Hello from server!" });
+app.use(cors());
+
+app.use('/login', (req, res) => {
+  res.send({
+    token: 'test123'
+  });
 });
 
-app.listen(PORT, () => {
-    console.log(`Server listening on ${PORT}`);
-});
+app.listen(8080, () => console.log('API is running on http://localhost:8080/login'));

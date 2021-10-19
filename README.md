@@ -14,7 +14,7 @@ The following **required** functionality is completed:
 
 The following system requirements are completed:
 
-- [x] Set up our database - Firebase
+- [x] Set up our database - MongoDb
 - [x] Design layout of our app's homepage using styled components and flexbox
   
 

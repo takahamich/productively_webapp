@@ -25,4 +25,4 @@ db.once("open", function () {
     console.log("Connected successfully");
 });
 
-//app.use(Router);
+app.use(Router);

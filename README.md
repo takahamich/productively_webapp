@@ -10,18 +10,18 @@ The following **required** functionality is completed:
 
 - [x] User can click a create task button
 - [x] The user can view a right fly out window, where they can add details fo their task such as due date, priority, and task name.
-- [x]	User can view a calendar in the application's homepage.
+  - [x]    User can view a calendar in the application's homepage.
 
 The following system requirements are completed:
 
 - [x] Set up our database - MongoDb
 - [x] Design layout of our app's homepage using styled components and flexbox
-  
 
-## Video Walkthrough
-Here's a walkthrough of implemented user stories:
 
-    
+## Pictures of Implemented User Stories.
+Here's pictures of our implemented user stories:
+
+    
 ## Instructions
 
 We are assuming that you have npm installed. If not, then install [homebrew](https://brew.sh/) and run brew install npm on terminal.

@@ -12,7 +12,7 @@ async function loginUser(credentials) {
       body: JSON.stringify(credentials)
     })
       .then(data => data.json())
-   }
+}
 
 function Login({ setToken }) {
     const [username, setUserName] = useState();

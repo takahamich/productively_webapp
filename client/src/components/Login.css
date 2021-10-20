@@ -1,0 +1,26 @@
+.login-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    border-color: black;
+}
+
+.login-wrapper label{
+    text-align: center;
+}
+
+.login-headers {
+    padding: 20px;
+    text-align: center;
+    background-color:lightblue;
+}
+
+.login-headers h1{
+    font-size: x-large;
+}
+.login-headers h2{
+    font-size: small;
+    font-style: italic;
+}
+

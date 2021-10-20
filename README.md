@@ -14,7 +14,7 @@ The following **required** functionality is completed:
 
 The following system requirements are completed:
 
-- [x] Set up our database - Firebase
+- [x] Set up our database - MongoDb
 - [x] Design layout of our app's homepage using styled components and flexbox
   
 
@@ -27,6 +27,8 @@ Here's a walkthrough of implemented user stories:
 We are assuming that you have npm installed. If not, then install [homebrew](https://brew.sh/) and run brew install npm on terminal.
 
 
-* To run our app, clone this repository and run npm install.
+* To run our app, clone this repository
+* run cd client on terminal to go to the client folder
+* run npm install.
 * npm install --save styled-components
 * npm i --save react-big-calendar

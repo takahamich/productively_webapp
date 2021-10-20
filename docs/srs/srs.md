@@ -8,7 +8,7 @@
 
 |Potential Clients: Who are influenced by this problem and would benefit from the proposed solution? (i.e. the potential users) |
 | -------- |
-| College students|
+| College students who struggle with time management and meeting their school goals.|
 
 | Proposed Solution: Write a few sentences that describe how a software solution will solve the problem described above.|
 | -------- |

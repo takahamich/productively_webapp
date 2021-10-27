@@ -4,16 +4,16 @@
 
 | Problem Statement: A few sentences to describe the problem you are trying to solve, i.e., justify why this software is needed. |
 | -------- |
-| Time management is difficult for many students. They must balance classes, work, and other commitments while leaving room for leisure and self-reflection.    |
+| Time management is difficult for many students. They must balance classes, work, and other commitments while leaving room for leisure and self-reflection, all while adjusting and truly figuring out how they want to spend their time.    |
 
 |Potential Clients: Who are influenced by this problem and would benefit from the proposed solution? (i.e. the potential users) |
 | -------- |
-| College students who struggle with time management and meeting their school goals.|
+| College students who struggle with time management and meeting their school, relationship, career, and other life goals.|
 
 | Proposed Solution: Write a few sentences that describe how a software solution will solve the problem described above.|
 | -------- |
 | An application can be designed that takes a holistic approach to scheduling work, studying, and activities for a student, allowing the student to set personal and academic goals for themself that the application will help them achieve.
-We are creating <app name>, the ultimate time management application that allows students to manage all their tasks and daily goals. Students are able to reflect on whether they meet that their daily goals. Time-consuming tasks are automatically divided in chunks on the students’ calendars, allowing them to more effectively tackle larger tasks. The goal of <app name> is simple; Impact students by promoting productivity, discourage procrastination, and supporting students to meet their goals.
+We are creating <app name>, the ultimate time management application that allows students to manage all their daily tasks and overall goals. Students are able to reflect on how effectively they can complete their daily tasks, while seeing how those daily tasks play into their overall goals. The goal of <app name> is simple; Impact students by promoting productivity, discourage procrastination, and supporting students to meet their goals.
 
 
 | Functional Requirements: List the (functional) requirements that software needs to have in order to solve the problem stated above. It is useful to try to group the requirements into those that are essential (must have), and those which are non-essential (but nice to have).      |

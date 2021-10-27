@@ -22,8 +22,8 @@ We are creating <app name>, the ultimate time management application that allows
 As a user, I want to be able to create a <app name> account so that my information is stored in the system.
 As a user, I want to be able to log in to my <app name> account so that my information is stored in the system.
 As a user, I want to be able to add tasks to my google calendar from <app name> so that I can keep track of my goals across all platforms.
-As a user, I want to be given periodic check-ins that inform me of how I handled my work and studying compared to what I was expecting so that I can learn how to plan my work more effectively.
-As a user, I want to be able to track whether I’ve reached my daily goals so that I can understand what might be lacking in how I structure my time. |
+As a user, I want to get periodic check-ins tell me how productively I handled my work compared to what I was expecting so that I can learn how to be even more productive.
+As a user, I want to be able to track whether I’ve reached my daily goals so that I can understand how to better structure my time. |
 | **Nice to Have**:
 As a user, I want to be able to upload my course schedule to the system so that I am able to view important course timelines in my calendar.
 As a user, I want to be able to view recommendations for other tools so that I am able to get more information and learnings on better ways to manager my time.
@@ -37,4 +37,4 @@ As a user, I want to be reminded of my upcoming tasks even when I am not activel
 **Main Technologies** 
 React for client side and front-end development. 
 Node.js for server side.
-Firebase or SQLite for our database.|
+Firebase, SQLite, or MongoDB for our database.|

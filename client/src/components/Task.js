@@ -7,26 +7,27 @@ import {useState } from "react";
 function Task({onClick}){
     const [data, setData] = useState({
         taskName: "",
-        deadline: ""
-
+        deadline: "",
+        priority: ""
     });
 
     function handleChange(e){
         const newdata={...data}
         newdata[e.target.id] = e.target.value
         setData(newdata)
-        console.log(newdata)
     }
 
     function submit(e){
-        e.preventDefault();
+        e.preventDefault()
+        alert("Your task has been submitted")
+        console.log(data)
 
     }
 
     return (
         <Wrapper>
             <h3>Create a Task:</h3>
-            <FormWrapper onSubmit={(e) => submit(e)}>
+            <FormWrapper onSubmit={(e) => submit(e)} action = "/submit" method = "POST">
                 <TextField
                     id="taskName"
                     label="Task name"
@@ -34,8 +35,7 @@ function Task({onClick}){
                     value={data.taskName}
                     onChange={(e) => handleChange(e)}
                     required
-                    fullWidth
-                />
+                    fullWidth/>
                 <TextField
                     id="deadline"
                     label="Select task deadline"
@@ -46,14 +46,24 @@ function Task({onClick}){
                     InputLabelProps={{
                         shrink: true,
                     }}/>
-                <Dropdown action="/">
+
+                <select id="priority" defaultValue={"Select task priority"} value={data.priority} onChange={(e) => handleChange(e)}>
+                    {/* <Option selected value="Select task priority" /> */}
+                    <Option value="Select task priority" disabled></Option>
+                    <Option value="Low priority: 1" />
+                    <Option value="Medium priority: 2" />
+                    <Option value="High priority: 3" />
+                </select>
+                <button type="submit">Submit</button>
+                {/* <Dropdown action="/" id="priority" value={data.priority} onChange={(e) => handleChange(e)}>
                     <Option selected value="Select task priority" />
                     <Option value="Low priority: 1" />
                     <Option value="Medium priority: 2" />
                     <Option value="High priority: 3" />
-                </Dropdown>
+                </Dropdown> */}
                 <ButtonWrapper>
-                    <button onClick={onClick}>Submit</button>
+               
+                    <button type="button" onClick={onClick}>Done</button>
                 </ButtonWrapper>
             </FormWrapper>
             

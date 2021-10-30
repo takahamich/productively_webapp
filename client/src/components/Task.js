@@ -2,16 +2,37 @@ import React from "react";
 import styled from "styled-components";
 import {Dropdown, Option} from "./Dropdown";
 import TextField from '@material-ui/core/TextField';
+import {useState } from "react";
 
 function Task({onClick}){
+    const [data, setData] = useState({
+        taskName: "",
+        deadline: ""
+
+    });
+
+    function handleChange(e){
+        const newdata={...data}
+        newdata[e.target.id] = e.target.value
+        setData(newdata)
+        console.log(newdata)
+    }
+
+    function submit(e){
+        e.preventDefault();
+
+    }
+
     return (
         <Wrapper>
             <h3>Create a Task:</h3>
-            <FormWrapper>
+            <FormWrapper onSubmit={(e) => submit(e)}>
                 <TextField
-                    id="task-name"
+                    id="taskName"
                     label="Task name"
                     margin="normal"
+                    value={data.taskName}
+                    onChange={(e) => handleChange(e)}
                     required
                     fullWidth
                 />
@@ -20,6 +41,8 @@ function Task({onClick}){
                     label="Select task deadline"
                     type="date"
                     margin="normal"
+                    value={data.deadline}
+                    onChange={(e) => handleChange(e)}
                     InputLabelProps={{
                         shrink: true,
                     }}/>
@@ -29,10 +52,11 @@ function Task({onClick}){
                     <Option value="Medium priority: 2" />
                     <Option value="High priority: 3" />
                 </Dropdown>
+                <ButtonWrapper>
+                    <button onClick={onClick}>Submit</button>
+                </ButtonWrapper>
             </FormWrapper>
-            <ButtonWrapper>
-                <button onClick={onClick}>Submit</button>
-            </ButtonWrapper>
+            
         </Wrapper>
 
     )
@@ -51,7 +75,7 @@ const Wrapper = styled.div`
 
 `
 
-const FormWrapper = styled.div`
+const FormWrapper = styled.form`
     background-color: #e4eaf5;
     padding: 0 10px 0 10px;
     max-width: 100%;

@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css'
-import { useEffect , useState } from "react";
+import {useState } from "react";
 import Login from './components/Login';
 import 'react-calendar/dist/Calendar.css';
 import Calendars from './components/Calendars.js';
@@ -40,21 +40,22 @@ function App() {
         </CalendarWrapper>
         <TaskWrapper/>
       </BodyWrapper> */}
-      {toggle && <Task onClick={handleOnClick}/>}
+    
     </SubParentWrapper>
+    {toggle && <Task onClick={handleOnClick}/>}
   </ParentWrapper>
   )
 }
 
 const SubParentWrapper = styled.div`
     // background-color: purple;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     ${props => props.selected === true && `
         display: flex;
         flex-direction: column;
         justify_content: center;
-        width: 81.2%;
+        width: 80vw;
         padding:0px;
         overflow-y: hidden;
         overflow-x: hidden;
@@ -71,8 +72,8 @@ const ParentWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify_content: center;
-    height: 100vh;
-    width: 100vw;
+    // height: 100vh;
+    // width: 100vw;
     padding:0px;
     overflow-y: hidden;
     overflow-x: hidden;
@@ -91,8 +92,8 @@ const TopWrapper = styled.div`
 
 const ButtonWrapper = styled.div`
   // background: red;
-  height: 100px;
-  width: 400px;
+  max-height: 100px;
+  max-width: 400px;
   padding: 10px;
   padding-right: 10px;
 `;
@@ -109,9 +110,6 @@ const ButtonWrapper = styled.div`
 const CalendarWrapper = styled.div`
   display: flex;
   flex-grow:1;
-  // background: pink;
-  height: 100vh;
-  width: 100%
  
 `;
 

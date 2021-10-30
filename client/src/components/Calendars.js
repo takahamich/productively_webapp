@@ -13,7 +13,7 @@ function Calendars(){
       events={events}
       startAccessor="start"
       endAccessor="end"
-      style={{ height: 1000, width: 1400, padding:20}}
+      style={{height: '100vh', width: '80vw', padding: 30}}
       />
     </div>
   )

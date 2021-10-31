@@ -7,8 +7,7 @@ const app = express();
 
 app.use(cors());
 
-app.use('/login', (req, res) => { //going to have to change this later on
-    //using app.use will make us go to the authentication page each time we want to access a new route
+app.use('/login', (req, res) => {
     res.send({
         token: 'test123'
     });

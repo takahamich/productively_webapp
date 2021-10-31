@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 
 // TODO: send message if x not found, instead of throwing an error?
 
-app.get("/users", async (req, res) => { //this get request gets all users
+app.get("/users", async (req, res) => {
     const users = await userModel.find({});
 
     try {
@@ -18,7 +18,7 @@ app.get("/users", async (req, res) => { //this get request gets all users
     }
 });
 
-app.get("/tasks", async (req, res) => { //this get request gets all tasks
+app.get("/tasks", async (req, res) => {
     const tasks = await taskModel.find({});
 
     try {
@@ -28,7 +28,7 @@ app.get("/tasks", async (req, res) => { //this get request gets all tasks
     }
 });
 
-app.get("/tasks/{id}", async (req, res) => { //this get request shoukd get all tasks from a specific user id
+app.get("/tasks/{id}", async (req, res) => {
     const user = await userModel.find(req.params.id);
     const tasks = new user.tasks;
 

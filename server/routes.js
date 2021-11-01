@@ -2,13 +2,17 @@ const express = require("express");
 const taskModel = require("./models/Task");
 const userModel = require("./models/User");
 const bodyParser = require('body-parser');
+const mongoose = require("mongoose");
 const app = express();
 
+
+//app.use(express.bodyParser());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true}));
 
 // TODO: send message if x not found, instead of throwing an error?
 
-app.get("/users", async (req, res) => {
+app.get("/users", async (req, res) => { //gets all users
     const users = await userModel.find({});
 
     try {
@@ -18,7 +22,7 @@ app.get("/users", async (req, res) => {
     }
 });
 
-app.get("/tasks", async (req, res) => {
+app.get("/tasks", async (req, res) => { //gets all tasks
     const tasks = await taskModel.find({});
 
     try {
@@ -28,9 +32,9 @@ app.get("/tasks", async (req, res) => {
     }
 });
 
-app.get("/tasks/{id}", async (req, res) => {
-    const user = await userModel.find(req.params.id);
-    const tasks = new user.tasks;
+app.get("/tasks/:id", async (req, res) => {
+    const tasks = await taskModel.find({creator: req.params.id});
+    console.log(tasks);//user.tasks undefined
 
     // find within user?
     try {
@@ -40,17 +44,38 @@ app.get("/tasks/{id}", async (req, res) => {
     }
 });
 
-app.post("/tasks/{id}", async (req, res) => {
-    const user = new userModel(req.params.id);
-    user.tasks = user.tasks.append(req.body);
-    // check if req.body is formatted correctly
 
-    try {
-        await user.save();
-        res.send(user);
-    } catch (error) {
-        res.status(500).send(error);
-    }
+app.post("/tasks/:id", async (req, res) => {
+    //console.log(JSON.stringify(req.body));
+    console.log(req.body);
+    userModel.findById(req.params.id, (err,user)=> {
+        if(err) {
+            throw new Error(err);
+        }
+        const newTask = new taskModel ({
+            _id: new mongoose.Types.ObjectId, //req.params.id,
+            taskName: req.body[0].taskName,
+            predictedEndDate: req.body[0].predictedEndDate,
+            priority: req.body[0].priority,
+            creator: req.params.id,
+        });
+
+        console.log(newTask);
+
+        taskModel.create(newTask, (err, task) => {
+            if (err) {
+                res.redirect('/');
+                throw new Error(err);
+            }
+
+            user.tasks.push(newTask);
+            console.log(user.tasks);
+            user.save((err)=> {
+                    return res.send(user.tasks);
+            });
+        });
+
+    });
 });
 
 app.post("/users", async (req, res) => {
@@ -64,6 +89,6 @@ app.post("/users", async (req, res) => {
     }
 });
 
-// app post: task score algorithm
+//app post: task score algorithm
 
 module.exports = app;

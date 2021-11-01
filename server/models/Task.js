@@ -1,24 +1,30 @@
 const mongoose = require("mongoose");
 
 const TaskSchema = new mongoose.Schema({
+    _id: mongoose.Types.ObjectId,
     taskName: {
         type: String,
+        required: true,
+    },
+    predictedEndDate: {
+        type: Date,
+        required: true,
+    },
+    priority: {
+        type: Number,
         required: true,
     },
     startDate: {
         type: Date,
         default: Date.now,
     },
-    predictedEndDate: {
-        type: Date,
-        required: true,
+    creator: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
-    actualEndDate: {
-        type: Date,
-    },
-    priority: {
+    __v: {
         type: Number,
-        required: true,
+        default: 0,
     },
 });
 

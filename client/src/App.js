@@ -10,17 +10,18 @@ import Task from "./components/Task";
 
 
 function App() {
-  const [token, setToken] = useState();
-  const [toggle, setToggle] = useState(false);
 
+  //const [token, setToken] = useState();
+  const [toggle, setToggle] = useState(false);
+/*
   if(!token) {
     return <Login setToken={setToken} />
-  }
+  }*/
 
   // Handle when the user creates the create task button
   function handleOnClick(){
     setToggle(!toggle);
-  } 
+  }
 
   return (
   <ParentWrapper>

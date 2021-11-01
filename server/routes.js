@@ -5,7 +5,10 @@ const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 const app = express();
 
+
+//app.use(express.bodyParser());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true}));
 
 // TODO: send message if x not found, instead of throwing an error?
 
@@ -30,45 +33,49 @@ app.get("/tasks", async (req, res) => { //gets all tasks
 });
 
 app.get("/tasks/:id", async (req, res) => {
-    const user = await userModel.find({_id: req.params.id});
-    console.log(user); // works
-    //or const tasks = await taskModel.find({creator: req.params.id});
-    console.log(user.tasks);//user.tasks undefined
-    res.send(user); //taskArray
+    const tasks = await taskModel.find({creator: req.params.id});
+    console.log(tasks);//user.tasks undefined
 
     // find within user?
-    // try {
-    //     res.send(tasks);
-    // } catch (error) {
-    //     res.status(500).send(error);
-    // }
-});
-
-app.post("/tasks/:id", async (req, res) => {
-    console.log(JSON.stringify(req.body));
-    const newTask = new taskModel({
-        _id: new mongoose.Types.ObjectId, //req.params.id,
-        taskName: req.body.taskName,
-        predictedEndDate: req.body.deadline,
-        priority: req.body.priority,
-        creator: req.params.id,
-    });
-
-    console.log(newTask);
-    console.log(newTask.taskName);
-
-    const user = await userModel.find({_id: req.params.id});
-    console.log(user);
-    user.tasks.push(newTask);
-    //user.tasks = user.tasks.push(newTask);
-    // check if req.body is formatted correctly
-
     try {
-        await this.user.save((e,u) => { console.log('New task saved to user!'); });
-        res.send(user);
+        res.send(tasks);
     } catch (error) {
         res.status(500).send(error);
     }
+});
+
+
+app.post("/tasks/:id", async (req, res) => {
+    //console.log(JSON.stringify(req.body));
+    console.log(req.body);
+    userModel.findById(req.params.id, (err,user)=> {
+        if(err) {
+            throw new Error(err);
+        }
+        const newTask = new taskModel ({
+            _id: new mongoose.Types.ObjectId, //req.params.id,
+            taskName: req.body[0].taskName,
+            predictedEndDate: req.body[0].predictedEndDate,
+            priority: req.body[0].priority,
+            creator: req.params.id,
+        });
+
+        console.log(newTask);
+
+        taskModel.create(newTask, (err, task) => {
+            if (err) {
+                res.redirect('/');
+                throw new Error(err);
+            }
+
+            user.tasks.push(newTask);
+            console.log(user.tasks);
+            user.save((err)=> {
+                    return res.send(user.tasks);
+            });
+        });
+
+    });
 });
 
 app.post("/users", async (req, res) => {
@@ -82,6 +89,6 @@ app.post("/users", async (req, res) => {
     }
 });
 
-// app post: task score algorithm
+//app post: task score algorithm
 
 module.exports = app;

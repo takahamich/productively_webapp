@@ -1,5 +1,5 @@
-
 <!-- TABLE OF CONTENTS -->
+## About The Project
 <details>
   <summary>Table of Contents</summary>
   <ol>
@@ -32,7 +32,8 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email`, `email_client`, `project_title`, `project_description`
+MOOSE Scheduling app is the ultimate time management application that allows students to manage all their tasks, as well as long-term and short-term goals. Students are able to assign priority to tasks that need to be completed. With the app's feedback system, they can reflect on whether they meet that their daily goals. Time-consuming tasks will automatically be divided in chunks on the students’ calendars, allowing them to more effectively tackle larger tasks. The goal of our app is simple; Impact students by promoting productivity, discourage procrastination, and supporting students to meet their goals.
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -40,15 +41,9 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ### Built With
 
-* [Next.js](https://nextjs.org/)
+* [Node.js](https://nodejs.org/)
 * [React.js](https://reactjs.org/)
-* [Vue.js](https://vuejs.org/)
-* [Angular](https://angular.io/)
-* [Svelte](https://svelte.dev/)
-* [Laravel](https://laravel.com)
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
-
+* [MongoDB] (https://www.mongodb.com)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
@@ -61,10 +56,14 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
 * npm
   ```sh
   npm install npm@latest -g
+  ```
+
+* homebrew
+  ```sh
+  https://brew.sh/
   ```
 
 ### Installation
@@ -72,15 +71,22 @@ This is an example of how to list things you need to use the software and how to
 1. Get a free API Key at [https://example.com](https://example.com)
 2. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/jhu-oose/2021-fall-group-moose.git
    ```
 3. Install NPM packages
    ```sh
    npm install
+   npm install --save styled-components
+   npm i --save react-big-calendar
    ```
-4. Enter your API in `config.js`
+4. Run the server in the currect directory
    ```js
-   const API_KEY = 'ENTER YOUR API';
+   npm start
+   ```
+4. Open a new terminal and run the client in the client directory
+   ```js
+   cd client
+   npm start
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -101,12 +107,19 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [] Feature 1
-- [] Feature 2
-- [] Feature 3
-    - [] Nested Feature
+The following **required** functionality is completed:
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+- [x] User can click a create task button
+- [x] The user can view a right fly out window, where they can add details fo their task such as due date, priority, and task name.
+- [x] User can view a calendar in the application's homepage.
+
+The following system requirements are completed:
+
+- [x] Set up our database - MongoDb
+- [x] Design layout of our app's homepage using styled components and flexbox
+
+
+See the [open issues](https://github.com/jhu-oose/2021-fall-group-moose/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

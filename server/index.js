@@ -1,8 +1,9 @@
 const express = require("express");
-//const mongoose = require("mongoose");
-//const Router = require("./routes");
+const mongoose = require("mongoose");
+const Router = require("./routes");
 const bodyParser = require('body-parser');
-
+const taskModel = require("./models/Task");
+const userModel = require("./models/User");
 const cors = require('cors')
 const app = express();
 const port = 8080;
@@ -22,7 +23,7 @@ app.post('/tasks', (req, res) => {
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
-/*
+
 mongoose.connect(
     `mongodb+srv://nolombardo:%40ndw3simplys%40id@cluster0.kjv7f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
 );
@@ -30,6 +31,11 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", function () {
     console.log("Connected successfully");
+    console.log(`Tasks:`);
+    taskModel.find({}, function (err, result) {
+        if (err) return handleError(err);
+        console.log(result);
+    })
 });
 app.use(Router);
-//TEST BRANCH*/
+//TEST BRANCH

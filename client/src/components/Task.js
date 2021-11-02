@@ -4,18 +4,30 @@ import {Dropdown, Option} from "./Dropdown";
 import TextField from '@material-ui/core/TextField';
 import {useState } from "react";
 
-function Task({onClick}){
-    const [data, setData] = useState({
+class Task extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            taskName: "",
+            deadline: "",
+            priority: ""};
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    /*const [data, setData] = useState({
         taskName: "",
         deadline: "",
         priority: ""
-    });
+    });*/
 
-    function handleChange(e){
-        const newdata={...data}
-        newdata[e.target.id] = e.target.value
-        setData(newdata)
-    }
+    handleChange = event => {
+        /*const newData = {...data}
+        newData[e.target.id] = e.target.value
+        setData(newData)*/
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
 
     function submit(e){
         e.preventDefault()
@@ -37,6 +49,9 @@ function Task({onClick}){
         alert("Your task has been submitted!")
         console.log(data)
 
+        this.setState({
+            [name]: value
+        });
     }
 
     return (
@@ -62,29 +77,28 @@ function Task({onClick}){
                         shrink: true,
                     }}/>
 
-                <select id="priority" defaultValue={"Select task priority"} value={data.priority} onChange={(e) => handleChange(e)}>
-                    {/* <Option selected value="Select task priority" /> */}
-                    <Option value="Select task priority" disabled></Option>
-                    <Option value="Low priority: 1" />
-                    <Option value="Medium priority: 2" />
-                    <Option value="High priority: 3" />
-                </select>
-                <button type="submit">Submit</button>
-                {/* <Dropdown action="/" id="priority" value={data.priority} onChange={(e) => handleChange(e)}>
+                    <select name="priority" value={this.state.value} onChange={this.handleChange}>
+                        {/* <Option selected value="Select task priority" /> */}
+                        <Option value="Low priority: 1" />
+                        <Option value="Medium priority: 2" />
+                        <Option value="High priority: 3" />
+                    </select>
+                    <button type="submit">Submit</button>
+                    {/* <Dropdown action="/" id="priority" value={data.priority} onChange={(e) => handleChange(e)}>
                     <Option selected value="Select task priority" />
                     <Option value="Low priority: 1" />
                     <Option value="Medium priority: 2" />
                     <Option value="High priority: 3" />
                 </Dropdown> */}
-                <ButtonWrapper>
-               
-                    <button type="button" onClick={onClick}>Done</button>
-                </ButtonWrapper>
-            </FormWrapper>
-            
-        </Wrapper>
+                    <ButtonWrapper>
 
-    )
+                    </ButtonWrapper>
+                </FormWrapper>
+
+            </Wrapper>
+
+        )
+    }
 }
 
 export default Task;

@@ -91,6 +91,35 @@ To get a local copy up and running follow these simple example steps.
    cd client
    npm start
    ```
+   
+### Going Beyond CRUD
+In order to go beyond CRUD, we created an algorithm that automatically gives users recommendations for future planning based on past task accomplishment. Since we are still developping the app, the following explains the formula as well as how instructors can verify our work:
+    
+    prodScore = [Sum of (actual time spent today) / Sum of (expected time spent today)]. 
+    
+    Note: The end of "today" will eventually be defined by the user, but for now, it is set at midnight by default.
+    
+    Based on the productivity score, the terminal will print out various messages:
+    
+    (a) < .75 – gets the recommendation "Wow! You're hyper-productive. Feel free to do more things, or just enjoy your day!"
+    
+    (b) .75 to 1 – gets the recommendation "Yay! You're pretty spot on with your time estimates. Keep it up!"
+    
+    (c) > 1 and < 1.5 – gets the recommendation "Hmm, do you want to add some buffer time in your day, and plan spend more time on your tasks?"
+    
+    (d) 1.5+ – gets the recommendation "Oof. Do you need a day off on [day of the week]s? Are you taking a day off at least once a week? Also, do you want to add some buffer time in your day, and plan spend more time on your tasks?"
+  
+    Additionally, if the prodScore is 1.5+ AND the start time is during a certain time of day (defined below), then a second recommendation is displayed, claiming "Hmm. Maybe you're not a [timeOfDay] person. What do you think about not assigning yourself tasks during [timeOfDay]?" The timeOfDay is defined below:
+    
+    (a) Start of day until 11:59am, timeOfDay = Morning
+
+    (b) 12pm – 4:59pm, timeOfDay = Afternoon
+    
+    (c) 5pm – 8:59pm, timeOfDay = Evening
+
+    (d) 9pm – end of day, timeOfDay = Night
+    
+    For future iterations, we intend to reflect recommendations and productivity scores in our front end, but we did not for this iteration since we were instructed to mostly work on the back end. 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -149,7 +178,9 @@ Weina Dai  - wdai11@jhu.edu
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
+Please note that many of pair programmed together to make the process more efficient. Pushes from one person sometimes mean the work of many people. In this particular iteration, please note the following pairings that worked together often:
 
+Keidai and Shaina
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

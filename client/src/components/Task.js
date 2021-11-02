@@ -8,7 +8,12 @@ function Task({onClick}){
     const [data, setData] = useState({
         taskName: "",
         deadline: "",
-        priority: ""
+        priority: "",
+        PredictedTime: "",
+        ActualTime: "",
+        start:"",
+        end:"",
+        startDate:""
     });
 
     function handleChange(e){
@@ -34,7 +39,11 @@ function Task({onClick}){
         }).catch(err => {
             console.log(err);
         });
+        e.target.reset();
+
+
         alert("Your task has been submitted!")
+
         console.log(data)
 
     }
@@ -42,7 +51,7 @@ function Task({onClick}){
     return (
         <Wrapper>
             <h3>Create a Task:</h3>
-            <FormWrapper onSubmit={(e) => submit(e)} action = "/" method = "POST">
+            <FormWrapper id = "form" onSubmit={(e) => submit(e)} action = "/" method = "POST">
                 <TextField
                     id="taskName"
                     label="Task name"
@@ -69,17 +78,48 @@ function Task({onClick}){
                     <Option value="Medium priority: 2" />
                     <Option value="High priority: 3" />
                 </select>
-                <button type="submit">Submit</button>
-                {/* <Dropdown action="/" id="priority" value={data.priority} onChange={(e) => handleChange(e)}>
-                    <Option selected value="Select task priority" />
-                    <Option value="Low priority: 1" />
-                    <Option value="Medium priority: 2" />
-                    <Option value="High priority: 3" />
-                </Dropdown> */}
-                <ButtonWrapper>
                
+                <TextField
+                    id="PredictedTime"
+                    label=" Predicted:Time in hours, seconds"
+                    margin="normal"
+                    placeholder=" Predicted: How much time should this task take you?"
+                    value={data.PredictedTime}
+                    onChange={(e) => handleChange(e)}
+                    required
+                    fullWidth/>
+
+                <TextField
+                    id="ActualTime"
+                    label=" Actual: Time in hours, seconds"
+                    margin="normal"
+                    placeholder=" Actual: How much time did this task actually take you?"
+                    value={data.ActualTime}
+                    onChange={(e) => handleChange(e)}
+                    fullWidth/>
+
+                <label for="start">Start Time</label>
+                <input type="time" id="start" name="start"
+                    min="09:00" max="18:00" value={data.start}
+                    onChange={(e) => handleChange(e)}></input>
+
+                <label for="end">End Time</label>
+                <input type="time" id="end" name="end"
+                min="09:00" max="18:00" value={data.end}
+                onChange={(e) => handleChange(e)}></input>
+
+                <label for="startDate">Start date </label>
+                <input type="date" id="startDate" name="trip-start"
+                    value="2018-07-22"
+                    min="2018-01-01" max="2018-12-31" value={data.startDate}
+                    onChange={(e) => handleChange(e)}></input>
+
+                <ButtonWrapper>
+                    <button type="submit">Submit</button>
                     <button type="button" onClick={onClick}>Done</button>
                 </ButtonWrapper>
+
+                
             </FormWrapper>
             
         </Wrapper>

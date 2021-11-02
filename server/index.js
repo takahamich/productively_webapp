@@ -24,6 +24,7 @@ app.post('/', (req, res) => {
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
+
 mongoose.connect(
     `mongodb+srv://nolombardo:%40ndw3simplys%40id@cluster0.kjv7f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
 );
@@ -34,10 +35,26 @@ db.once("open", function () {
     console.log(`Tasks:`);
     taskModel.find({}, function (err, result) {
         if (err) return handleError(err);
-        console.log(result);
+
+        // console.log(result);
+
+        for(var i = 0; i < result.length; i++) {
+            var obj = result[i];
+            myFunction(obj.startTime, obj.endTime);
+        }
+    })
+    console.log(result);
     })
 });
+function myFunction(startTimeValue, endTimeValue) {
+    console.log("IN HERE", startTimeValue, endTimeValue);
+    return startTimeValue, endTimeValue  // The function returns the product of p1 and p2
+  }
+
+
+
 app.use(Router);
+
 
 
 //TEST BRANCH

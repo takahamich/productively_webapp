@@ -15,6 +15,12 @@ app.get('/', (req, res) => {
     res.send({ express: 'React connected to Express back-end' });
 });
 
+app.post('/', (req, res) => {
+    console.log(req.body);
+    console.log(`I received your POST request. This is what you sent me ${req.body}`);
+
+});
+
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 mongoose.connect(

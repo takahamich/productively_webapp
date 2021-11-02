@@ -19,7 +19,22 @@ function Task({onClick}){
 
     function submit(e){
         e.preventDefault()
-        alert("Your task has been submitted")
+
+        fetch('http://localhost:8080/tasks', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            console.log(response.text);
+        }).catch(err => {
+            console.log(err);
+        });
+        alert("Your task has been submitted!")
         console.log(data)
 
     }
@@ -27,7 +42,7 @@ function Task({onClick}){
     return (
         <Wrapper>
             <h3>Create a Task:</h3>
-            <FormWrapper onSubmit={(e) => submit(e)} action = "/submit" method = "POST">
+            <FormWrapper onSubmit={(e) => submit(e)} action = "/" method = "POST">
                 <TextField
                     id="taskName"
                     label="Task name"

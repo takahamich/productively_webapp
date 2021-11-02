@@ -7,21 +7,21 @@ const TaskSchema = new mongoose.Schema({
         required: true,
     },
     predictedEndDate: {
-        type: Date,
+        type: String,
         required: true,
     },
     priority: {
-        type: Number,
+        type: String,
         required: true,
     },
     startDate: {
         type: Date,
         default: Date.now,
     },
-    creator: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    },
+    // creator: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'User'
+    // },
     __v: {
         type: Number,
         default: 0,

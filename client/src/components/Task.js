@@ -10,7 +10,10 @@ function Task({onClick}){
         deadline: "",
         priority: "",
         PredictedTime: "",
-        ActualTime: ""
+        ActualTime: "",
+        start:"",
+        end:"",
+        startDate:""
     });
 
     function handleChange(e){
@@ -94,8 +97,23 @@ function Task({onClick}){
                     value={data.ActualTime}
                     onChange={(e) => handleChange(e)}
                     fullWidth/>
-                
-            
+
+                <label for="start">Start Time</label>
+                <input type="time" id="start" name="start"
+                    min="09:00" max="18:00" value={data.start}
+                    onChange={(e) => handleChange(e)}></input>
+
+                <label for="end">End Time</label>
+                <input type="time" id="end" name="end"
+                min="09:00" max="18:00" value={data.end}
+                onChange={(e) => handleChange(e)}></input>
+
+                <label for="startDate">Start date </label>
+                <input type="date" id="startDate" name="trip-start"
+                    value="2018-07-22"
+                    min="2018-01-01" max="2018-12-31" value={data.startDate}
+                    onChange={(e) => handleChange(e)}></input>
+
                 <ButtonWrapper>
                     <button type="submit">Submit</button>
                     <button type="button" onClick={onClick}>Done</button>

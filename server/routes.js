@@ -57,20 +57,20 @@ app.post('/tasks', (req, res) => {
     console.log(newTask);
 
     var prodScore = Number(req.body.ActualTime) / Number(req.body.PredictedTime);
-    switch (prodScore) {
-        case (val < .75):
+    switch (true) {
+        case (prodScore < .75):
             console.log("Your productivity score is: " + prodScore + "." +
                 "Wow! You're hyper-productive. " +
                 "Feel free to do more things, or just enjoy your day!");
-        case (val <= 1):
+        case (prodScore <= 1):
             console.log("Your productivity score is: " + prodScore + "." +
                 "Yay! You're pretty spot on with your time estimates. " +
                 "Keep it up!");
-        case (val < 1.5):
+        case (prodScore < 1.5):
             console.log("Your productivity score is: " + prodScore + "." +
                 "Hmm, do you want to add some buffer time in your day, " +
                 "and plan spend more time on your tasks?");
-        case (val >= 1.5):
+        case (prodScore >= 1.5):
             console.log("Your productivity score is: " + prodScore + "." +
                 "Oof. Do you need a day off on [day of the week]s? " +
                 "Are you taking a day off at least once a week? " +
@@ -78,17 +78,17 @@ app.post('/tasks', (req, res) => {
                 "and plan spend more time on your tasks?");
             let startTimeStr = req.body.start;
             let startHour = Number(startTimeStr.substring(0, 2));
-            switch (startHour) {
-                case (val < 12):
+            switch (true) {
+                case (startHour < 12):
                     console.log("Hmm. Maybe you're not a morning person. " +
                         "What do you think about not assigning yourself tasks during the morning?");
-                case (val < 17) :
+                case (startHour < 17) :
                     console.log("Hmm. Maybe you're not a afternoon person. " +
                         "What do you think about not assigning yourself tasks during the afternoon?");
-                case (val < 21):
+                case (startHour < 21):
                     console.log("Hmm. Maybe you're not a evening person. " +
                         "What do you think about not assigning yourself tasks during the evening?");
-                case (val >= 21):
+                case (startHour >= 21):
                     console.log("Hmm. Maybe you're not a night person. " +
                         "What do you think about not assigning yourself tasks during the night?");
             }

@@ -61,17 +61,33 @@ app.post('/tasks', (req, res) => {
         case (val < .75):
             console.log("Wow! You're hyper-productive. " +
                 "Feel free to do more things, or just enjoy your day!");
-        case (val >= .75 && val <= 1):
+        case (val <= 1):
             console.log("Yay! You're pretty spot on with your time estimates. " +
                 "Keep it up!");
-        case (val > 1 && val < 1.5):
+        case (val < 1.5):
             console.log("Hmm, do you want to add some buffer time in your day, " +
                 "and plan spend more time on your tasks?");
-        case (val > 1.5):
+        case (val >= 1.5):
             console.log("Oof. Do you need a day off on [day of the week]s? " +
                 "Are you taking a day off at least once a week? " +
                 "Also, do you want to add some buffer time in your day, " +
                 "and plan spend more time on your tasks?");
+            let startTimeStr = req.body.start;
+            let startHour = Number(startTimeStr.substring(0, 2));
+            switch (startHour) {
+                case (val < 12):
+                    console.log("Hmm. Maybe you're not a morning person. " +
+                        "What do you think about not assigning yourself tasks during the morning?");
+                case (val < 17) :
+                    console.log("Hmm. Maybe you're not a afternoon person. " +
+                        "What do you think about not assigning yourself tasks during the afternoon?");
+                case (val < 21):
+                    console.log("Hmm. Maybe you're not a evening person. " +
+                        "What do you think about not assigning yourself tasks during the evening?");
+                case (val >= 21):
+                    console.log("Hmm. Maybe you're not a night person. " +
+                        "What do you think about not assigning yourself tasks during the night?");
+            }
     }
 
     res.send(newTask);

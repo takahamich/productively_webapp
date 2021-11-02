@@ -28,19 +28,16 @@ class Task extends React.Component {
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
-        this.setState({
-            [name]: value
-        });
-    }
 
-    handleSubmit = async event => {
-        event.preventDefault();
+    function submit(e){
+        e.preventDefault()
+
         fetch('http://localhost:8080/tasks', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
             },
-            body: JSON.stringify(this.state)
+            body: JSON.stringify(data)
         }).then(response => {
             if (!response.ok) {
                 throw new Error(response.statusText);
@@ -49,32 +46,36 @@ class Task extends React.Component {
         }).catch(err => {
             console.log(err);
         });
-        alert("Your task has been submitted");
+        alert("Your task has been submitted!")
+        console.log(data)
+
+        this.setState({
+            [name]: value
+        });
     }
 
-    render() {
-        return (
-            <Wrapper>
-                <h3>Create a Task:</h3>
-                <FormWrapper onSubmit={this.handleSubmit}>
-                    <TextField
-                        name="taskName"
-                        label="Task name"
-                        margin="normal"
-                        value={this.state.value}
-                        onChange={this.handleChange}
-                        required
-                        fullWidth/>
-                    <TextField
-                        name="deadline"
-                        label="Select task deadline"
-                        type="date"
-                        margin="normal"
-                        value={this.state.value}
-                        onChange={this.handleChange}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}/>
+    return (
+        <Wrapper>
+            <h3>Create a Task:</h3>
+            <FormWrapper onSubmit={(e) => submit(e)} action = "/" method = "POST">
+                <TextField
+                    id="taskName"
+                    label="Task name"
+                    margin="normal"
+                    value={data.taskName}
+                    onChange={(e) => handleChange(e)}
+                    required
+                    fullWidth/>
+                <TextField
+                    id="deadline"
+                    label="Select task deadline"
+                    type="date"
+                    margin="normal"
+                    value={data.deadline}
+                    onChange={(e) => handleChange(e)}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}/>
 
                     <select name="priority" value={this.state.value} onChange={this.handleChange}>
                         {/* <Option selected value="Select task priority" /> */}

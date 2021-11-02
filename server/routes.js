@@ -60,16 +60,20 @@ app.post('/tasks', (req, res) => {
     var prodScore = Number(req.body.ActualTime) / Number(req.body.PredictedTime);
     switch (prodScore) {
         case (val < .75):
-            console.log("Wow! You're hyper-productive. " +
+            console.log("Your productivity score is: " + prodScore + "." +
+                "Wow! You're hyper-productive. " +
                 "Feel free to do more things, or just enjoy your day!");
         case (val <= 1):
-            console.log("Yay! You're pretty spot on with your time estimates. " +
+            console.log("Your productivity score is: " + prodScore + "." +
+                "Yay! You're pretty spot on with your time estimates. " +
                 "Keep it up!");
         case (val < 1.5):
-            console.log("Hmm, do you want to add some buffer time in your day, " +
+            console.log("Your productivity score is: " + prodScore + "." +
+                "Hmm, do you want to add some buffer time in your day, " +
                 "and plan spend more time on your tasks?");
         case (val >= 1.5):
-            console.log("Oof. Do you need a day off on [day of the week]s? " +
+            console.log("Your productivity score is: " + prodScore + "." +
+                "Oof. Do you need a day off on [day of the week]s? " +
                 "Are you taking a day off at least once a week? " +
                 "Also, do you want to add some buffer time in your day, " +
                 "and plan spend more time on your tasks?");

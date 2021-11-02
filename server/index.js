@@ -25,7 +25,6 @@ app.post('/', (req, res) => {
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 
-
 mongoose.connect(
     `mongodb+srv://nolombardo:%40ndw3simplys%40id@cluster0.kjv7f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
 );

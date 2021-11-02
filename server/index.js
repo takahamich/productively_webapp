@@ -1,7 +1,6 @@
 const express = require("express");
-const mongoose = require("mongoose");
-const Router = require("./routes");
-
+//const mongoose = require("mongoose");
+//const Router = require("./routes");
 const bodyParser = require('body-parser');
 
 const cors = require('cors')
@@ -32,3 +31,5 @@ db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", function () {
     console.log("Connected successfully");
 });
+app.use(Router);
+//TEST BRANCH*/

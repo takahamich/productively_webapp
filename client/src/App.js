@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css'
 import {useState } from "react";
+import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom";
 import Login from './components/Login';
 import 'react-calendar/dist/Calendar.css';
 import Calendars from './components/Calendars.js';
@@ -33,6 +34,9 @@ function App() {
         </CalendarWrapper>
         <ButtonWrapper>
           <TaskButton onClick={handleOnClick}/>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <button>View my Tasks</button>
         </ButtonWrapper>
       </TopWrapper>
       {/* <BodyWrapper>

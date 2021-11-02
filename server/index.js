@@ -16,10 +16,10 @@ app.get('/', (req, res) => {
     res.send({ express: 'React connected to Express back-end' });
 });
 
-app.post('/tasks', (req, res) => {
+app.post('/', (req, res) => {
     console.log(req.body);
-    console.log(`I received your POST request. This is what you sent me: ${req.body}`);
-    res.send(req.body.taskName);
+    console.log(`I received your POST request. This is what you sent me ${req.body}`);
+
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
@@ -38,4 +38,7 @@ db.once("open", function () {
     })
 });
 app.use(Router);
+
+
 //TEST BRANCH
+

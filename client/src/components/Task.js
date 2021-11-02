@@ -93,7 +93,6 @@ function Task({onClick}){
                     placeholder=" Actual: How much time did this task actually take you?"
                     value={data.ActualTime}
                     onChange={(e) => handleChange(e)}
-                    required
                     fullWidth/>
                 
             

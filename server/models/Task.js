@@ -15,15 +15,22 @@ const TaskSchema = new mongoose.Schema({
         required: true,
     },
     startDate: {
-        type: Date,
-        default: Date.now,
+        type: String,
+        default: "",
     },
     predictedTime: {
         type: String,
         required: true,
     },
-
     actualTime: {
+        type: String,
+        default: "",
+    },
+    startTime: {
+        type: String,
+        default: "",
+    },
+    endTime: {
         type: String,
         default: "",
     },

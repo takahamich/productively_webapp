@@ -37,10 +37,13 @@ app.post('/tasks', (req, res) => {
     const newTask = new taskModel ({
         _id: new mongoose.Types.ObjectId, //req.params.id,
         taskName: req.body.taskName,
+        startDate: req.body.startDate,
         predictedEndDate: req.body.deadline,
         priority: req.body.priority,
         predictedTime: req.body.PredictedTime,
         actualTime: req.body.ActualTime,
+        startTime: req.body.start,
+        endTime: req.body.end,
     });
 
     taskModel.create(newTask, (err, task) => {
@@ -50,23 +53,8 @@ app.post('/tasks', (req, res) => {
         }
     });
 
-    var prodScore = Number(req.body.ActualTime) / Number(req.body.PredictedTime);
-    switch (prodScore) {
-        case (val < .75):
-            console.log("Wow! You're hyper-productive. " +
-                "Feel free to do more things, or just enjoy your day!");
-        case (val >= .75 && val <= 1):
-            console.log("Yay! You're pretty spot on with your time estimates. " +
-                "Keep it up!");
-        case (val > 1 && val < 1.5):
-            console.log("Hmm, do you want to add some buffer time in your day, " +
-                "and plan spend more time on your tasks?");
-        case (val > 1.5):
-            console.log("Oof. Do you need a day off on [day of the week]s? " +
-                "Are you taking a day off at least once a week? " +
-                "Also, do you want to add some buffer time in your day, " +
-                "and plan spend more time on your tasks?");
-    }
+    console.log(`I received your POST request. This is what you sent me`);
+    console.log(newTask);
 
     res.send(newTask);
 });

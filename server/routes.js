@@ -35,10 +35,12 @@ app.get("/tasks", async (req, res) => { //gets all tasks
 app.post('/tasks', (req, res) => {
     console.log(req.body);
     const newTask = new taskModel ({
-            _id: new mongoose.Types.ObjectId, //req.params.id,
-            taskName: req.body.taskName,
-            predictedEndDate: req.body.deadline,
-            priority: req.body.priority,
+        _id: new mongoose.Types.ObjectId, //req.params.id,
+        taskName: req.body.taskName,
+        predictedEndDate: req.body.deadline,
+        priority: req.body.priority,
+        predictedTime: req.body.PredictedTime,
+        actualTime: req.body.ActualTime,
     });
 
     taskModel.create(newTask, (err, task) => {

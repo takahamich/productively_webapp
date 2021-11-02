@@ -18,10 +18,15 @@ const TaskSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    // creator: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'User'
-    // },
+    predictedTime: {
+        type: String,
+        required: true,
+    },
+
+    actualTime: {
+        type: String,
+        default: "",
+    },
     __v: {
         type: Number,
         default: 0,

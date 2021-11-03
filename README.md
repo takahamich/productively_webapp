@@ -69,18 +69,17 @@ To get a local copy up and running follow these simple example steps.
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
    git clone https://github.com/jhu-oose/2021-fall-group-moose.git
    ```
-3. Install NPM packages
+2. Install NPM packages
    ```sh
    npm install
    npm install --save styled-components
    npm i --save react-big-calendar
    ```
-4. Run the server in the currect directory
+3. Run the server in the currect directory
    ```js
    npm start
    ```

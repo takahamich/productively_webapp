@@ -56,15 +56,12 @@ This is an example of how you may give instructions on setting up your project l
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
+* homebrew
+  https://brew.sh/
 
 * npm
   ```sh
   npm install npm@latest -g
-  ```
-
-* homebrew
-  ```sh
-  https://brew.sh/
   ```
 
 ### Installation
@@ -147,6 +144,7 @@ The following system requirements are completed:
 
 - [x] Set up our database - MongoDb
 - [x] Design layout of our app's homepage using styled components and flexbox
+- [x] For iteration 3, most of the work was done for our backend, including sending data to the database, and querying the database (also see Going Beyond CRUD).
 
 
 See the [open issues](https://github.com/jhu-oose/2021-fall-group-moose/issues) for a full list of proposed features (and known issues).
@@ -165,8 +163,13 @@ For JHU OOSE.
 
 <!-- CONTACT -->
 ## Contact
-
+Keidai Lee - elee175@jhu.edu
+Shaina Gabala - sgabala2@jhu.edu
+Ayo Ajayi - aajayi8@jhmi.edu
 Weina Dai  - wdai11@jhu.edu
+Nolan Lombardo - nlombar2@jhu.edu
+Michiko Takahashi - mtakaha4@jhu.edu
+
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>

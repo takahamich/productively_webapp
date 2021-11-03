@@ -31,8 +31,6 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
 MOOSE Scheduling app is the ultimate time management application that allows students to manage all their tasks, as well as long-term and short-term goals. Students are able to assign priority to tasks that need to be completed. With the app's feedback system, they can reflect on whether they meet that their daily goals. Time-consuming tasks will automatically be divided in chunks on the students’ calendars, allowing them to more effectively tackle larger tasks. The goal of our app is simple; Impact students by promoting productivity, discourage procrastination, and supporting students to meet their goals.
 
 

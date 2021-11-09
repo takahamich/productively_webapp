@@ -78,11 +78,13 @@ To get a local copy up and running follow these simple example steps.
    ```
 3. Run the server in the currect directory
    ```js
+   You shoudl have already ran npm install
    npm start
    ```
 4. Open a new terminal and run the client in the client directory
    ```js
    cd client
+   npm install
    npm start
    ```
    

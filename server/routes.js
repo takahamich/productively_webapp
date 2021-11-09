@@ -39,6 +39,8 @@ app.post('/tasks', (req, res) => {
         _id: new mongoose.Types.ObjectId, //req.params.id,
         taskName: req.body.taskName,
         startDate: req.body.startDate,
+        status: req.body.status,
+        difficulty: req.body.difficulty,
         predictedEndDate: req.body.deadline,
         priority: req.body.priority,
         predictedTime: req.body.PredictedTime,

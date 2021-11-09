@@ -18,6 +18,14 @@ const TaskSchema = new mongoose.Schema({
         type: String,
         default: "",
     },
+    status: {
+        type: String,
+        default: "",
+    },
+    difficulty: {
+        type: String,
+        default: "",
+    },
     predictedTime: {
         type: String,
         required: true,

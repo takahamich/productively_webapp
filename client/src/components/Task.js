@@ -13,7 +13,9 @@ function Task({onClick}){
         ActualTime: "",
         start:"",
         end:"",
-        startDate:""
+        startDate:"",
+        status: "",
+        difficulty: ""
     });
 
     function handleChange(e){
@@ -77,6 +79,22 @@ function Task({onClick}){
                     <Option value="Low priority: 1" />
                     <Option value="Medium priority: 2" />
                     <Option value="High priority: 3" />
+                </select>
+
+                <select id="status" defaultValue={"Select status"} value={data.status} onChange={(e) => handleChange(e)}>
+                    <Option value="Select status" disabled></Option>
+                    <Option value="Not started" />
+                    <Option value="In Progress" />
+                    <Option value="Done" />
+                </select>
+
+                <select id="difficulty" defaultValue={"Select difficulty"} value={data.difficulty} onChange={(e) => handleChange(e)}>
+                    <Option value="Select difficulty" disabled></Option>
+                    <Option value="1 - easiest" />
+                    <Option value="2" />
+                    <Option value="3" />
+                    <Option value="4" />
+                    <Option value="5 - hardest" />
                 </select>
                
                 <TextField

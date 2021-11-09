@@ -137,6 +137,11 @@ function Task({onClick}){
                     <button type="button" onClick={onClick}>Done</button>
                 </ButtonWrapper>
 
+                <ButtonWrapper>
+                    <button type="button" onClick={onClick}>Delete</button>
+                </ButtonWrapper>
+
+
                 
             </FormWrapper>
             

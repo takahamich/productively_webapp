@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css'
 import {useState } from "react";
-import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Login from './components/Login';
 import 'react-calendar/dist/Calendar.css';
 import Calendars from './components/Calendars.js';
@@ -48,6 +48,17 @@ function App() {
     
     </SubParentWrapper>
     {toggle && <Task onClick={handleOnClick}/>}
+    <nav
+        style={{
+          justify_content: "center",
+          borderBottom: "solid 1px",
+          paddingBottom: "1rem"
+        }}
+    >
+      <Link to="/tasks">All Tasks</Link> |{" "}
+      <Link to="/tracker">Goal Tracker</Link> |{" "}
+      <Link to="/resources">Resources</Link>
+    </nav>
   </ParentWrapper>
   )
 }

@@ -159,6 +159,17 @@ function App() {
                     </BodyWrapper> */}
                   </SubParentWrapper>
                   {toggle && <Task onClick={handleOnClick}/>}
+                  <nav
+                        style={{
+                            justify_content: "center",
+                            borderBottom: "solid 1px",
+                            paddingBottom: "1rem"
+                        }}
+                >
+                    <Link to="/tasks">All Tasks</Link> |{" "}
+                    <Link to="/tracker">Goal Tracker</Link> |{" "}
+                    <Link to="/resources">Resources</Link>
+                </nav>
               </ParentWrapper>
               }
 

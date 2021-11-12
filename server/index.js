@@ -35,7 +35,7 @@ db.once("open", function () {
     console.log(`Tasks:`);
     taskModel.find({}, function (err, result) {
         if (err) return handleError(err);
-        // console.log(result);
+        console.log(result);
 
         for(var i = 0; i < result.length; i++) {
             var obj = result[i];
@@ -44,8 +44,25 @@ db.once("open", function () {
     })
     
 });
+
+// {
+//     _id: 
+//     taskName: 
+//     predictedEndDate: 
+//     priority: 
+//     startDate: 
+//     status: 
+//     difficulty:
+//     predictedTime: 
+//     actualTime: 
+//     startTime: 
+//     endTime: 
+//     __v: 0
+//   }
+
 function myFunction(startTimeValue, endTimeValue) {
-    console.log("IN HERE", startTimeValue, endTimeValue);
+    console.log(id, startTimeValue, endTimeValue);
+    console.log(id)
     return startTimeValue, endTimeValue  // The function returns the product of p1 and p2
   }
 

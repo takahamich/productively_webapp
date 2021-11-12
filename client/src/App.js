@@ -82,7 +82,7 @@ const ParentWrapper = styled.div`
     padding:0px;
     overflow-y: hidden;
     overflow-x: hidden;
-    // background: pink;
+    background: pink;
 `;
 
 
@@ -90,13 +90,13 @@ const TopWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  // background: blue;
+  background: blue;
   flex-grow:1;
   
 `;
 
 const ButtonWrapper = styled.div`
-  // background: red;
+  background: red;
   max-height: 100px;
   max-width: 400px;
   padding: 10px;

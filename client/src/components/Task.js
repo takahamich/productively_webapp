@@ -4,7 +4,7 @@ import {Dropdown, Option} from "./Dropdown";
 import TextField from '@material-ui/core/TextField';
 import {useState } from "react";
 
-function Task({onClick}){
+function Task({onClick }){
     const [data, setData] = useState({
         taskName: "",
         deadline: "",

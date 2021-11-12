@@ -3,6 +3,9 @@ import styled from "styled-components";
 import {Dropdown, Option} from "./Dropdown";
 import TextField from '@material-ui/core/TextField';
 import {useState } from "react";
+import App from '../App'
+import {creator} from '../App'
+
 
 function Task({onClick }){
     const [data, setData] = useState({
@@ -15,7 +18,8 @@ function Task({onClick }){
         end:"",
         startDate:"",
         status: "",
-        difficulty: ""
+        difficulty: "",
+        creatorId: "",
     });
 
     function handleChange(e){
@@ -26,6 +30,9 @@ function Task({onClick }){
 
     function submit(e){
         e.preventDefault()
+        console.log('this is the current user email' + creator);
+        // const profile = googleUser.getBasicProfile();
+        data.creatorId = creator;
 
         fetch('http://localhost:8080/tasks', {
             method: 'POST',
@@ -136,6 +143,11 @@ function Task({onClick }){
                     <button type="submit">Submit</button>
                     <button type="button" onClick={onClick}>Done</button>
                 </ButtonWrapper>
+
+                <ButtonWrapper>
+                    <button type="button" onClick={onClick}>Delete</button>
+                </ButtonWrapper>
+
 
                 
             </FormWrapper>

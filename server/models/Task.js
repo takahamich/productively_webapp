@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const TaskSchema = new mongoose.Schema({
     _id: mongoose.Types.ObjectId,
+    creator: {
+        type: String,
+        required: true,
+    },
     taskName: {
         type: String,
         required: true,
@@ -15,6 +19,14 @@ const TaskSchema = new mongoose.Schema({
         required: true,
     },
     startDate: {
+        type: String,
+        default: "",
+    },
+    status: {
+        type: String,
+        default: "",
+    },
+    difficulty: {
         type: String,
         default: "",
     },

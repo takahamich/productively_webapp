@@ -6,11 +6,18 @@ const UserSchema = new mongoose.Schema({
         ref: 'Task'
     }], //might not be necessary to have .of(tasModel)
     _id: mongoose.Types.ObjectId,
+    googleId: {
+        type: String,
+        required: true,
+    },
     name: {
         type: String,
         required: true,
     },
-    age: Number,
+    email: {
+        type: String,
+        required: true,
+    },
     __v: {
         type: Number,
         default: 0,

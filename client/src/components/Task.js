@@ -7,7 +7,7 @@ import App from '../App'
 import {creator} from '../App'
 
 
-function Task({onClick }){
+function Task({onClick}){
     const [data, setData] = useState({
         taskName: "",
         deadline: "",
@@ -125,18 +125,17 @@ function Task({onClick }){
 
                 <label for="start">Start Time</label>
                 <input type="time" id="start" name="start"
-                    min="09:00" max="18:00" value={data.start}
+                    value={data.start}
                     onChange={(e) => handleChange(e)}></input>
 
                 <label for="end">End Time</label>
                 <input type="time" id="end" name="end"
-                min="09:00" max="18:00" value={data.end}
+                 value={data.end}
                 onChange={(e) => handleChange(e)}></input>
 
                 <label for="startDate">Start date </label>
-                <input type="date" id="startDate" name="trip-start"
-                    value="2018-07-22"
-                    min="2018-01-01" max="2018-12-31" value={data.startDate}
+                <input type="date" id="startDate" name="start"
+                 value={data.startDate}
                     onChange={(e) => handleChange(e)}></input>
 
                 <ButtonWrapper>

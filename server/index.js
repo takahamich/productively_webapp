@@ -7,10 +7,28 @@ const userModel = require("./models/User");
 const cors = require('cors')
 const app = express();
 const port = 8080;
+var livereload = require("livereload");
+var connectLiveReload = require("connect-livereload");
+
+
+const liveReloadServer = livereload.createServer();
+liveReloadServer.server.once("connection", () => {
+  setTimeout(() => {
+    liveReloadServer.refresh("/");
+  }, 100);
+});
+
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
+app.use(connectLiveReload());
+
+mongoose.connect(
+    `mongodb+srv://nolombardo:%40ndw3simplys%40id@cluster0.kjv7f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+);
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error: "));
 
 app.get('/', (req, res) => {
     res.send({ express: 'React connected to Express back-end' });
@@ -22,49 +40,49 @@ app.post('/', (req, res) => {
 
 });
 
+
+
+// app.get('/getEvents', (req, res) => {
+//     console.log("hey")
+//     taskModel.find({}, function (err, result) {
+//         if (err) return handleError(err);
+//         return res.send(result);
+//     })
+
+// });
+
+
+
+
+
+
+// app.get('/getEvents', (req, res) => {
+//     mongoose.connect(
+//         `mongodb+srv://nolombardo:%40ndw3simplys%40id@cluster0.kjv7f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+//     );
+//     const db = mongoose.connection;
+//     db.on("error", console.error.bind(console, "connection error: "));
+//     db.once("open", function () {
+//         console.log("Connected successfully");
+//         console.log(`Tasks:`);
+//         taskModel.find({}, function (err, result) {
+//             if (err) return handleError(err);
+//             console.log(result);
+    
+//             for(var i = 0; i < result.length; i++) {
+//                 var obj = result[i];
+//                 // myFunction(obj.startTime, obj.endTime);
+//             }
+//         })
+        
+//     });
+    
+// });
+
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 
-mongoose.connect(
-    `mongodb+srv://nolombardo:%40ndw3simplys%40id@cluster0.kjv7f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
-);
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error: "));
-db.once("open", function () {
-    console.log("Connected successfully");
-    console.log(`Tasks:`);
-    taskModel.find({}, function (err, result) {
-        if (err) return handleError(err);
-        console.log(result);
 
-        for(var i = 0; i < result.length; i++) {
-            var obj = result[i];
-            myFunction(obj.startTime, obj.endTime);
-        }
-    })
-    
-});
-
-// {
-//     _id: 
-//     taskName: 
-//     predictedEndDate: 
-//     priority: 
-//     startDate: 
-//     status: 
-//     difficulty:
-//     predictedTime: 
-//     actualTime: 
-//     startTime: 
-//     endTime: 
-//     __v: 0
-//   }
-
-function myFunction(startTimeValue, endTimeValue) {
-    console.log(id, startTimeValue, endTimeValue);
-    console.log(id)
-    return startTimeValue, endTimeValue  // The function returns the product of p1 and p2
-  }
 
 
 

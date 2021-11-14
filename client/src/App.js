@@ -26,18 +26,23 @@ function App() {
     const [userEmail, setEmail] = useState('');
 
     creator = userEmail;
-
+ 
     const onSuccess = (googleUser) => { // (Ref. 7)
         setIsLoggedIn(true);
         const profile = googleUser.getBasicProfile();
         setName(profile.getName());
         setId(profile.getId());
+
         setEmail(profile.getEmail());
 
-        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+ 
+        
+
+        console.log("ID:  " + profile.getId()); // Don't send this directly to your server!
         console.log('Full Name: ' + profile.getName());
         console.log('Given Name: ' + profile.getGivenName());
         console.log('Family Name: ' + profile.getFamilyName());
+        console.log('Email: ' + profile.getEmail());
 
         // The ID token you need to pass to your backend:
         const id_token = googleUser.getAuthResponse().id_token;
@@ -48,6 +53,8 @@ function App() {
             name: profile.getName(),
             email: profile.getEmail(),
         }
+
+        
 
         fetch('http://localhost:8080/signedin', {
             method: 'POST',
@@ -134,6 +141,7 @@ function App() {
           <div id="google-signin"></div>
           }
 
+
           {isLoggedIn &&
               <ParentWrapper>
                   <h1>Welcome Home, {name}</h1>
@@ -141,7 +149,7 @@ function App() {
                   <SubParentWrapper selected={toggle}>
                       <TopWrapper>
                         <CalendarWrapper>
-                            <Calendars/>
+                            <Calendars userEmail={userEmail}/>
                         </CalendarWrapper>
                           <ButtonWrapper>
                               <TaskButton onClick={handleOnClick}/>
@@ -205,7 +213,7 @@ const ParentWrapper = styled.div`
     padding:0px;
     overflow-y: hidden;
     overflow-x: hidden;
-    background: pink;
+    // background: pink;
 `;
 
 
@@ -213,13 +221,13 @@ const TopWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  background: blue;
+  // background: blue;
   flex-grow:1;
   
 `;
 
 const ButtonWrapper = styled.div`
-  background: red;
+  // background: red;
   max-height: 100px;
   max-width: 400px;
   padding: 10px;

@@ -49,7 +49,7 @@ function App() {
             email: profile.getEmail(),
         }
 
-        fetch('http://localhost:8080/signedin', {
+        fetch('https://pure-falls-32394.herokuapp.com/signedin', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'

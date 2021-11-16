@@ -81,12 +81,24 @@ To get a local copy up and running follow these simple example steps.
    You shoudl have already ran npm install
    npm start
    ```
+   
+   If you get the following error: 
+   ```
+   const utf8Encoder = new TextEncoder();
+                    ^
+   ReferenceError: TextEncoder is not defined
+   ```
+   
+   Please refer to [this](https://stackoverflow.com/a/69287561) StackOverflow solution to resolve your issue.
+
 4. Open a new terminal and run the client in the client directory
    ```js
    cd client
    npm install
    npm start
    ```
+   
+   (Yes, you need to do "npm install" both for the client server as well!)
    
 ### Going Beyond CRUD
 In order to go beyond CRUD, we created an algorithm that automatically gives users recommendations for future planning based on past task accomplishment. Since we are still developping the app, the following explains the formula as well as how instructors can verify our work:
@@ -124,10 +136,13 @@ In order to go beyond CRUD, we created an algorithm that automatically gives use
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Here's some pictures of our app's current functionalities:
-* login page: https://drive.google.com/file/d/1X3XsPNYBNWl33epAO22P7pdT3T66ihoh/view?usp=sharing
-* calendar view: https://drive.google.com/file/d/1NCyz7W5xhZiCl_BXgGYAqTOp2axKkR_-/view?usp=sharing
-* task form: https://drive.google.com/file/d/1v1PbLV-bKhWjl6JV1edpZpuNoXfsRbzC/view?usp=sharing
+Here's some pictures and videos of our app's current functionalities:
+* login button [video](https://youtu.be/UklJWX66Rfo)
+* login page [picture](https://drive.google.com/file/d/1X3XsPNYBNWl33epAO22P7pdT3T66ihoh/view?usp=sharing) 
+* calendar view [picture](https://drive.google.com/file/d/1NCyz7W5xhZiCl_BXgGYAqTOp2axKkR_-/view?usp=sharing)
+* task form [picture](https://drive.google.com/file/d/1v1PbLV-bKhWjl6JV1edpZpuNoXfsRbzC/view?usp=sharing) 
+
+NOTE: We are currently mostly deployed to Heroku, and are continuing to troubleshoot. 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

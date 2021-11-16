@@ -81,12 +81,24 @@ To get a local copy up and running follow these simple example steps.
    You shoudl have already ran npm install
    npm start
    ```
+   
+   If you get the following error: 
+   ```
+   const utf8Encoder = new TextEncoder();
+                    ^
+   ReferenceError: TextEncoder is not defined
+   ```
+   
+   Please refer to [this](https://stackoverflow.com/a/69287561) StackOverflow solution to resolve your issue.
+
 4. Open a new terminal and run the client in the client directory
    ```js
    cd client
    npm install
    npm start
    ```
+   
+   (Yes, you need to do "npm install" both for the client server as well!)
    
 ### Going Beyond CRUD
 In order to go beyond CRUD, we created an algorithm that automatically gives users recommendations for future planning based on past task accomplishment. Since we are still developping the app, the following explains the formula as well as how instructors can verify our work:
@@ -115,7 +127,38 @@ In order to go beyond CRUD, we created an algorithm that automatically gives use
 
     (d) 9pm – end of day, timeOfDay = Night
     
-    For future iterations, we intend to reflect recommendations and productivity scores in our front end, but we did not for this iteration since we were instructed to mostly work on the back end. 
+
+For future iterations, we intend to reflect recommendations and productivity scores in our front end, but we did not for this iteration since we were instructed to mostly work on the back end. 
+
+We will also add an additional algorithm, which has the following steps:
+    
+    (a) Determine every task's task priority and how close it is to the deadline. 
+    
+    (b) Choose the first meeting time that matches up with task duration, based on the task priority. 
+    
+    (c) The algorithm will try to get the user to finish the task at least 2 days before the deadline.
+
+Upcoming projected steps to the next part of our algorithm, for future iterations:
+    
+    (d) Calculate hidden productivity score for buckets of time (12-3, 3-6, etc)
+    
+    (e) Initialize each time bucket with same score
+    
+    (f) Determine optimal times as empty buckets with the highest productivity scores
+    
+    (g) Every time a task is completed, update the old productivity score of bucket by multiplying with task score = (expected / actual time) * learning rate (any number < 1 to minimize variance, depends on how often we think app will be used / how much we think each task should weigh into overall score)
+    
+    (h) If the task overlaps with another bucket, weight the score contributions differently (e.g. task is completed from 2-5, 1/3 of task score is given to 12-3, 2/3 given to 3-6 — (# of hrs spent in bucket / total hrs spent) * task score * old bucket score = new bucket score)
+    
+This second projected part of our algorithm is basically a rudimentary gradient descent algorithm for optimization/ML problems. The cost function is the error between expected time & actual time spent on a task, and the goal is to maximize the user’s productive hours by minimizing this function. Ideally, the algorithm improves overtime as there is more data to work with, learning the user’s habits.
+
+Another projected idea to extend our algorithm is something we call the "Low Priority Procrastination Bias" (LPPB) extension, in which a user may purposely rank a task as lower priority as a way to procrastinate it. In order to address LPPB, the algorithm may take the following steps: 
+    
+    (i) If a task is within x days and it has < 3 stars, (ask user to) move it to 3 stars.
+    
+    (j) Randomly choose 1+ task(s) with < 3 stars to be recommended as if it were a task with 3 stars.
+
+Please note that 3 stars is the highest priority, and the value of "x" is still to be determined.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -124,10 +167,13 @@ In order to go beyond CRUD, we created an algorithm that automatically gives use
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Here's some pictures of our app's current functionalities:
-* login page: https://drive.google.com/file/d/1X3XsPNYBNWl33epAO22P7pdT3T66ihoh/view?usp=sharing
-* calendar view: https://drive.google.com/file/d/1NCyz7W5xhZiCl_BXgGYAqTOp2axKkR_-/view?usp=sharing
-* task form: https://drive.google.com/file/d/1v1PbLV-bKhWjl6JV1edpZpuNoXfsRbzC/view?usp=sharing
+Here's some pictures and videos of our app's current functionalities:
+* login button [video](https://youtu.be/UklJWX66Rfo)
+* login page [picture](https://drive.google.com/file/d/1X3XsPNYBNWl33epAO22P7pdT3T66ihoh/view?usp=sharing) 
+* calendar view [picture](https://drive.google.com/file/d/1NCyz7W5xhZiCl_BXgGYAqTOp2axKkR_-/view?usp=sharing)
+* task form [picture](https://drive.google.com/file/d/1v1PbLV-bKhWjl6JV1edpZpuNoXfsRbzC/view?usp=sharing) 
+
+NOTE: We are currently mostly deployed to Heroku, and are continuing to troubleshoot. 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

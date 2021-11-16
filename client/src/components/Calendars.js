@@ -9,7 +9,7 @@ import React, { useState ,useEffect} from "react";
 import io from "socket.io-client";
 // import DatePicker from "react-datepicker";
 // import Task from "./components/Task";
-// import events from './events.js';
+import events from './events.js';
 // import moment from 'moment'
 
 
@@ -59,22 +59,16 @@ function Calendars({userEmail}){
   }
 
   useEffect(() => {
-
-
-  fetch('http://localhost:8080/tasks')
+    console.log("use effect")
+    fetch('http://localhost:8080/myTasks')
       .then(res => {
         return res.json()
       })
       .then(data => {
-        // console.log("OUR DATA", data)
-        // Chnage to correct format
-        const parsedData = parse(data, userEmail)
+        console.log("OUR DATA", data)
+        const parsedData = parse(data)
         setAllEvents(parsedData)
-
       })
-
-
-
   }, [])
 
   function getDate(date){
@@ -84,12 +78,12 @@ function Calendars({userEmail}){
     return new Date(finalDate[0], finalDate[1]-1, finalDate[2], 0, 0, 0)
   }
 
-  function parse(data, userEmail){
-    console.log("Hallelujah", userEmail)
+  function parse(data){
+   
 
     var finalData = []
     data.forEach( (singleData) => {
-      if (singleData["creator"] == "ayomide.ajayi2839@gmail.com"){
+      // if (singleData["creator"] === "ayomide.ajayi2839@gmail.com"){
         console.log("SingleData", singleData)
         var finalSingleData = 
         {
@@ -100,7 +94,7 @@ function Calendars({userEmail}){
       }
       finalData.push(finalSingleData)
 
-      }
+      // }
 
       //console.log( singleData._id , singleData.taskName ,singleData.predictedEndDate ,singleData.startDate)
      
@@ -113,9 +107,6 @@ function Calendars({userEmail}){
 
   return (
     <div>
-      
-
-    
       { allEvents && <Calendar
       localizer={localizer}
       events={allEvents}

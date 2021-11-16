@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from "styled-components";
 
-function TaskCard() {
-    /*const taskName = task;
+function TaskCard({task, time}) {
+    const taskName = task;
     const duration = time;
-    const priority = p;
+    /*const priority = p;
     let priorityColor = '#fff';
 
     if (priority == 1) {
@@ -19,8 +19,8 @@ function TaskCard() {
         <TaskWrapper>
             <PriorityBar> </PriorityBar>
             <TaskBox>
-                <p style={taskStyle}>Task Name</p>
-                <p style={durationStyle}>3h 0m</p>
+                <p style={taskStyle}>{taskName}</p>
+                <p style={durationStyle}>{duration}</p>
             </TaskBox>
         </TaskWrapper>
     )

@@ -10,8 +10,9 @@ function Tasks() {
         fetch('http://localhost:8080/tasks')
         .then(response => response.json())
         .then(data => {
+            console.log(data);
             for (let i = 0; i < data.length; i++) {
-                setTasks(tasks => [...tasks, data[i].taskName]);
+                setTasks(tasks => [...tasks, data[i]]);
             }
         })
         .catch(err => setTasks(err.message));
@@ -44,11 +45,11 @@ function Tasks() {
                 </LogoutElement>
             </SidebarWrapper>
             <TaskWrapper>
-                {tasks.map(t => (<TaskCard task={t} time="2h 0m" />))}
+                {tasks.map(t => (<TaskCard taskName={t.taskName} duration="2h 0m" priority={t.priority}/>))}
             </TaskWrapper>
+            
         </Container>
     )
-    /*{taskName.map(t => (<TaskCard task={t} time="2h 0m" />))}*/
 }
 
 export default Tasks;

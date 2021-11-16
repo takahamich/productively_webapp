@@ -24,7 +24,7 @@ app.get("/users", async (req, res) => { //gets all users
 });
 
 app.get("/tasks", async (req, res) => { //gets all tasks
-    taskModel.find({}, { taskName: 1, _id: 0 }, function(err, result) {
+    taskModel.find({}, function(err, result) {
         if (err) console.log(err);
         res.send(result);
     });

@@ -230,8 +230,11 @@ Michiko Takahashi - mtakaha4@jhu.edu
 Please note that many of pair programmed together to make the process more efficient. Pushes from one person sometimes mean the work of many people. In this particular iteration, please note the following pairings and groups that worked together often:
 
 Michiko, Shaina, Keidai
+
 Shaina, Ayo
+
 Michiko, Ayo
+
 Shaina, Michiko
 
 <p align="right">(<a href="#top">back to top</a>)</p>

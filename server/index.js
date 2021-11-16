@@ -42,7 +42,7 @@ db.once("open", function () {
             myFunction(obj.startTime, obj.endTime);
         }
     })
-    
+
     Schedule();
     
 });
@@ -59,14 +59,27 @@ function Schedule(){
         result.sort(compare);
         console.log("Sorted Tasks:")
         console.log(result);
-        let values = []
+        let values = [];
         for(var i = 0; i < result.length; i++) {
             var obj = result[i];
-            values.push({id:obj.id,
+            values.push({id:obj.id, predTime:obj.predictedTime,
                 value:parseInt(obj.priority) * parseInt(obj.predictedTime) * parseInt(obj.difficulty)})
         }
         console.log("Sorted Tasks with Weights")
         console.log(values)
+
+        //TODO: prompt a schedule for the user
+        var p = Array(values.length);
+        for(var i = 0; i < p.length; i++) {
+            if ((i - 2) < 0) {
+                p[i] = 0;
+            } else {
+                p[i] = i - 2
+            }
+        }
+        pred = WIS(values, p)
+        console.log(pred)
+
     })
 
 }
@@ -82,10 +95,31 @@ function compare( task1, task2 ) {
     return 0;
 }
 
+function WIS(taskList, p) {
+    var M = Array(taskList.length);
+    var pred = Array(taskList.length);
+    M.fill(0);
+    pred.fil(0);
+    for (var i = 1; i <= M.length; i++) {
+        var leaveWeight = M[i-1]; // total weight if we leave j
+        var takeWeight = taskList[j].value + M[p[i]]; // assume no overlapping task for now
+        if ( leaveWeight > takeWeight ) {
+            M[i] = leaveWeight; // better to leave j
+            pred[i] = i-1;
+        }
+        else {
+            M[i] = takeWeight; // better to take j
+            pred[i] = p[i]; // previous is p[j]
+        }
+    }
+    return pred;
+}
 
 app.use(Router);
 
 
 
 //TEST BRANCH
+
+
 

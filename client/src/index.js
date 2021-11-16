@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Routes } from "react-router-dom"; //,Routes
 import './index.css';
 import App from './App';
+import Calendar from './routes/Calendar';
 import Tasks from './routes/Tasks';
 import Tracker from './routes/Tracker';
 import Resources from './routes/Resources';
@@ -12,7 +13,7 @@ ReactDOM.render(
   <React.StrictMode>
       <BrowserRouter>
           <Routes>
-              <Route path="/" element={<App />} />
+              <Route path="/" element={<Calendar />} />
               <Route path="tasks" element={<Tasks />} />
               <Route path="tracker" element={<Tracker />} />
               <Route path="resources" element={<Resources />} />

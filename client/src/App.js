@@ -181,7 +181,7 @@ function App() {
                       <Link to="/resources">Resources</Link>
                     </nav>
               </ParentWrapper>
-          {/*}*/}
+}
       </div>
   )
 }

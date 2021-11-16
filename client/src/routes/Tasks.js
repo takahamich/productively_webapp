@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 import TaskCard from "../components/TaskCard";
 
 function Tasks() {
+    const [tasks, setTasks] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:8080/tasks')
+        .then(response => response.json())
+        .then(data => {
+            for (let i = 0; i < data.length; i++) {
+                setTasks(tasks => [...tasks, data[i].taskName]);
+            }
+        })
+        .catch(err => setTasks(err.message));
+    }, []);
+
     return (
         <Container>
             <SidebarWrapper>
@@ -31,16 +44,11 @@ function Tasks() {
                 </LogoutElement>
             </SidebarWrapper>
             <TaskWrapper>
-                <TaskCard> </TaskCard>
-                <TaskCard> </TaskCard>
-                <TaskCard> </TaskCard>
-                <TaskCard> </TaskCard>
-                <TaskCard> </TaskCard>
-                <TaskCard> </TaskCard>
-                <TaskCard> </TaskCard>
+                {tasks.map(t => (<TaskCard task={t} time="2h 0m" />))}
             </TaskWrapper>
         </Container>
     )
+    /*{taskName.map(t => (<TaskCard task={t} time="2h 0m" />))}*/
 }
 
 export default Tasks;

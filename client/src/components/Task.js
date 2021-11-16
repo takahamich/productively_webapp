@@ -34,7 +34,7 @@ function Task({onClick}){
         // const profile = googleUser.getBasicProfile();
         data.creatorId = creator;
 
-        fetch('http://localhost:8080/tasks', {
+        fetch('https://moose-app-backend.herokuapp.com/tasks', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'

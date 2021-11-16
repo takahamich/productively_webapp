@@ -7,7 +7,7 @@ function Tasks() {
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:8080/tasks')
+        fetch('https://moose-app-backend.herokuapp.com/tasks')
         .then(response => response.json())
         .then(data => {
             for (let i = 0; i < data.length; i++) {

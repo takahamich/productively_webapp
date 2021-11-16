@@ -49,7 +49,7 @@ function App() {
             email: profile.getEmail(),
         }
 
-        fetch('https://pure-falls-32394.herokuapp.com/signedin', {
+        fetch('https://moose-app-backend.herokuapp.com/signedin', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'

@@ -157,9 +157,6 @@ function App() {
                           <ButtonWrapper>
                               <TaskButton onClick={handleOnClick}/>
                           </ButtonWrapper>
-                          <ButtonWrapper>
-                              <button>View my Tasks</button>
-                          </ButtonWrapper>
                       </TopWrapper>
                   {/*<BodyWrapper>
                     <CalendarWrapper>

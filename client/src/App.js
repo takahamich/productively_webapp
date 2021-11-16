@@ -18,6 +18,7 @@ function App() {
     const [toggle, setToggle] = useState(false);
 
     //LOGIN FUNCTIONALITY
+
     const [gapi, setGapi] = useState();
     const [googleAuth, setGoogleAuth] = useState();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -124,6 +125,7 @@ function App() {
 
     }, []);
     //END
+
   // Handle when the user creates the create task button
   function handleOnClick(){
       setToggle(!toggle);
@@ -143,9 +145,10 @@ function App() {
 
 
           {isLoggedIn &&
+
               <ParentWrapper>
-                  <h1>Welcome Home, {name}</h1>
-                  <button className='btn-primary' onClick={logOut}>Log Out</button>
+                  <h1>Welcome Home </h1> {/*{name}*/}
+                  {/*<button className='btn-primary' onClick={logOut}>Log Out</button>*/}
                   <SubParentWrapper selected={toggle}>
                       <TopWrapper>
                         <CalendarWrapper>
@@ -178,7 +181,7 @@ function App() {
                       <Link to="/resources">Resources</Link>
                     </nav>
               </ParentWrapper>
-          }
+          {/*}*/}
       </div>
   )
 }

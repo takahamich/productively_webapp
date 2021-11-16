@@ -24,13 +24,16 @@ app.get("/users", async (req, res) => { //gets all users
 });
 
 app.get("/tasks", async (req, res) => { //gets all tasks
-    const tasks = await taskModel.find({});
+    taskModel.find({}, { taskName: 1, _id: 0 }, function(err, result) {
+        if (err) console.log(err);
+        res.send(result);
+    });
 
-    try {
+    /*try {
         res.send(tasks);
     } catch (error) {
         res.status(500).send(error);
-    }
+    }*/
 });
 
 app.post('/signedin', (req, res) => {

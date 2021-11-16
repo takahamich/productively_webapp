@@ -7,22 +7,19 @@ const userModel = require("./models/User");
 const cors = require('cors')
 const app = express();
 const port = 8080;
-var livereload = require("livereload");
-var connectLiveReload = require("connect-livereload");
+const http = require('http').createServer(app)
+// const server = http.createServer(app);
+// const { Server } = require("socket.io");
+// const io = new Server(server);
+ 
 
 
-const liveReloadServer = livereload.createServer();
-liveReloadServer.server.once("connection", () => {
-  setTimeout(() => {
-    liveReloadServer.refresh("/");
-  }, 100);
-});
+
 
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
-app.use(connectLiveReload());
 
 mongoose.connect(
     `mongodb+srv://nolombardo:%40ndw3simplys%40id@cluster0.kjv7f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
@@ -40,6 +37,9 @@ app.post('/', (req, res) => {
 
 });
 
+io.on('connection', (socket) => {
+  console.log('a user HAS connected');
+});
 
 
 // app.get('/getEvents', (req, res) => {
@@ -79,12 +79,7 @@ app.post('/', (req, res) => {
     
 // });
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
-
-
-
-
-
+server.listen(port, () => console.log(`Listening on port ${port}`));
 
 app.use(Router);
 

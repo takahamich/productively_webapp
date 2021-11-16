@@ -6,10 +6,12 @@ import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import React, { useState ,useEffect} from "react";
-import DatePicker from "react-datepicker";
+import io from "socket.io-client";
+// import DatePicker from "react-datepicker";
 // import Task from "./components/Task";
 // import events from './events.js';
 // import moment from 'moment'
+const socket = io('http://localhost:8080');
 
 const locales = {
   "en-US": require("date-fns/locale/en-US")

@@ -25,6 +25,7 @@ function Task({onClick}){
     function refreshPage() {
         window.location.href = window.location.href
       }
+
       
 
     function handleChange(e){

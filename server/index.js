@@ -7,26 +7,10 @@ const userModel = require("./models/User");
 const cors = require('cors')
 const app = express();
 const port = 8080;
-const http = require('http').createServer(app)
-// const server = http.createServer(app);
-// const { Server } = require("socket.io");
-// const io = new Server(server);
- const io = require('socket.io')(http)
-
-
-
-
-
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
-
-mongoose.connect(
-    `mongodb+srv://nolombardo:%40ndw3simplys%40id@cluster0.kjv7f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
-);
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error: "));
 
 app.get('/', (req, res) => {
     res.send({ express: 'React connected to Express back-end' });
@@ -38,57 +22,34 @@ app.post('/', (req, res) => {
 
 });
 
-io.on('connection', (socket) => {
-  socket.on('message', ({name, message})=> {
-    io.emit('message', {name, message})
-  })
+app.listen(port, () => console.log(`Listening on port ${port}`));
+
+
+mongoose.connect(
+    `mongodb+srv://nolombardo:%40ndw3simplys%40id@cluster0.kjv7f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+);
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error: "));
+db.once("open", function () {
+    console.log("Connected successfully");
+    console.log(`Tasks:`);
+    taskModel.find({}, function (err, result) {
+        if (err) return handleError(err);
+        // console.log(result);
+
+        for(var i = 0; i < result.length; i++) {
+            var obj = result[i];
+            myFunction(obj.startTime, obj.endTime);
+        }
+    })
+    
 });
-
-http.listen(8080, function(){
-  console.log('listening on port 8080')
-})
-
-
+function myFunction(startTimeValue, endTimeValue) {
+    console.log("IN HERE", startTimeValue, endTimeValue);
+    return startTimeValue, endTimeValue  // The function returns the product of p1 and p2
+  }
 
 
-// app.get('/getEvents', (req, res) => {
-//     console.log("hey")
-//     taskModel.find({}, function (err, result) {
-//         if (err) return handleError(err);
-//         return res.send(result);
-//     })
-
-// });
-
-
-
-
-
-
-// app.get('/getEvents', (req, res) => {
-//     mongoose.connect(
-//         `mongodb+srv://nolombardo:%40ndw3simplys%40id@cluster0.kjv7f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
-//     );
-//     const db = mongoose.connection;
-//     db.on("error", console.error.bind(console, "connection error: "));
-//     db.once("open", function () {
-//         console.log("Connected successfully");
-//         console.log(`Tasks:`);
-//         taskModel.find({}, function (err, result) {
-//             if (err) return handleError(err);
-//             console.log(result);
-    
-//             for(var i = 0; i < result.length; i++) {
-//                 var obj = result[i];
-//                 // myFunction(obj.startTime, obj.endTime);
-//             }
-//         })
-        
-//     });
-    
-// });
-
-// server.listen(port, () => console.log(`Listening on port ${port}`));
 
 app.use(Router);
 

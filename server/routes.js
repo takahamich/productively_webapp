@@ -36,6 +36,16 @@ app.get("/tasks", async (req, res) => { //gets all tasks
     }*/
 });
 
+app.get("/myTasks", async (req, res) => { //gets all tasks for Calendar
+    const tasks = await taskModel.find({});
+
+    try {
+        res.send(tasks);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
 app.post('/signedin', (req, res) => {
     console.log(req.body);
 

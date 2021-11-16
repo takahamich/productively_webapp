@@ -43,12 +43,44 @@ db.once("open", function () {
         }
     })
     
+    Schedule();
+    
 });
 function myFunction(startTimeValue, endTimeValue) {
     console.log("IN HERE", startTimeValue, endTimeValue);
     return startTimeValue, endTimeValue  // The function returns the product of p1 and p2
   }
 
+// Scheduling Algorithm
+function Schedule(){
+    taskModel.find({}, function (err, result) {
+        if (err) return handleError(err);
+
+        result.sort(compare);
+        console.log("Sorted Tasks:")
+        console.log(result);
+        let values = []
+        for(var i = 0; i < result.length; i++) {
+            var obj = result[i];
+            values.push({id:obj.id,
+                value:parseInt(obj.priority) * parseInt(obj.predictedTime) * parseInt(obj.difficulty)})
+        }
+        console.log("Sorted Tasks with Weights")
+        console.log(values)
+    })
+
+}
+
+function compare( task1, task2 ) {
+    // TODO: change the method from basic string comparison to date comparison
+    if ( task1.endTime < task2.endTime ){
+        return -1;
+    }
+    if ( task1.endTime > task2.endTime){
+        return 1;
+    }
+    return 0;
+}
 
 
 app.use(Router);

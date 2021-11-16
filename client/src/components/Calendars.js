@@ -112,7 +112,7 @@ function Calendars({userEmail}){
       events={allEvents}
       startAccessor="start"
       endAccessor="end"
-      style={{height: '100vh', width: '80vw', padding: 30}}
+      style={{height: '100vh', width: '77vw', padding: 30}}
       />}
     </div>
   )

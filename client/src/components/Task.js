@@ -26,7 +26,6 @@ function Task({onClick}){
         window.location.href = window.location.href
       }
 
-      
 
     function handleChange(e){
         const newdata={...data}
@@ -66,20 +65,21 @@ function Task({onClick}){
 
     return (
         <Wrapper>
-            <h3>Create a Task:</h3>
+            <FormTitle>Create Task</FormTitle>
             <FormWrapper id = "form" onSubmit={(e) => submit(e)} action = "/" method = "POST">
-                <TextField
+                <StyledTitleTextField
                     id="taskName"
                     label="Task name"
                     margin="normal"
                     value={data.taskName}
                     onChange={(e) => handleChange(e)}
                     required
-                    fullWidth/>
+                    fullWidth
+                />
 
-                <TextField
+                <StyledTextField
                     id="startDate"
-                    label="When do you want to start?"
+                    label="Start date"
                     type="date"
                     margin="normal"
                     value={data.startDate}
@@ -88,9 +88,9 @@ function Task({onClick}){
                         shrink: true,
                     }}/>
 
-                <TextField
+                <StyledTextField
                     id="deadline"
-                    label="Select task deadline"
+                    label="Task deadline"
                     type="date"
                     margin="normal"
                     value={data.deadline}
@@ -99,22 +99,25 @@ function Task({onClick}){
                         shrink: true,
                     }}/>
 
-                <select id="priority" defaultValue={"Select task priority"} value={data.priority} onChange={(e) => handleChange(e)}>
+                <select id="priority" defaultValue={"Select task priority"} value={data.priority} onChange={(e) => handleChange(e)}
+                        style={dropdownStyle}>
                     {/* <Option selected value="Select task priority" /> */}
                     <Option value="Select task priority" disabled></Option>
                     <Option value="Low priority" />
                     <Option value="Medium priority" />
                     <Option value="High priority" />
                 </select>
-
-                <select id="status" defaultValue={"Select status"} value={data.status} onChange={(e) => handleChange(e)}>
+                <br></br>
+                <select id="status" defaultValue={"Select status"} value={data.status} onChange={(e) => handleChange(e)}
+                        style={dropdownStyle}>
                     <Option value="Select status" disabled></Option>
                     <Option value="Not started" />
                     <Option value="In Progress" />
                     <Option value="Done" />
                 </select>
-
-                <select id="difficulty" defaultValue={"Select difficulty"} value={data.difficulty} onChange={(e) => handleChange(e)}>
+                    <br></br>
+                <select id="difficulty" defaultValue={"Select difficulty"} value={data.difficulty} onChange={(e) => handleChange(e)}
+                        style={dropdownStyle}>
                     <Option value="Select difficulty" disabled></Option>
                     <Option value="1 - easiest" />
                     <Option value="2" />
@@ -122,12 +125,12 @@ function Task({onClick}){
                     <Option value="4" />
                     <Option value="5 - hardest" />
                 </select>
-               
-                <TextField
+                <br></br>
+                <StyledTextField
                     id="PredictedTime"
-                    label="How much time do you want to spend on this task?"
+                    label="Expected Time"
                     margin="normal"
-                    placeholder="Predicted Time in hours, seconds"
+                    placeholder= "In hours and minutes"
                     value={data.PredictedTime}
                     onChange={(e) => handleChange(e)}
                     required
@@ -152,21 +155,14 @@ function Task({onClick}){
                  value={data.end}
                 onChange={(e) => handleChange(e)}></input> */}
 
-          
-
-                <ButtonWrapper>
-                    <button type="submit">Submit</button>
-                    <button type="button" onClick={onClick}>Done</button>
-                </ButtonWrapper>
-
-                <ButtonWrapper>
+                {/*<ButtonWrapper>
                     <button type="button" onClick={onClick}>Delete</button>
-                </ButtonWrapper>
-
-
-                
+                </ButtonWrapper>*/}
             </FormWrapper>
-            
+            <ButtonWrapper>
+                <button type="submit" style={submitButton}>Submit Task</button>
+                <DoneButton onClick={onClick}>Done</DoneButton>
+            </ButtonWrapper>
         </Wrapper>
 
     )
@@ -177,21 +173,104 @@ export default Task;
 const Wrapper = styled.div`
     position: absolute;
     right: 0px;
-    width: 20%;
+    width: 25vw;
     height: 100vh;
-    background-color: rgb(204, 213, 227);
+    background: #fff;
     transition: width 1s;
-    padding: 10px;
-
+    overflow: hidden;
 `
 
 const FormWrapper = styled.form`
-    background-color: #e4eaf5;
-    padding: 0 10px 0 10px;
     max-width: 100%;
     border-radius: 10px;
+    padding: 0 3em 0 3em;
 `
 
 const ButtonWrapper = styled.div`
-    margin-top: 10px;
+    padding: 3em;
+`
+
+const FormTitle = styled.p`
+    color: #1B3D4A;
+    font-size: 1.5em;
+    margin: 2em 0 1em 2em;
+`
+
+const dropdownStyle = {
+    background: '#fff',
+    border: 'none',
+    padding: '10px',
+    width: '100%',
+    margin: '0.25em 0 0.25em 0',
+    color: '#1B3D4A',
+    fontFamily: 'Proxima Nova',
+    fontSize: '1em',
+    textTransform: 'uppercase',
+    borderRadius: '25px'
+}
+
+const submitButton = {
+    background: '#377F87',
+    boxShadow: 'none',
+    border: 'none',
+    width: '100%',
+    height: '3em',
+    color: '#fff',
+    fontFamily: 'Proxima Nova',
+    fontSize: '1em',
+    textTransform: 'uppercase',
+    borderRadius: '25px'
+}
+
+const DoneButton = styled.button `
+    background: '#CECECE';
+    border: none;
+    width: 100%;
+    height: 3em;
+    color: #9B9B9B;
+    font-family: 'Proxima Nova';
+    font-size: 1em;
+    text-transform: uppercase;
+    border-radius: 25px;
+    margin-top: 1em;
+`
+
+const StyledTitleTextField = styled(TextField)`
+    & .MuiOutlinedInput-notchedOutline {
+        border: none;
+    }
+    & .MuiInputLabel-root {
+        font-family: 'Proxima Nova';
+        font-size: 1em;
+        text-transform: uppercase;
+        color: #9B9B9B;
+    }
+    & .MuiOutlinedInput-root {
+        font-family: 'Proxima Nova';
+        font-size: 1.5em;
+        text-transform: uppercase;
+        color: #1B3D4A;
+    }
+`
+
+const StyledTextField = styled(TextField)`
+    & .MuiOutlinedInput-notchedOutline {
+        border: none;
+    }
+    & .MuiInputLabel-root, .MuiFormLabel-root {
+        font-family: 'Proxima Nova';
+        font-size: 1em;
+        text-transform: uppercase;
+        color: #9B9B9B;
+    }
+    & .MuiOutlinedInput-root {
+        font-family: 'Proxima Nova';
+        font-size: 1em;
+        text-transform: uppercase;
+        color: #1B3D4A;
+    }
+   & .MuiFormControl-root, .MuiTextField-root, .MuiFormControl-marginNormal, .MuiInputBase-root {
+        margin-top: 0px!important;
+        margin-bottom: 0px!important;
+   }
 `

@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 import TaskCard from "../components/TaskCard";
+import TaskButton from "../components/TaskButton";
+import Task from "../components/Task";
 
 function Tasks() {
     const [tasks, setTasks] = useState([]);
+    const [toggle, setToggle] = useState(false);
 
     useEffect(() => {
         fetch('http://localhost:8080/tasks')
@@ -17,6 +20,10 @@ function Tasks() {
         })
         .catch(err => setTasks(err.message));
     }, []);
+
+    function handleOnClick(){
+        setToggle(!toggle);
+    }
 
     return (
         <Container>
@@ -47,7 +54,10 @@ function Tasks() {
             <TaskWrapper>
                 {tasks.map(t => (<TaskCard taskName={t.taskName} duration="2h 0m" priority={t.priority}/>))}
             </TaskWrapper>
-            
+            <ButtonWrapper>
+                <TaskButton onClick={handleOnClick}/>
+            </ButtonWrapper>
+            {toggle && <Task onClick={handleOnClick}/>}
         </Container>
     )
 }
@@ -87,7 +97,7 @@ const SidebarWrapper = styled.div`
     background: #377F87;
     left: 0;
     height: 100vh;
-    width: 23%;
+    width: 25vw;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
@@ -104,6 +114,12 @@ const TaskWrapper = styled.div`
     overflow: scroll;
     margin-top: 8em;
     margin-left: 5%;
+`
+
+const ButtonWrapper = styled.div`
+    margin-top: auto;
+    margin-right: 1em;
+    margin-bottom: 1em;
 `
 
 const NavElement = styled.div`

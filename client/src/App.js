@@ -117,10 +117,10 @@ function App() {
   //
   //   }, []);
   //   //END
-  // // Handle when the user creates the create task button
-  // function handleOnClick(){
-  //     setToggle(!toggle);
-  // }
+  // Handle when the user creates the create task button
+  function handleOnClick(){
+      setToggle(!toggle);
+  }
 
 
   return (
@@ -137,7 +137,7 @@ function App() {
           {/*{isLoggedIn &&*/}
               <ParentWrapper>
                   <h1>Welcome Home </h1> {/*{name}*/}
-                  <button className='btn-primary' onClick={logOut}>Log Out</button>
+                  {/*<button className='btn-primary' onClick={logOut}>Log Out</button>*/}
                   <SubParentWrapper selected={toggle}>
                       <TopWrapper>
                         <CalendarWrapper>

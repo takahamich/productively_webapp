@@ -174,6 +174,7 @@ Here's some pictures and videos of our app's current functionalities:
 * task form [picture](https://drive.google.com/file/d/1v1PbLV-bKhWjl6JV1edpZpuNoXfsRbzC/view?usp=sharing) 
 
 NOTE: We are currently mostly deployed to Heroku, and are continuing to troubleshoot. 
+[Here is a link](https://moose-scheduling.herokuapp.com) to the front end of what we have deployed to Heroku.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -226,9 +227,12 @@ Michiko Takahashi - mtakaha4@jhu.edu
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
-Please note that many of pair programmed together to make the process more efficient. Pushes from one person sometimes mean the work of many people. In this particular iteration, please note the following pairings that worked together often:
+Please note that many of pair programmed together to make the process more efficient. Pushes from one person sometimes mean the work of many people. In this particular iteration, please note the following pairings and groups that worked together often:
 
-Keidai and Shaina
+Michiko, Shaina, Keidai
+Shaina, Ayo
+Michiko, Ayo
+Shaina, Michiko
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

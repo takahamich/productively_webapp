@@ -12,8 +12,8 @@ function Task({onClick}){
         taskName: "",
         deadline: "",
         priority: "",
-        PredictedTime: "",
-        ActualTime: "",
+        // PredictedTime: "",
+        // ActualTime: "",
         start:"",
         end:"",
         startDate:"",
@@ -21,6 +21,12 @@ function Task({onClick}){
         difficulty: "",
         creatorId: "",
     });
+
+    function refreshPage() {
+        window.location.href = window.location.href
+      }
+
+      
 
     function handleChange(e){
         const newdata={...data}
@@ -52,6 +58,7 @@ function Task({onClick}){
 
 
         alert("Your task has been submitted!")
+        refreshPage();
 
         console.log(data)
 
@@ -69,6 +76,18 @@ function Task({onClick}){
                     onChange={(e) => handleChange(e)}
                     required
                     fullWidth/>
+
+                <TextField
+                    id="startDate"
+                    label="When do you want to start?"
+                    type="date"
+                    margin="normal"
+                    value={data.startDate}
+                    onChange={(e) => handleChange(e)}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}/>
+
                 <TextField
                     id="deadline"
                     label="Select task deadline"
@@ -83,9 +102,9 @@ function Task({onClick}){
                 <select id="priority" defaultValue={"Select task priority"} value={data.priority} onChange={(e) => handleChange(e)}>
                     {/* <Option selected value="Select task priority" /> */}
                     <Option value="Select task priority" disabled></Option>
-                    <Option value="Low priority: 1" />
-                    <Option value="Medium priority: 2" />
-                    <Option value="High priority: 3" />
+                    <Option value="Low priority" />
+                    <Option value="Medium priority" />
+                    <Option value="High priority" />
                 </select>
 
                 <select id="status" defaultValue={"Select status"} value={data.status} onChange={(e) => handleChange(e)}>
@@ -106,38 +125,34 @@ function Task({onClick}){
                
                 <TextField
                     id="PredictedTime"
-                    label=" Predicted:Time in hours, seconds"
+                    label="How much time do you want to spend on this task?"
                     margin="normal"
-                    placeholder=" Predicted: How much time should this task take you?"
+                    placeholder="Predicted Time in hours, seconds"
                     value={data.PredictedTime}
                     onChange={(e) => handleChange(e)}
                     required
                     fullWidth/>
 
-                <TextField
+                {/* <TextField
                     id="ActualTime"
                     label=" Actual: Time in hours, seconds"
                     margin="normal"
                     placeholder=" Actual: How much time did this task actually take you?"
                     value={data.ActualTime}
                     onChange={(e) => handleChange(e)}
-                    fullWidth/>
+                    fullWidth/> 
 
                 <label for="start">Start Time</label>
                 <input type="time" id="start" name="start"
-                    min="09:00" max="18:00" value={data.start}
+                    value={data.start}
                     onChange={(e) => handleChange(e)}></input>
 
                 <label for="end">End Time</label>
                 <input type="time" id="end" name="end"
-                min="09:00" max="18:00" value={data.end}
-                onChange={(e) => handleChange(e)}></input>
+                 value={data.end}
+                onChange={(e) => handleChange(e)}></input> */}
 
-                <label for="startDate">Start date </label>
-                <input type="date" id="startDate" name="trip-start"
-                    value="2018-07-22"
-                    min="2018-01-01" max="2018-12-31" value={data.startDate}
-                    onChange={(e) => handleChange(e)}></input>
+          
 
                 <ButtonWrapper>
                     <button type="submit">Submit</button>

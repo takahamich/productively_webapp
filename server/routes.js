@@ -37,6 +37,16 @@ app.get("/tasks", async (req, res) => { //gets all tasks
     }*/
 });
 
+app.get("/myTasks", async (req, res) => { //gets all tasks for Calendar
+    const tasks = await taskModel.find({});
+
+    try {
+        res.send(tasks);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
 app.post('/signedin', (req, res) => {
     console.log(req.body);
 
@@ -97,17 +107,22 @@ app.post('/tasks', (req, res) => {
         //task model.create
         newTask.save((err) => {
             if (err) {
+                console.log(err)
                 // res.redirect('/');
                 alert("error when posting task, please try again");
                 throw new Error("error when posting task");
             }
+
+            user.tasks.push(newTask);
+            console.log('the user task array has been updated ' + user.tasks);
+            user.save((err) => {
+                res.send(user.tasks);
+            });
+
+
         });
 
-        user.tasks.push(newTask);
-        console.log('the user task array has been updated ' + user.tasks);
-        user.save((err) => {
-            res.send(user.tasks);
-        });
+   
     });
 
     console.log("I received your POST request. This is what you sent me");

@@ -22,6 +22,11 @@ function Task({onClick}){
         creatorId: "",
     });
 
+    function refreshPage() {
+        window.location.href = window.location.href
+      }
+      
+
     function handleChange(e){
         const newdata={...data}
         newdata[e.target.id] = e.target.value
@@ -52,6 +57,7 @@ function Task({onClick}){
 
 
         alert("Your task has been submitted!")
+        refreshPage();
 
         console.log(data)
 

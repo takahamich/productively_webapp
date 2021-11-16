@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "start": "node server/index.js",
+    "start": "nodemon node server/index.js",
     "watch": "nodemon",
     "type": "module"
   },

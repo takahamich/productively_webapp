@@ -11,7 +11,8 @@ const http = require('http').createServer(app)
 // const server = http.createServer(app);
 // const { Server } = require("socket.io");
 // const io = new Server(server);
- 
+ const io = require('socket.io')(http)
+
 
 
 
@@ -38,8 +39,16 @@ app.post('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  console.log('a user HAS connected');
+  socket.on('message', ({name, message})=> {
+    io.emit('message', {name, message})
+  })
 });
+
+http.listen(8080, function(){
+  console.log('listening on port 8080')
+})
+
+
 
 
 // app.get('/getEvents', (req, res) => {
@@ -79,7 +88,7 @@ io.on('connection', (socket) => {
     
 // });
 
-server.listen(port, () => console.log(`Listening on port ${port}`));
+// server.listen(port, () => console.log(`Listening on port ${port}`));
 
 app.use(Router);
 

@@ -11,7 +11,9 @@ import io from "socket.io-client";
 // import Task from "./components/Task";
 // import events from './events.js';
 // import moment from 'moment'
-const socket = io('http://localhost:8080');
+
+
+const socket = io('http://localhost:8080', { transports: ['websocket', 'polling', 'flashsocket'] });
 
 const locales = {
   "en-US": require("date-fns/locale/en-US")
@@ -40,6 +42,7 @@ const localizer = dateFnsLocalizer({
 // ]
 
 function Calendars({userEmail}){
+  const [state, seState] = useState({message : '', name: ''})
 
   console.log(userEmail);
 
@@ -57,9 +60,8 @@ function Calendars({userEmail}){
 
   useEffect(() => {
 
-    console.log("use effect")
 
-    fetch('http://localhost:8080/tasks')
+  fetch('http://localhost:8080/tasks')
       .then(res => {
         return res.json()
       })

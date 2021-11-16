@@ -12,8 +12,8 @@ function Task({onClick}){
         taskName: "",
         deadline: "",
         priority: "",
-        PredictedTime: "",
-        ActualTime: "",
+        // PredictedTime: "",
+        // ActualTime: "",
         start:"",
         end:"",
         startDate:"",
@@ -90,9 +90,9 @@ function Task({onClick}){
                 <select id="priority" defaultValue={"Select task priority"} value={data.priority} onChange={(e) => handleChange(e)}>
                     {/* <Option selected value="Select task priority" /> */}
                     <Option value="Select task priority" disabled></Option>
-                    <Option value="Low priority: 1" />
-                    <Option value="Medium priority: 2" />
-                    <Option value="High priority: 3" />
+                    <Option value="Low priority" />
+                    <Option value="Medium priority" />
+                    <Option value="High priority" />
                 </select>
 
                 <select id="status" defaultValue={"Select status"} value={data.status} onChange={(e) => handleChange(e)}>
@@ -111,7 +111,7 @@ function Task({onClick}){
                     <Option value="5 - hardest" />
                 </select>
                
-                <TextField
+                {/* <TextField
                     id="PredictedTime"
                     label=" Predicted:Time in hours, seconds"
                     margin="normal"
@@ -128,9 +128,9 @@ function Task({onClick}){
                     placeholder=" Actual: How much time did this task actually take you?"
                     value={data.ActualTime}
                     onChange={(e) => handleChange(e)}
-                    fullWidth/>
+                    fullWidth/> */}
 
-                <label for="start">Start Time</label>
+                {/* <label for="start">Start Time</label>
                 <input type="time" id="start" name="start"
                     value={data.start}
                     onChange={(e) => handleChange(e)}></input>
@@ -138,7 +138,7 @@ function Task({onClick}){
                 <label for="end">End Time</label>
                 <input type="time" id="end" name="end"
                  value={data.end}
-                onChange={(e) => handleChange(e)}></input>
+                onChange={(e) => handleChange(e)}></input> */}
 
                 <label for="startDate">Start date </label>
                 <input type="date" id="startDate" name="start"

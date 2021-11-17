@@ -12,8 +12,8 @@ function Task({onClick}){
         taskName: "",
         deadline: "",
         priority: "",
-        // PredictedTime: "",
-        // ActualTime: "",
+        PredictedTime: "",
+        ActualTime: "",
         start:"",
         end:"",
         startDate:"",
@@ -24,7 +24,7 @@ function Task({onClick}){
 
     function refreshPage() {
         window.location.href = window.location.href
-      }
+    }
 
 
     function handleChange(e){
@@ -158,13 +158,12 @@ function Task({onClick}){
                 {/*<ButtonWrapper>
                     <button type="button" onClick={onClick}>Delete</button>
                 </ButtonWrapper>*/}
+                <ButtonWrapper>
+                    <button type="submit" style={submitButton}>Submit Task</button>
+                    <DoneButton onClick={onClick}>Done</DoneButton>
+                </ButtonWrapper>
             </FormWrapper>
-            <ButtonWrapper>
-                <button type="submit" style={submitButton}>Submit Task</button>
-                <DoneButton onClick={onClick}>Done</DoneButton>
-            </ButtonWrapper>
         </Wrapper>
-
     )
 }
 
@@ -182,12 +181,14 @@ const Wrapper = styled.div`
 
 const FormWrapper = styled.form`
     max-width: 100%;
+    height: 100%;
     border-radius: 10px;
     padding: 0 3em 0 3em;
 `
 
 const ButtonWrapper = styled.div`
-    padding: 3em;
+    margin-top: 2em;
+    width: 100%;
 `
 
 const FormTitle = styled.p`

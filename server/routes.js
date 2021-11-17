@@ -24,8 +24,7 @@ app.get("/users", async (req, res) => { //gets all users
 });
 
 app.get("/tasks", async (req, res) => { //gets all tasks
-    //const tasks = await taskModel.find({});
-    taskModel.find({}, { taskName: 1, _id: 0 }, function(err, result) {
+    taskModel.find({}, function(err, result) {
         if (err) console.log(err);
         res.send(result);
     });
@@ -81,15 +80,24 @@ app.post('/signedin', (req, res) => {
 
 app.post('/tasks', (req, res) => {
     console.log(req.body);
+    let taskPriority = 0;
+    if (req.body.priority == "Low priority") {
+        taskPriority = 1;
+    } else if (req.body.priority == "Medium priority") {
+        taskPriority = 2;
+    } else {
+        taskPriority = 3;
+    }
     const newTask = new taskModel({
         _id: new mongoose.Types.ObjectId, //req.params.id,
-        creator: req.body.creatorId,
+        //creator: req.body.creatorId,
         taskName: req.body.taskName,
         startDate: req.body.startDate,
         status: req.body.status,
         difficulty: req.body.difficulty,
         predictedEndDate: req.body.deadline,
-        priority: req.body.priority,
+        //priority: req.body.priority,
+        priority: taskPriority,
         predictedTime: req.body.PredictedTime,
         actualTime: req.body.ActualTime,
         startTime: req.body.start,

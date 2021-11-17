@@ -2,20 +2,28 @@ import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 import TaskCard from "../components/TaskCard";
+import TaskButton from "../components/TaskButton";
+import Task from "../components/Task";
 
 function Tasks() {
     const [tasks, setTasks] = useState([]);
+    const [toggle, setToggle] = useState(false);
 
     useEffect(() => {
         fetch('https://moose-app-backend.herokuapp.com/tasks')
         .then(response => response.json())
         .then(data => {
+            console.log(data);
             for (let i = 0; i < data.length; i++) {
-                setTasks(tasks => [...tasks, data[i].taskName]);
+                setTasks(tasks => [...tasks, data[i]]);
             }
         })
         .catch(err => setTasks(err.message));
     }, []);
+
+    function handleOnClick(){
+        setToggle(!toggle);
+    }
 
     return (
         <Container>
@@ -44,11 +52,14 @@ function Tasks() {
                 </LogoutElement>
             </SidebarWrapper>
             <TaskWrapper>
-                {tasks.map(t => (<TaskCard task={t} time="2h 0m" />))}
+                {tasks.map(t => (<TaskCard taskName={t.taskName} duration="2h 0m" priority={t.priority}/>))}
             </TaskWrapper>
+            <ButtonWrapper>
+                <TaskButton onClick={handleOnClick}/>
+            </ButtonWrapper>
+            {toggle && <Task onClick={handleOnClick}/>}
         </Container>
     )
-    /*{taskName.map(t => (<TaskCard task={t} time="2h 0m" />))}*/
 }
 
 export default Tasks;
@@ -86,7 +97,7 @@ const SidebarWrapper = styled.div`
     background: #377F87;
     left: 0;
     height: 100vh;
-    width: 23%;
+    width: 25vw;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
@@ -103,6 +114,12 @@ const TaskWrapper = styled.div`
     overflow: scroll;
     margin-top: 8em;
     margin-left: 5%;
+`
+
+const ButtonWrapper = styled.div`
+    margin-top: auto;
+    margin-right: 1em;
+    margin-bottom: 1em;
 `
 
 const NavElement = styled.div`

@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 
 const TaskSchema = new mongoose.Schema({
     _id: mongoose.Types.ObjectId,
-    creator: {
+    /*creator: {
         type: String,
         required: true,
-    },
+    },*/
     taskName: {
         type: String,
         required: true,

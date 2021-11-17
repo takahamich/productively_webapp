@@ -127,16 +127,18 @@ In order to go beyond CRUD, we created an algorithm that automatically gives use
 
     (d) 9pm – end of day, timeOfDay = Night
     
+Scheduling Algorithm:
+We implemented a rudimentary scheduling algorithm that:
+ 
+    (a) Help the users start the task at least 2 days before the deadline.
+    
+    (b) Determine every task's weight by the task priority and the predicted time that will be spent on the task. 
+    
+    (c) Choose the first meeting time for each task that matches up with task duration, with tasks ordered by weight. 
+
+The output of the algorithm using dummy data is displayed in the console.
 
 For future iterations, we intend to reflect recommendations and productivity scores in our front end, but we did not for this iteration since we were instructed to mostly work on the back end. 
-
-We will also add an additional algorithm, which has the following steps:
-    
-    (a) Determine every task's task priority and how close it is to the deadline. 
-    
-    (b) Choose the first meeting time that matches up with task duration, based on the task priority. 
-    
-    (c) The algorithm will try to get the user to finish the task at least 2 days before the deadline.
 
 Upcoming projected steps to the next part of our algorithm, for future iterations:
     

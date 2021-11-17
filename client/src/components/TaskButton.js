@@ -4,11 +4,11 @@ import styled from "styled-components";
 
 function TaskButton({onClick}){
     return (
-        <Button onClick={onClick}>Create Task</Button>
+        <Button onClick={onClick}>+</Button>
     )
 }
 
-const Button = styled.button`
+/*const Button = styled.button`
     display:inline-block;
     padding:0.35em 1.2em;
     border:0.1em solid black;
@@ -25,6 +25,17 @@ const Button = styled.button`
         color:#000000;
         background-color:pink;
       }
-`;
+`;*/
+
+const Button = styled.button`
+    background: #377F87;
+    border-radius: 50%;
+    height: 75px;
+    width: 75px;
+    border: none;
+    font-family: 'Proxima Nova';
+    color: #F6F6F2;
+    font-size: 55px;
+`
 
 export default TaskButton;

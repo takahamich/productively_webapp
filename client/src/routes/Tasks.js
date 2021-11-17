@@ -10,7 +10,7 @@ function Tasks() {
     const [toggle, setToggle] = useState(false);
 
     useEffect(() => {
-        fetch('http://localhost:8080/tasks')
+        fetch('https://moose-app-backend.herokuapp.com/tasks')
         .then(response => response.json())
         .then(data => {
             console.log(data);

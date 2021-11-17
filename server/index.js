@@ -77,7 +77,7 @@ function Schedule(){
         let tasksDueToday = [];
         let tasksToStart = [];
         for(var i = 0; i < tasks.length; i++) {
-            if (tasks[i].deadline.getDate() - today.getDate() == -1) {
+            if (tasks[i].deadline.getDate() - today.getDate() == 1) {
                 tasksDueToday.push(tasks[i])
             }
             //Giving a task two buffer days before the deadline

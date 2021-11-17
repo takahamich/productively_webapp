@@ -55,9 +55,9 @@ export default Tasks;
 
 const Container = styled.div`
     height: 100vh;
+    width: 100vw;
     background: #F6F6F2;
     font-family: 'Proxima Nova';
-    font-weight: bold;
     text-transform: uppercase;
     font-size: 1em;
     display: flex;

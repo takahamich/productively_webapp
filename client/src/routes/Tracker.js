@@ -29,9 +29,32 @@ function Tracker() {
                     Log Out
                 </LogoutElement>
             </SidebarWrapper>
-            <MainWrapper>
+            <TodayWrapper>
 
-            </MainWrapper>
+                <WrapperHeader>
+                    Today
+                </WrapperHeader>
+                <WrapperHeader>Your Tasks Have Taken</WrapperHeader>
+                <TodayMultiplier>1.5x</TodayMultiplier>
+                <WrapperHeader>The Amount of Time You Predicted</WrapperHeader>
+
+                <WrapperMessage> Oof. Do you need a day off on Tuesdays?
+                    Are you taking a day off at least once a week?</WrapperMessage>
+
+            </TodayWrapper>
+            <ThisWeekWrapper>
+
+                <WrapperHeader>
+                    This Week
+                </WrapperHeader>
+                <WrapperHeader>Your Tasks Have Taken</WrapperHeader>
+                <ThisWeekMultiplier>2.3x</ThisWeekMultiplier>
+                <WrapperHeader>The Amount of Time You Predicted</WrapperHeader>
+
+                <WrapperMessage> Hmm, do you want to add some buffer time
+                    in your day, and plan to spend more time on your tasks? </WrapperMessage>
+
+            </ThisWeekWrapper>
         </Container>
     )
 }
@@ -83,11 +106,61 @@ const NavWrapper = styled.div`
     order: 2;
 `
 
-const MainWrapper = styled.div`
-    width: 77%;
+const TodayWrapper = styled.div`
+    width: 35%;
     overflow: scroll;
     margin-top: 8em;
     margin-left: 5%;
+    padding-right: 2%;
+    text-align: center; 
+    vertical-align: middle;
+    border-right: 2px solid grey;
+    height: 75%;
+`
+
+const WrapperHeader = styled.div`
+    color: #1D3C4A;
+    text-align: center; 
+    vertical-align: middle;
+    padding-top: 2%;
+`
+
+const TodayMultiplier = styled.div`
+    color: #377F87;
+    font-size: 12em;
+    text-align: center; 
+    text-transform: lowercase;
+    vertical-align: middle;
+    padding-top: 5%;
+    padding-bottom: 5%;
+`
+
+const WrapperMessage = styled.div`
+    color: #377F87;
+    text-align: center; 
+    text-transform: none;
+    vertical-align: middle;
+    padding-top: 15%;
+`
+
+const ThisWeekWrapper = styled.div`
+    width: 35%;
+    overflow: scroll;
+    margin-top: 8em;
+    margin-left: 5%;
+    text-align: center; 
+    vertical-align: middle;
+    padding-left: 2%;
+`
+
+const ThisWeekMultiplier = styled.div`
+    color: #F76D6C;
+    font-size: 12em;
+    text-align: center; 
+    text-transform: lowercase;
+    vertical-align: middle;
+    padding-top: 5%;
+    padding-bottom: 5%;
 `
 
 const NavElement = styled.div`
@@ -118,6 +191,12 @@ const LogoutElement = styled.div`
 const linkStyle = {
     textDecoration: 'none',
     color: '#BADFE7'
+}
+
+const scoreStyle = {
+    textDecoration: 'none',
+    textAlign: 'center',
+    color: '#1D3C4A'
 }
 
 const focusLinkStyle = {

@@ -13,7 +13,7 @@ import events from './events.js';
 // import moment from 'moment'
 
 
-const socket = io('http://localhost:8080', { transports: ['websocket', 'polling', 'flashsocket'] });
+const socket = io('https://moose-app-backend.herokuapp.com/', { transports: ['websocket', 'polling', 'flashsocket'] });
 
 const locales = {
   "en-US": require("date-fns/locale/en-US")
@@ -60,7 +60,7 @@ function Calendars({userEmail}){
 
   useEffect(() => {
     console.log("use effect")
-    fetch('http://localhost:8080/myTasks')
+    fetch('https://moose-app-backend.herokuapp.com/myTasks')
       .then(res => {
         return res.json()
       })

@@ -7,6 +7,7 @@ import App from '../App'
 import {creator} from '../App'
 
 
+
 function Task({onClick}){
     const [data, setData] = useState({
         taskName: "",
@@ -61,6 +62,10 @@ function Task({onClick}){
 
         console.log(data)
 
+    }
+
+    function schedule() {
+        alert("Scheduled!")
     }
 
     return (
@@ -160,8 +165,10 @@ function Task({onClick}){
                 </ButtonWrapper>*/}
                 <ButtonWrapper>
                     <button type="submit" style={submitButton}>Submit Task</button>
+                    <button onClick={schedule} style={scheduleButton}>Make a Schedule</button>
                     <DoneButton onClick={onClick}>Done</DoneButton>
                 </ButtonWrapper>
+
             </FormWrapper>
         </Wrapper>
     )
@@ -212,6 +219,19 @@ const dropdownStyle = {
 
 const submitButton = {
     background: '#377F87',
+    boxShadow: 'none',
+    border: 'none',
+    width: '100%',
+    height: '3em',
+    color: '#fff',
+    fontFamily: 'Proxima Nova',
+    fontSize: '1em',
+    textTransform: 'uppercase',
+    borderRadius: '25px'
+}
+
+const scheduleButton = {
+    background: '#73A0D2',
     boxShadow: 'none',
     border: 'none',
     width: '100%',

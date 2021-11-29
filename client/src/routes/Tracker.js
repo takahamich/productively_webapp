@@ -1,8 +1,66 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
 
+
 function Tracker() {
+    const myCurrentDate = new Date();
+    const date = myCurrentDate.getFullYear() + '-' + (myCurrentDate.getMonth()+1) + '-' + myCurrentDate.getDate();
+    var time = myCurrentDate.getHours() + ":" + myCurrentDate.getMinutes() 
+   
+    const [mydate, setMyDate] = useState(null)
+
+    useEffect(() => {
+        fetch('http://localhost:8080/tasks')
+          .then(res => {
+            return res.json()
+          })
+          .then(data => {
+            const parsedData = parse(data)
+            const processData = process(parsedData)
+           
+          })
+      }, [])
+
+
+      function parse(data){
+        const myCurrentDate = new Date();
+        const date = myCurrentDate.getFullYear() + '-' + (myCurrentDate.getMonth()+1) + '-' + myCurrentDate.getDate();
+        var finalData = []
+        data.forEach((singleData) => {
+            if (singleData.predictedEndDate === date) {
+                finalData.push({title: singleData.taskName, end: singleData.predictedEndDate, status: singleData.status})
+            } 
+         })
+        return finalData
+      }
+
+      function process(data){
+        const value = []
+        console.log("in second function", data, data.length)
+        var allTasks = data.length 
+
+        
+        var completedTasks = 0
+        data.forEach((data) => {
+            if (data.status === "Done") {
+            completedTasks += 1
+            }
+        })
+
+        if (allTasks == 0){
+            console.log("You have not completed all tasks for the day")
+            value.push ("You have not completed all tasks for the day")
+
+        }
+
+        console.log("all", allTasks)
+        console.log("completed", completedTasks)
+        console.log(completedTasks/allTasks)
+
+        return value
+    }
+
     return (
         <Container>
             <SidebarWrapper>
@@ -31,10 +89,10 @@ function Tracker() {
             </SidebarWrapper>
             <TodayWrapper>
 
-                <WrapperHeader>
-                    Today
-                </WrapperHeader>
-                <WrapperHeader>Your Tasks Have Taken</WrapperHeader>
+                {date && <WrapperHeader>
+                    Today, {date}
+                </WrapperHeader>}
+                <WrapperHeader>Your Tasks Have Taken </WrapperHeader>
                 <TodayMultiplier>1.5x</TodayMultiplier>
                 <WrapperHeader>The Amount of Time You Predicted</WrapperHeader>
 
@@ -205,3 +263,10 @@ const focusLinkStyle = {
     order: 2,
     marginLeft: '2.7em',
 }
+
+
+       
+        // check if each data in finalData array is completed. 
+        // get the total number of tasks, find the percentage completed.
+        // If all the tasks are completed then productivity score is 100
+        // If 50% of the tasks are completed then productivity score is 50

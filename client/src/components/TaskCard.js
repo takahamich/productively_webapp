@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 
-function TaskCard({task, time}) {
-    const taskName = task;
-    const duration = time;
+function TaskCard({taskName, duration, priority}) {
     /*const priority = p;
     let priorityColor = '#fff';
 
@@ -17,7 +15,16 @@ function TaskCard({task, time}) {
 
     return (
         <TaskWrapper>
-            <PriorityBar> </PriorityBar>
+            {
+                (() => {
+                    if (priority == 3)
+                        return <HighPriorityBar />
+                    else if (priority == 2)
+                        return <MedPriorityBar />
+                    else
+                        return <LowPriorityBar />
+                })()
+            }
             <TaskBox>
                 <p style={taskStyle}>{taskName}</p>
                 <p style={durationStyle}>{duration}</p>
@@ -44,10 +51,18 @@ const TaskBox = styled.div`
     padding: 0.5em 0 0.5em 1.5em;
 `
 
-const PriorityBar = styled.div`
-    background: #6FB3B8;
+const HighPriorityBar = styled.div`
+    background: #E07A7A;
     width: 8px;
     margin-right: 1em;
+`
+
+const MedPriorityBar = styled(HighPriorityBar)`
+    background: #E8C067;
+`
+
+const LowPriorityBar = styled(HighPriorityBar)`
+    background: #6FB3B8;
 `
 
 const taskStyle = {

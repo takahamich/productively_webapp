@@ -127,7 +127,40 @@ In order to go beyond CRUD, we created an algorithm that automatically gives use
 
     (d) 9pm – end of day, timeOfDay = Night
     
-    For future iterations, we intend to reflect recommendations and productivity scores in our front end, but we did not for this iteration since we were instructed to mostly work on the back end. 
+Scheduling Algorithm:
+We implemented a rudimentary scheduling algorithm that:
+ 
+    (a) Help the users start the task at least 2 days before the deadline.
+    
+    (b) Determine every task's weight by the task priority and the predicted time that will be spent on the task. 
+    
+    (c) Choose the first meeting time for each task that matches up with task duration, with tasks ordered by weight. 
+
+The output of the algorithm using dummy data is displayed in the console.
+
+For future iterations, we intend to reflect recommendations and productivity scores in our front end, but we did not for this iteration since we were instructed to mostly work on the back end. 
+
+Upcoming projected steps to the next part of our algorithm, for future iterations:
+    
+    (d) Calculate hidden productivity score for buckets of time (12-3, 3-6, etc)
+    
+    (e) Initialize each time bucket with same score
+    
+    (f) Determine optimal times as empty buckets with the highest productivity scores
+    
+    (g) Every time a task is completed, update the old productivity score of bucket by multiplying with task score = (expected / actual time) * learning rate (any number < 1 to minimize variance, depends on how often we think app will be used / how much we think each task should weigh into overall score)
+    
+    (h) If the task overlaps with another bucket, weight the score contributions differently (e.g. task is completed from 2-5, 1/3 of task score is given to 12-3, 2/3 given to 3-6 — (# of hrs spent in bucket / total hrs spent) * task score * old bucket score = new bucket score)
+    
+This second projected part of our algorithm is basically a rudimentary gradient descent algorithm for optimization/ML problems. The cost function is the error between expected time & actual time spent on a task, and the goal is to maximize the user’s productive hours by minimizing this function. Ideally, the algorithm improves overtime as there is more data to work with, learning the user’s habits.
+
+Another projected idea to extend our algorithm is something we call the "Low Priority Procrastination Bias" (LPPB) extension, in which a user may purposely rank a task as lower priority as a way to procrastinate it. In order to address LPPB, the algorithm may take the following steps: 
+    
+    (i) If a task is within x days and it has < 3 stars, (ask user to) move it to 3 stars.
+    
+    (j) Randomly choose 1+ task(s) with < 3 stars to be recommended as if it were a task with 3 stars.
+
+Please note that 3 stars is the highest priority, and the value of "x" is still to be determined.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -143,6 +176,7 @@ Here's some pictures and videos of our app's current functionalities:
 * task form [picture](https://drive.google.com/file/d/1v1PbLV-bKhWjl6JV1edpZpuNoXfsRbzC/view?usp=sharing) 
 
 NOTE: We are currently mostly deployed to Heroku, and are continuing to troubleshoot. 
+[Here is a link](https://moose-scheduling.herokuapp.com) to the front end of what we have deployed to Heroku.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -195,9 +229,15 @@ Michiko Takahashi - mtakaha4@jhu.edu
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
-Please note that many of pair programmed together to make the process more efficient. Pushes from one person sometimes mean the work of many people. In this particular iteration, please note the following pairings that worked together often:
+Please note that many of pair programmed together to make the process more efficient. Pushes from one person sometimes mean the work of many people. In this particular iteration, please note the following pairings and groups that worked together often:
 
-Keidai and Shaina
+Michiko, Shaina, Keidai
+
+Shaina, Ayo
+
+Michiko, Ayo
+
+Shaina, Michiko
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

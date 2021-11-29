@@ -1,26 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import styled from "styled-components";
-import {Link} from "react-router-dom";
-import TaskCard from "../components/TaskCard";
+import Calendars from "../components/Calendars";
 import TaskButton from "../components/TaskButton";
 import Task from "../components/Task";
+import {Link} from "react-router-dom";
+import React, {useState} from "react";
+import styled from "styled-components";
 
-function Tasks() {
-    const [tasks, setTasks] = useState([]);
+function Calendar() {
     const [toggle, setToggle] = useState(false);
 
-    useEffect(() => {
-        fetch('http://localhost:8080/tasks')
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            for (let i = 0; i < data.length; i++) {
-                setTasks(tasks => [...tasks, data[i]]);
-            }
-        })
-        .catch(err => setTasks(err.message));
-    }, []);
-
+    // Handle when the user creates the create task button
     function handleOnClick(){
         setToggle(!toggle);
     }
@@ -33,13 +21,13 @@ function Tasks() {
                     Firstname Lastname
                 </InfoWrapper>
                 <NavWrapper>
-                    <NavElement>
-                        <Link to="/" style={linkStyle}>Calendar</Link>
-                    </NavElement>
                     <FocusNavElement>
                         <Focus> </Focus>
-                        <Link to="/tasks" style={focusLinkStyle}>Tasks</Link>
+                        <Link to="/" style={focusLinkStyle}>Calendar</Link>
                     </FocusNavElement>
+                    <NavElement>
+                        <Link to="/tasks" style={linkStyle}>Tasks</Link>
+                    </NavElement>
                     <NavElement>
                         <Link to="/tracker" style={linkStyle}>Goal Tracker</Link>
                     </NavElement>
@@ -51,18 +39,61 @@ function Tasks() {
                     Log Out
                 </LogoutElement>
             </SidebarWrapper>
-            <TaskWrapper>
-                {tasks.map(t => (<TaskCard taskName={t.taskName} duration="2h 0m" priority={t.priority}/>))}
-            </TaskWrapper>
-            <ButtonWrapper>
-                <TaskButton onClick={handleOnClick}/>
-            </ButtonWrapper>
-            {toggle && <Task onClick={handleOnClick}/>}
+            {/*<button className='btn-primary' onClick={logOut}>Log Out</button>*/}
+            <ParentWrapper>
+                <SubParentWrapper selected={toggle}>
+                    <TopWrapper>
+                        <CalendarWrapper>
+                            <Calendars/>
+                        </CalendarWrapper>
+                        {/*<ButtonWrapper>
+                            <TaskButton onClick={handleOnClick}/>
+                        </ButtonWrapper>*/}
+                    </TopWrapper>
+                </SubParentWrapper>
+            </ParentWrapper>
+            {/*toggle && <Task onClick={handleOnClick}/>*/}
         </Container>
     )
 }
 
-export default Tasks;
+export default Calendar;
+
+const ParentWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify_content: center;
+    padding:0px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+`;
+
+const SubParentWrapper = styled.div`
+    // background-color: purple;
+    ${props => props.selected === true && `
+        display: flex;
+        flex-direction: column;
+        justify_content: center;
+        width: 80vw;
+        padding:0px;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        // background-color: red;
+    `}
+`
+
+const TopWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  // background: blue;
+  flex-grow:1;
+`;
+
+const CalendarWrapper = styled.div`
+  display: flex;
+  flex-grow:1;
+`;
 
 const Container = styled.div`
     height: 100vh;
@@ -97,7 +128,7 @@ const SidebarWrapper = styled.div`
     background: #377F87;
     left: 0;
     height: 100vh;
-    width: 25vw;
+    width: 22vw;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
@@ -107,19 +138,6 @@ const NavWrapper = styled.div`
     width: 75%;
     height: 100%;
     order: 2;
-`
-
-const TaskWrapper = styled.div`
-    width: 77%;
-    overflow: scroll;
-    margin-top: 8em;
-    margin-left: 5%;
-`
-
-const ButtonWrapper = styled.div`
-    margin-top: auto;
-    margin-right: 1em;
-    margin-bottom: 1em;
 `
 
 const NavElement = styled.div`

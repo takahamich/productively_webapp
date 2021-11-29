@@ -18,7 +18,6 @@ function App() {
     const [toggle, setToggle] = useState(false);
 
     //LOGIN FUNCTIONALITY
-
     const [gapi, setGapi] = useState();
     const [googleAuth, setGoogleAuth] = useState();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -27,23 +26,18 @@ function App() {
     const [userEmail, setEmail] = useState('');
 
     creator = userEmail;
- 
+
     const onSuccess = (googleUser) => { // (Ref. 7)
         setIsLoggedIn(true);
         const profile = googleUser.getBasicProfile();
         setName(profile.getName());
         setId(profile.getId());
-
         setEmail(profile.getEmail());
 
- 
-        
-
-        console.log("ID:  " + profile.getId()); // Don't send this directly to your server!
+        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
         console.log('Full Name: ' + profile.getName());
         console.log('Given Name: ' + profile.getGivenName());
         console.log('Family Name: ' + profile.getFamilyName());
-        console.log('Email: ' + profile.getEmail());
 
         // The ID token you need to pass to your backend:
         const id_token = googleUser.getAuthResponse().id_token;
@@ -54,8 +48,6 @@ function App() {
             name: profile.getName(),
             email: profile.getEmail(),
         }
-
-        
 
         fetch('http://localhost:8080/signedin', {
             method: 'POST',
@@ -125,7 +117,6 @@ function App() {
 
     }, []);
     //END
-
   // Handle when the user creates the create task button
   function handleOnClick(){
       setToggle(!toggle);
@@ -143,16 +134,14 @@ function App() {
           <div id="google-signin"></div>
           }
 
-
           {isLoggedIn &&
-
               <ParentWrapper>
-                  <h1>Welcome Home </h1> {/*{name}*/}
-                  {/*<button className='btn-primary' onClick={logOut}>Log Out</button>*/}
+                  <h1>Welcome Home, {name}</h1>
+                  <button className='btn-primary' onClick={logOut}>Log Out</button>
                   <SubParentWrapper selected={toggle}>
                       <TopWrapper>
                         <CalendarWrapper>
-                            <Calendars userEmail={userEmail}/>
+                            <Calendars/>
                         </CalendarWrapper>
                           <ButtonWrapper>
                               <TaskButton onClick={handleOnClick}/>
@@ -178,7 +167,7 @@ function App() {
                       <Link to="/resources">Resources</Link>
                     </nav>
               </ParentWrapper>
-}
+          }
       </div>
   )
 }

@@ -88,8 +88,11 @@ function Calendars({userEmail}){
 
       }
       finalData.push(finalSingleData)
-      console.log( singleData._id , singleData.taskName ,singleData.predictedEndDate ,singleData.startDate)
-    // }
+
+      // }
+
+      //console.log( singleData._id , singleData.taskName ,singleData.predictedEndDate ,singleData.startDate)
+     
     })
     return finalData
   }

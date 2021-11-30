@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import TaskCard from "../components/TaskCard";
 import TaskButton from "../components/TaskButton";
 import Task from "../components/Task";
+import UpdateTask from "../components/ModifyTask";
 
 function Tasks() {
     const [tasks, setTasks] = useState([]);
@@ -13,10 +14,10 @@ function Tasks() {
         fetch('http://localhost:8080/tasks')
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             for (let i = 0; i < data.length; i++) {
                 setTasks(tasks => [...tasks, data[i]]);
             }
+            console.log(tasks);
         })
         .catch(err => setTasks(err.message));
     }, []);
@@ -52,7 +53,9 @@ function Tasks() {
                 </LogoutElement>
             </SidebarWrapper>
             <TaskWrapper>
-                {tasks.map(t => (<TaskCard taskName={t.taskName} duration="2h 0m" priority={t.priority}/>))}
+                {tasks.map(t => (
+                    <TaskCard id={t._id} taskName={t.taskName} duration="2h 0m" priority={t.priority} status={"In Progress"}/>
+                ))}
             </TaskWrapper>
             <ButtonWrapper>
                 <TaskButton onClick={handleOnClick}/>

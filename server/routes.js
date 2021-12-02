@@ -46,6 +46,21 @@ app.get("/myTasks", async (req, res) => { //gets all tasks for Calendar
     }
 });
 
+app.put("/submitActualTime", async (req, res) => {
+    const actualTime = req.body.actualTime;
+    const id = req.body.id;
+
+    try {
+        await taskModel.findById(id,(error, updatedTask)=> {
+            updatedTask.actualTime = actualTime;
+            updatedTask.save();
+            res.send(updatedTask);
+        })
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
 app.post('/signedin', (req, res) => {
     console.log(req.body);
 

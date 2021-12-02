@@ -23,15 +23,90 @@ function Task({onClick}){
         creatorId: "",
     });
 
+    const [message, setMessage] = useState('');
+
     function refreshPage() {
         window.location.href = window.location.href
     }
 
+    function updateMessage(nm){
+        setMessage(nm);
+    }
 
     function handleChange(e){
         const newdata={...data}
         newdata[e.target.id] = e.target.value
         setData(newdata)
+    }
+
+    async function postData(url = '', data = '') {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: data
+        })
+        response.json().then(data => {
+            let m = ''
+            for (let i = 0; i < data.length; i++) {
+                m += data[i];
+                m += '\n';
+            }
+            updateMessage(m)
+            alert(m);
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    /*async function getData(url = '') {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json'
+            },
+        })
+        response.json().then(data => {
+                alert(data);
+        }).catch(err => {
+            console.log(err);
+        });
+    }*/
+
+    function schedule() {
+        console.log("Making today's schedule for user: " + creator)
+
+        postData('http://localhost:8080/tasks/schedule', creator);
+        //getData('http://localhost:8080/tasks/schedule');
+        /*fetch('http://localhost:8080/tasks/schedule', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: creator
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            console.log("get your POST done")
+            console.log(response.json());
+
+        }).catch(err => {
+            console.log(err);
+        });*/
+
+       /* fetch('http://localhost:8080/tasks/schedule')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(err => {
+                console.log(err);
+            });*/
+
+        alert("scheduled!");
+
     }
 
     function submit(e){
@@ -62,10 +137,6 @@ function Task({onClick}){
 
         console.log(data)
 
-    }
-
-    function schedule() {
-        alert("Scheduled!")
     }
 
     return (
@@ -163,12 +234,12 @@ function Task({onClick}){
                 {/*<ButtonWrapper>
                     <button type="button" onClick={onClick}>Delete</button>
                 </ButtonWrapper>*/}
+                <div>{message}</div>
                 <ButtonWrapper>
                     <button type="submit" style={submitButton}>Submit Task</button>
-                    <button onClick={schedule} style={scheduleButton}>Make a Schedule</button>
+                    <button onClick={schedule}>Make a Schedule</button>
                     <DoneButton onClick={onClick}>Done</DoneButton>
                 </ButtonWrapper>
-
             </FormWrapper>
         </Wrapper>
     )
@@ -219,19 +290,6 @@ const dropdownStyle = {
 
 const submitButton = {
     background: '#377F87',
-    boxShadow: 'none',
-    border: 'none',
-    width: '100%',
-    height: '3em',
-    color: '#fff',
-    fontFamily: 'Proxima Nova',
-    fontSize: '1em',
-    textTransform: 'uppercase',
-    borderRadius: '25px'
-}
-
-const scheduleButton = {
-    background: '#73A0D2',
     boxShadow: 'none',
     border: 'none',
     width: '100%',

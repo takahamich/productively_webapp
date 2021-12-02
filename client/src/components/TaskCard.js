@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import styled from "styled-components";
 import UpdateTask from './ModifyTask';
 import Checkbox from './Checkbox';
+import Popup from './Popup';
 import Task from "./Task";
 
 function TaskCard({id, taskName, duration, priority}) {
@@ -18,6 +19,20 @@ function TaskCard({id, taskName, duration, priority}) {
 
     return (
         <TaskWrapper>
+            {checked && <Popup
+                content={<>
+                    <form>
+                        <h3>Good Job!</h3>
+                        <label>
+                            Amount of time taken:
+                            <input type="text" name="name" />
+                        </label>
+                        <br />
+                        <input type="submit" />
+                    </form>
+                </>}
+                handleClose={handleCheck}
+            />}
             {
                 (() => {
                     if (priority == 3)
@@ -40,7 +55,7 @@ function TaskCard({id, taskName, duration, priority}) {
             </TaskBox>
             {toggle && <UpdateTask name={taskName} PredictedTime={duration} priority={priority}/>}
         </TaskWrapper>
-    )
+        )
 }
 
 export default TaskCard;

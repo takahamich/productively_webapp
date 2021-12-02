@@ -78,8 +78,9 @@ app.post('/signedin', (req, res) => {
 
 });
 
+
+
 app.post('/tasks', (req, res) => {
-    console.log(req.body);
     let taskPriority = 0;
     if (req.body.priority == "Low priority") {
         taskPriority = 1;
@@ -135,8 +136,6 @@ app.post('/tasks', (req, res) => {
 
     console.log("I received your POST request. This is what you sent me");
     console.log(newTask);
-
-
 
     let prodScore = Number(req.body.ActualTime) / Number(req.body.PredictedTime);
     switch (true) {

@@ -270,3 +270,6 @@ const focusLinkStyle = {
         // get the total number of tasks, find the percentage completed.
         // If all the tasks are completed then productivity score is 100
         // If 50% of the tasks are completed then productivity score is 50
+//get all the tasks from the database for that user - Shaina
+// get expected time
+// get the actual time it took to complete the task [time stamp the user marks as completed] - Michiko

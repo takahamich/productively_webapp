@@ -21,9 +21,9 @@ We are creating [app name], the ultimate time management application that allows
 | **Must Have**:
 As a user, I want to be able to log in with my google account so that my information is stored in the system.
 As a user, I want to be able to add tasks to my calendar from [app name] so that I can keep track of my goals.
-As a user, I want to get periodic check-ins tell me how productively I handled my work compared to what I was expecting so that I can learn how to be even more productive.
 As a user, I want to be able to track whether I’ve reached my daily goals so that I can understand how to better structure my time. |
 | **Nice to Have**:
+As a user, I want to get periodic check-ins tell me how productively I handled my work compared to what I was expecting so that I can learn how to be even more productive.
 As a user, I want to be able to upload my course schedule to the system so that I am able to view important course timelines in my calendar.
 As a user, I want to be able to add tasks to my calendar from [app name] and view it on my google calendar so that I can keep track of my goals accross different platforms.
 As a user, I want to be able to view recommendations for other tools so that I am able to get more information and learnings on better ways to manager my time.

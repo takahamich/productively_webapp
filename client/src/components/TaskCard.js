@@ -1,17 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components";
+import UpdateTask from './ModifyTask';
+import Checkbox from './Checkbox';
+import Task from "./Task";
 
-function TaskCard({taskName, duration, priority}) {
-    /*const priority = p;
-    let priorityColor = '#fff';
+function TaskCard({id, taskName, duration, priority}) {
+    const [checked, setChecked] = React.useState(false);
+    const [toggle, setToggle] = useState(false);
 
-    if (priority == 1) {
-        priorityColor = '#6FB3B8';
-    } else if (priority == 2) {
-        priorityColor = '#E8C067';
-    } else {
-        priorityColor = '#E07A7A';
-    }*/
+    function handleCheck() {
+        setChecked(!checked);
+    }
+
+    function handleOnClick() {
+        setToggle(!toggle);
+    }
 
     return (
         <TaskWrapper>
@@ -25,10 +28,17 @@ function TaskCard({taskName, duration, priority}) {
                         return <LowPriorityBar />
                 })()
             }
-            <TaskBox>
+            <TaskBox onClick={handleOnClick}>
+                <label>
+                    <Checkbox
+                        checked={checked}
+                        onClick={handleCheck}
+                    />
+                </label>
                 <p style={taskStyle}>{taskName}</p>
                 <p style={durationStyle}>{duration}</p>
             </TaskBox>
+            {toggle && <UpdateTask name={taskName} PredictedTime={duration} priority={priority}/>}
         </TaskWrapper>
     )
 }

@@ -3,110 +3,28 @@ import styled from "styled-components";
 import {Dropdown, Option} from "./Dropdown";
 import TextField from '@material-ui/core/TextField';
 import {useState } from "react";
-import App from '../App'
 import {creator} from '../App'
 
 
-
-function Task({onClick}){
+function UpdateTask({id, name, deadline, priority, predict, start, status, diff}){
     const [data, setData] = useState({
-        taskName: "",
-        deadline: "",
-        priority: "",
-        PredictedTime: "",
-        ActualTime: "",
-        start:"",
-        end:"",
-        startDate:"",
-        status: "",
-        difficulty: "",
-        creatorId: "",
+        taskName: name,
+        deadline: deadline,
+        priority: priority,
+        PredictedTime: predict,
+        startDate: start,
+        status: status,
+        difficulty: diff,
     });
-
-    const [message, setMessage] = useState('');
 
     function refreshPage() {
         window.location.href = window.location.href
-    }
-
-    function updateMessage(nm){
-        setMessage(nm);
     }
 
     function handleChange(e){
         const newdata={...data}
         newdata[e.target.id] = e.target.value
         setData(newdata)
-    }
-
-    async function postData(url = '', data = '') {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: data
-        })
-        response.json().then(data => {
-            let m = ''
-            for (let i = 0; i < data.length; i++) {
-                m += data[i];
-                m += '\n';
-            }
-            updateMessage(m)
-            alert(m);
-        }).catch(err => {
-            console.log(err);
-        });
-    }
-
-    /*async function getData(url = '') {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json'
-            },
-        })
-        response.json().then(data => {
-                alert(data);
-        }).catch(err => {
-            console.log(err);
-        });
-    }*/
-
-    function schedule() {
-        console.log("Making today's schedule for user: " + creator)
-
-        postData('http://localhost:8080/tasks/schedule', creator);
-        //getData('http://localhost:8080/tasks/schedule');
-        /*fetch('http://localhost:8080/tasks/schedule', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: creator
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error(response.statusText);
-            }
-            console.log("get your POST done")
-            console.log(response.json());
-
-        }).catch(err => {
-            console.log(err);
-        });*/
-
-       /* fetch('http://localhost:8080/tasks/schedule')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-            })
-            .catch(err => {
-                console.log(err);
-            });*/
-
-        alert("scheduled!");
-
     }
 
     function submit(e){
@@ -132,16 +50,32 @@ function Task({onClick}){
         e.target.reset();
 
 
-        alert("Your task has been submitted!")
+        alert("Your task has been updated!")
         refreshPage();
 
         console.log(data)
+    }
 
+    function deleteTask() {
+        fetch('http://localhost:8080/tasks', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(id)
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            console.log(response.text);
+        }).catch(err => {
+            console.log(err);
+        });
     }
 
     return (
         <Wrapper>
-            <FormTitle>Create Task</FormTitle>
+            <FormTitle>Update Task</FormTitle>
             <FormWrapper id = "form" onSubmit={(e) => submit(e)} action = "/" method = "POST">
                 <StyledTitleTextField
                     id="taskName"
@@ -184,14 +118,13 @@ function Task({onClick}){
                     <Option value="High priority" />
                 </select>
                 <br></br>
-                <select id="status" defaultValue={"Select status"} value={data.status} onChange={(e) => handleChange(e)}
+                <select id="status" defaultValue={status} value={data.status} onChange={(e) => handleChange(e)}
                         style={dropdownStyle}>
-                    <Option value="Select status" disabled></Option>
                     <Option value="Not started" />
                     <Option value="In Progress" />
                     <Option value="Done" />
                 </select>
-                    <br></br>
+                <br></br>
                 <select id="difficulty" defaultValue={"Select difficulty"} value={data.difficulty} onChange={(e) => handleChange(e)}
                         style={dropdownStyle}>
                     <Option value="Select difficulty" disabled></Option>
@@ -219,7 +152,7 @@ function Task({onClick}){
                     placeholder=" Actual: How much time did this task actually take you?"
                     value={data.ActualTime}
                     onChange={(e) => handleChange(e)}
-                    fullWidth/> 
+                    fullWidth/>
 
                 <label for="start">Start Time</label>
                 <input type="time" id="start" name="start"
@@ -234,18 +167,16 @@ function Task({onClick}){
                 {/*<ButtonWrapper>
                     <button type="button" onClick={onClick}>Delete</button>
                 </ButtonWrapper>*/}
-                <div>{message}</div>
                 <ButtonWrapper>
-                    <button type="submit" style={submitButton}>Submit Task</button>
-                    <button onClick={schedule}>Make a Schedule</button>
-                    <DoneButton onClick={onClick}>Done</DoneButton>
+                    <button type="submit" style={submitButton}>Update Task</button>
+                    <DeleteButton onClick={deleteTask}>Delete Task</DeleteButton>
                 </ButtonWrapper>
             </FormWrapper>
         </Wrapper>
     )
 }
 
-export default Task;
+export default UpdateTask;
 
 const Wrapper = styled.div`
     position: absolute;
@@ -301,12 +232,12 @@ const submitButton = {
     borderRadius: '25px'
 }
 
-const DoneButton = styled.button `
-    background: '#CECECE';
+const DeleteButton = styled.button `
+    background: #E07A7A;
     border: none;
     width: 100%;
     height: 3em;
-    color: #9B9B9B;
+    color: #fff;
     font-family: 'Proxima Nova';
     font-size: 1em;
     text-transform: uppercase;

@@ -1,10 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
-import LogoutButton from '../components/LogoutButton';
+//import LogoutButton from '../components/LogoutButton';
+import {myContext} from "../Context";
+import axios from "axios";
 
 
 function Tracker() {
+    const userObject = useContext(myContext);
+
+    const logout = () => {
+        axios.get("https://localhost:8080/auth/logout", {
+            withCredentials: true
+        }).then(res => {
+            if (res.data === "done") {
+                window.location.href = "/"
+            }
+        })
+    }
+
     const myCurrentDate = new Date();
     const date = myCurrentDate.getFullYear() + '-' + (myCurrentDate.getMonth()+1) + '-' + myCurrentDate.getDate();
     var time = myCurrentDate.getHours() + ":" + myCurrentDate.getMinutes() 
@@ -66,8 +80,24 @@ function Tracker() {
         <Container>
             <SidebarWrapper>
                 <InfoWrapper>
-                    <PicWrapper> </PicWrapper>
-                    Firstname Lastname
+                    <PicWrapper>
+                        {
+                            userObject ? (
+                                <img className="ProfilePicture"
+                                     src={userObject.picture}
+                                     alt="profile picture"/>
+                            ) : (
+                                <h1>FirstName LastName</h1>
+                            )
+                        }
+                    </PicWrapper>
+                    {
+                        userObject ? (
+                            <h1>{userObject.name}</h1>
+                        ) : (
+                            <h1>FirstName LastName</h1>
+                        )
+                    }
                 </InfoWrapper>
                 <NavWrapper>
                     <NavElement>
@@ -85,7 +115,14 @@ function Tracker() {
                     </NavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    <LogoutButton/>
+                    <Link to='/login' onClick={logout}>Log Out</Link>
+                    {
+                        userObject ? (
+                            <li onClick={logout}>Logout </li>
+                        ) : (
+                            <li><Link to='/'>Login</Link></li>
+                        )
+                    }
                 </LogoutElement>
             </SidebarWrapper>
             <TodayWrapper>

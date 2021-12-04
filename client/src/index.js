@@ -6,9 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import Context from "./Context";
 
 ReactDOM.render(
-    <Context>
-        <AppTest />
-    </Context>,
+    <React.StrictMode>
+        <Context>
+            <AppTest />
+        </Context>
+    </React.StrictMode>,
     document.getElementById('root')
 );
 

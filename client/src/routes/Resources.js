@@ -1,8 +1,6 @@
 import React, {useContext} from 'react';
 import {Link} from "react-router-dom";
-import TaskCard from "../components/TaskCard";
 import styled from "styled-components";
-import LogoutButton from '../components/LogoutButton';
 import axios from "axios";
 import {myContext} from "../Context";
 
@@ -23,8 +21,24 @@ function Resources() {
         <Container>
             <SidebarWrapper>
                 <InfoWrapper>
-                    <PicWrapper> </PicWrapper>
-                    Firstname Lastname
+                    <PicWrapper>
+                        {
+                            userObject ? (
+                                <img className="ProfilePicture"
+                                     src={userObject.picture}
+                                     alt="profile picture"/>
+                            ) : (
+                                <h1>FirstName LastName</h1>
+                            )
+                        }
+                    </PicWrapper>
+                    {
+                        userObject ? (
+                            <h1>{userObject.name}</h1>
+                        ) : (
+                            <h1>FirstName LastName</h1>
+                        )
+                    }
                 </InfoWrapper>
                 <NavWrapper>
                     <NavElement>
@@ -42,7 +56,7 @@ function Resources() {
                     </FocusNavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    <Link to='/home' onClick={logout}>Log Out</Link>
+                    <Link to='/login' onClick={logout}>Log Out</Link>
                     {
                         userObject ? (
                             <li onClick={logout}>Logout </li>

@@ -1,11 +1,8 @@
 import Calendars from "../components/Calendars";
 import { myContext } from '../Context';
-import TaskButton from "../components/TaskButton";
-import Task from "../components/Task";
 import {Link} from "react-router-dom";
 import React, {useState, useContext} from "react";
 import styled from "styled-components";
-import LogoutButton from '../components/LogoutButton';
 import axios from 'axios';
 
 function Calendar() {
@@ -31,8 +28,24 @@ function Calendar() {
         <Container>
             <SidebarWrapper>
                 <InfoWrapper>
-                    <PicWrapper> </PicWrapper>
-                    Firstname Lastname
+                    <PicWrapper>
+                        {
+                            userObject ? (
+                                <img className="ProfilePicture"
+                                     src={userObject.picture}
+                                     alt="profile picture"/>
+                            ) : (
+                                <h1>FirstName LastName</h1>
+                            )
+                        }
+                    </PicWrapper>
+                    {
+                        userObject ? (
+                            <h1>{userObject.name}</h1>
+                        ) : (
+                            <h1>FirstName LastName</h1>
+                        )
+                    }
                 </InfoWrapper>
                 <NavWrapper>
                     <FocusNavElement>
@@ -50,7 +63,7 @@ function Calendar() {
                     </NavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    <Link to='/home' onClick={logout}>Log Out</Link>
+                    <Link to='/login' onClick={logout}>Log Out</Link>
                     {
                         userObject ? (
                             <li onClick={logout}>Logout </li>

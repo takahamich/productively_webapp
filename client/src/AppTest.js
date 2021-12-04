@@ -18,28 +18,28 @@ function AppTest() {
             <BrowserRouter>
                 <Routes>
                     {/*<Route path="/" element={<Login />} />*/}
-                    <Route path="home" element={<Calendar />} />
+                    <Route path="/home" element={<Calendar />} />
                     {
                         userObject ? null : (
-                            <Route path='/' element={<Login />}/>
+                            <Route path="/login" element={<Login />}/>
                         )
                     }
-                    <Route path="tasks" element={<Tasks />} />
+                    <Route path="/tasks" element={<Tasks />} />
                     {
                         userObject ? null : (
-                            <Route path='/' element={<Login />}/>
+                            <Route path="/login" element={<Login />}/>
                         )
                     }
-                    <Route path="tracker" element={<Tracker />} />
+                    <Route path="/tracker" element={<Tracker />} />
                     {
                         userObject ? null : (
-                            <Route path='/' element={<Login />}/>
+                            <Route path="/login" element={<Login />}/>
                         )
                     }
-                    <Route path="resources" element={<Resources />} />
+                    <Route path="/resources" element={<Resources />} />
                     {
                         userObject ? null : (
-                            <Route path='/' element={<Login />}/>
+                            <Route path="/login" element={<Login />}/>
                         )
                     }
                 </Routes>

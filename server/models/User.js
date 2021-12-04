@@ -18,6 +18,9 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    picture: {
+        type: String,
+    },
     __v: {
         type: Number,
         default: 0,

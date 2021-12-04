@@ -4,6 +4,9 @@ const Router = require("./routes");
 const bodyParser = require('body-parser');
 const taskModel = require("./models/Task");
 const userModel = require("./models/User");
+import session from 'express-session';
+import passport from 'passport';
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const cors = require('cors')
 const app = express();
 const port = 8080;
@@ -29,6 +32,72 @@ mongoose.connect(
     `mongodb+srv://nolombardo:%40ndw3simplys%40id@cluster0.kjv7f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
 );
 const db = mongoose.connection;
+
+app.use(express.json());
+app.use(cors({ origin: "https://localhost:3000", credentials: true })); //check
+
+app.set("trust proxy", 1);
+
+app.use(
+    session({
+        secret: "secretcode",
+        resave: true,
+        saveUninitialized: true,
+        cookie: {
+            sameSite: "none",
+            secure: true,
+            maxAge: 1000 * 60 * 60 * 24 * 7 // One Week
+        }
+    })
+);
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+passport.serializeUser((user: IMongoDBUser, done: any) => {
+    return done(null, user._id);
+});
+
+passport.deserializeUser((id: string, done: any) => {
+
+    User.findById(id, (err: Error, doc: IMongoDBUser) => {
+        // Whatever we return goes to the client and binds to the req.user property
+        return done(null, doc);
+    })
+})
+
+
+passport.use(new GoogleStrategy({
+        clientID: `${process.env.GOOGLE_CLIENT_ID}`,
+        clientSecret: `${process.env.GOOGLE_CLIENT_SECRET}`,
+        callbackURL: "/auth/google/callback"
+    },
+    function (_: any, __: any, profile: any, cb: any) {
+
+        userModel.findOne({ googleId: profile.id }, async (err: Error, doc: IMongoDBUser) => {
+
+            if (err) {
+                return cb(err, null);
+            }
+
+            if (!doc) {
+                const newUser = new User({
+                    googleId: profile.id,
+                    username: profile.name.givenName,
+                    email: profile.email,
+                    picture: profile.picture,
+                });
+
+                await newUser.save();
+                cb(null, newUser);
+            }
+            cb(null, doc);
+        })
+
+    }));
+
 db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", function () {
     console.log("Connected successfully");

@@ -1,15 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 import TaskCard from "../components/TaskCard";
 import TaskButton from "../components/TaskButton";
 import Task from "../components/Task";
-import UpdateTask from "../components/ModifyTask";
-import LogoutButton from '../components/LogoutButton';
+import {myContext} from "../Context";
+import axios from "axios";
 
 function Tasks() {
     const [tasks, setTasks] = useState([]);
     const [toggle, setToggle] = useState(false);
+
+    const userObject = useContext(myContext);
+
+    const logout = () => {
+        axios.get("https://localhost:8080/auth/logout", {
+            withCredentials: true
+        }).then(res => {
+            if (res.data === "done") {
+                window.location.href = "/"
+            }
+        })
+    }
 
     useEffect(() => {
         fetch('http://localhost:8080/tasks')
@@ -31,8 +43,24 @@ function Tasks() {
         <Container>
             <SidebarWrapper>
                 <InfoWrapper>
-                    <PicWrapper> </PicWrapper>
-                    Firstname Lastname
+                    <PicWrapper>
+                        {
+                            userObject ? (
+                                <img className="ProfilePicture"
+                                     src={userObject.picture}
+                                     alt="profile picture"/>
+                            ) : (
+                                <h1>FirstName LastName</h1>
+                            )
+                        }
+                    </PicWrapper>
+                    {
+                        userObject ? (
+                            <h1>{userObject.name}</h1>
+                        ) : (
+                            <h1>FirstName LastName</h1>
+                        )
+                    }
                 </InfoWrapper>
                 <NavWrapper>
                     <NavElement>
@@ -50,7 +78,14 @@ function Tasks() {
                     </NavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    <LogoutButton/>
+                    <Link to='/login' onClick={logout}>Log Out</Link>
+                    {
+                        userObject ? (
+                            <li onClick={logout}>Logout </li>
+                        ) : (
+                            <li><Link to='/'>Login</Link></li>
+                        )
+                    }
                 </LogoutElement>
             </SidebarWrapper>
             <TaskWrapper>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
+import LogoutButton from '../components/LogoutButton';
 
 
 function Tracker() {
@@ -84,7 +85,7 @@ function Tracker() {
                     </NavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    Log Out
+                    <LogoutButton/>
                 </LogoutElement>
             </SidebarWrapper>
             <TodayWrapper>

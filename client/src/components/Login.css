@@ -1,26 +1,26 @@
-.login-wrapper {
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;1,100;1,200;1,300&display=swap');
+
+.googleContainer {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    padding: 30px;
-    border-color: black;
+    justify-content: center;
+    width: 300px;
+    height: 50px;
+    background: #4385f4;
+    position: relative;
+    color: white;
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    margin: 10px;
 }
 
-.login-wrapper label{
-    text-align: center;
-}
-
-.login-headers {
-    padding: 20px;
-    text-align: center;
-    background-color:lightblue;
-}
-
-.login-headers h1{
-    font-size: x-large;
-}
-.login-headers h2{
-    font-size: small;
-    font-style: italic;
+.googleContainer img {
+    width: 12.5%;
+    height: 100%;
+    object-fit: contain;
+    left: 10px;
+    border-radius: 3px;
+    position: absolute;
 }
 

@@ -1,12 +1,26 @@
 import Calendars from "../components/Calendars";
+import { myContext } from '../Context';
 import TaskButton from "../components/TaskButton";
 import Task from "../components/Task";
 import {Link} from "react-router-dom";
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import styled from "styled-components";
+import LogoutButton from '../components/LogoutButton';
+import axios from 'axios';
 
 function Calendar() {
     const [toggle, setToggle] = useState(false);
+    const userObject = useContext(myContext);
+
+    const logout = () => {
+        axios.get("https://localhost:8080/auth/logout", {
+            withCredentials: true
+        }).then(res => {
+            if (res.data === "done") {
+                window.location.href = "/"
+            }
+        })
+    }
 
     // Handle when the user creates the create task button
     function handleOnClick(){
@@ -36,7 +50,14 @@ function Calendar() {
                     </NavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    Log Out
+                    <Link to='/home' onClick={logout}>Log Out</Link>
+                    {
+                        userObject ? (
+                            <li onClick={logout}>Logout </li>
+                        ) : (
+                            <li><Link to='/login'>Login</Link></li>
+                        )
+                    }
                 </LogoutElement>
             </SidebarWrapper>
             {/*<button className='btn-primary' onClick={logOut}>Log Out</button>*/}

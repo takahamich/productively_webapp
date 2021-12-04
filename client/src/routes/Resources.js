@@ -1,9 +1,24 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Link} from "react-router-dom";
 import TaskCard from "../components/TaskCard";
 import styled from "styled-components";
+import LogoutButton from '../components/LogoutButton';
+import axios from "axios";
+import {myContext} from "../Context";
 
 function Resources() {
+    const userObject = useContext(myContext);
+
+    const logout = () => {
+        axios.get("https://localhost:8080/auth/logout", {
+            withCredentials: true
+        }).then(res => {
+            if (res.data === "done") {
+                window.location.href = "/"
+            }
+        })
+    }
+
     return (
         <Container>
             <SidebarWrapper>
@@ -13,7 +28,7 @@ function Resources() {
                 </InfoWrapper>
                 <NavWrapper>
                     <NavElement>
-                        <Link to="/" style={linkStyle}>Calendar</Link>
+                        <Link to="/home" style={linkStyle}>Calendar</Link>
                     </NavElement>
                     <NavElement>
                         <Link to="/tasks" style={linkStyle}>Tasks</Link>
@@ -27,7 +42,14 @@ function Resources() {
                     </FocusNavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    Log Out
+                    <Link to='/home' onClick={logout}>Log Out</Link>
+                    {
+                        userObject ? (
+                            <li onClick={logout}>Logout </li>
+                        ) : (
+                            <li><Link to='/'>Login</Link></li>
+                        )
+                    }
                 </LogoutElement>
             </SidebarWrapper>
             <MainWrapper>

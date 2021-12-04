@@ -5,6 +5,7 @@ import TaskCard from "../components/TaskCard";
 import TaskButton from "../components/TaskButton";
 import Task from "../components/Task";
 import UpdateTask from "../components/ModifyTask";
+import LogoutButton from '../components/LogoutButton';
 
 function Tasks() {
     const [tasks, setTasks] = useState([]);
@@ -49,7 +50,7 @@ function Tasks() {
                     </NavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    Log Out
+                    <LogoutButton/>
                 </LogoutElement>
             </SidebarWrapper>
             <TaskWrapper>

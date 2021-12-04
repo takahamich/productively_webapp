@@ -1,20 +1,18 @@
+import React from 'react'
+import { useGoogleLogin } from 'react-use-googlelogin'
 
-export const loadGoogleScript = () => {
-    // Loads the Google JavaScript Library
-    (function () {
-        const id = 'google-js';
-        const src = 'https://apis.google.com/js/platform.js'; // (Ref. 1)
+const GoogleAuthContext = React.createContext()
 
-        // We have at least one script (React)
-        const firstJs = document.getElementsByTagName('script')[0]; // (Ref. 2)
+export const GoogleAuthProvider = ({ children }) => {
+    const googleAuth = useGoogleLogin({
+        clientId: '844612426523-iqc51n1du6su4dome75g0n7p35ru5k7j.apps.googleusercontent.com', // Your clientID from Google.
+    })
 
-        // Prevent script from loading twice
-        if (document.getElementById(id)) { return; } // (Ref. 3)
-        const js = document.createElement('script'); // (Ref. 4)
-        js.id = id;
-        js.src = src;
-        js.onload = window.onGoogleScriptLoad; // (Ref. 5)
-        firstJs.parentNode.insertBefore(js, firstJs);
-    }());
-
+    return (
+        <GoogleAuthContext.Provider value={googleAuth}>
+            {children}
+        </GoogleAuthContext.Provider>
+    )
 }
+
+export const useGoogleAuth = () => React.useContext(GoogleAuthContext)

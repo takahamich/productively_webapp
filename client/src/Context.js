@@ -3,7 +3,7 @@ import axios from 'axios';
 //import { AxiosResponse } from 'axios';
 
 export const myContext = createContext({});
-export default function Context() { //props: any
+export default function Context(props) { //props: any
 
     const [userObject, setUserObject] = useState(); //useState<any>();
 

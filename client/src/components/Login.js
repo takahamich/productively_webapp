@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import googleImage from '../googleImage.png';
-import './LoginPage.css';
+import './Login.css';
 
 function Login() {
     const googleLogin = () => {
-        window.open("localhost:8080/auth/google", "_self");
+        window.open("localhost:8080/auth/google", "");
     }
 
     return(

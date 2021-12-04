@@ -1,4 +1,5 @@
 // import {myFunction} from './index.js'
+const passport = require("passport");
 const express = require("express");
 const taskModel = require("./models/Task");
 const userModel = require("./models/User");
@@ -12,6 +13,23 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
 // TODO: send message if x not found, instead of throwing an error?
+
+app.get('/auth/google',
+    passport.authenticate('google', { scope: ['profile'] })); //or just 'profile https://www.googleapis.com/auth/plus.login
+
+app.get('/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: '/login', session: true }),
+    function (req, res) {
+        res.redirect('/home');
+    }
+);
+
+app.get("/auth/logout", (req, res) => {
+    if (req.user) {
+        req.logout();
+        res.send("done");
+    }
+});
 
 app.get("/users", async (req, res) => { //gets all users
     const users = await userModel.find({});

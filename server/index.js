@@ -1,17 +1,17 @@
+const session = require("express-session");
+const passport = require("passport");
 const express = require("express");
 const mongoose = require("mongoose");
 const Router = require("./routes");
 const bodyParser = require('body-parser');
 const taskModel = require("./models/Task");
 const userModel = require("./models/User");
-import session from 'express-session';
-import passport from 'passport';
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const cors = require('cors')
 const app = express();
 const port = 8080;
 
-app.use(cors());
+// app.use(cors()); //might not need to be commented out
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
@@ -56,44 +56,42 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-passport.serializeUser((user: IMongoDBUser, done: any) => {
-    return done(null, user._id);
+passport.serializeUser(function(user, done) {
+    done(null, user._id); //or simply id
 });
 
-passport.deserializeUser((id: string, done: any) => {
-
-    User.findById(id, (err: Error, doc: IMongoDBUser) => {
-        // Whatever we return goes to the client and binds to the req.user property
-        return done(null, doc);
-    })
-})
+passport.deserializeUser(function(id, done) {
+    userModel.findById(id, function(err, user) {
+        done(err, user);
+    });
+});
 
 
 passport.use(new GoogleStrategy({
-        clientID: `${process.env.GOOGLE_CLIENT_ID}`,
-        clientSecret: `${process.env.GOOGLE_CLIENT_SECRET}`,
-        callbackURL: "/auth/google/callback"
+        clientID: `844612426523-iqc51n1du6su4dome75g0n7p35ru5k7j.apps.googleusercontent.com`,
+        clientSecret: `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`,
+        callbackURL: "http://localhost:8080/auth/google/callback"
     },
-    function (_: any, __: any, profile: any, cb: any) {
+    function (token, tokenSecret, profile, done) {
 
-        userModel.findOne({ googleId: profile.id }, async (err: Error, doc: IMongoDBUser) => {
+        userModel.findOne({ googleId: profile.id }, async (err, user) => {
 
             if (err) {
-                return cb(err, null);
+                return done(err, null);
             }
 
-            if (!doc) {
-                const newUser = new User({
+            if (!user) {
+                const newUser = new userModel({
                     googleId: profile.id,
-                    username: profile.name.givenName,
-                    email: profile.email,
-                    picture: profile.picture,
+                    username: profile.displayName,
+                    email: profile.emails[0].value,
+                    picture: profile.getImageUrl(),
                 });
 
                 await newUser.save();
-                cb(null, newUser);
+                return done(null, newUser);
             }
-            cb(null, doc);
+            return done(null, user);
         })
 
     }));

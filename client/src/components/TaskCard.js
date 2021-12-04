@@ -8,6 +8,7 @@ import Task from "./Task";
 function TaskCard({id, taskName, duration, priority}) {
     const [checked, setChecked] = React.useState(false);
     const [toggle, setToggle] = useState(false);
+    const [actualTime, setActualTime] = useState();
 
     function handleCheck() {
         setChecked(!checked);
@@ -15,6 +16,24 @@ function TaskCard({id, taskName, duration, priority}) {
 
     function handleOnClick() {
         setToggle(!toggle);
+    }
+
+    function updateActualTime() {
+        // Simple PUT request with a JSON body using fetch
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(actualTime)
+        };
+        fetch('http://localhost:8080/submitActualTime', requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+                console.log(response.text);
+            }).catch(err => {
+                console.log(err);
+            });
     }
 
     return (
@@ -25,10 +44,10 @@ function TaskCard({id, taskName, duration, priority}) {
                         <h3>Good Job!</h3>
                         <label>
                             Amount of time taken:
-                            <input type="text" name="name" />
+                            <input type="text" onChange={e => setActualTime(e.target.value)} />
                         </label>
                         <br />
-                        <input type="submit" />
+                        <button onClick={updateActualTime}>Submit</button>
                     </form>
                 </>}
                 handleClose={handleCheck}

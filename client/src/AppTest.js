@@ -7,6 +7,7 @@ import Tracker from "./routes/Tracker";
 import Resources from "./routes/Resources";
 import Login from "./components/Login";
 import { myContext } from './Context'
+import PrivateRoute from "./PrivateRoutes";
 //might not need after every single route
 
 function AppTest() {
@@ -17,31 +18,31 @@ function AppTest() {
         <div className="App">
             <BrowserRouter>
                 <Routes>
-                    {/*<Route path="/" element={<Login />} />*/}
-                    <Route path="/home" element={<Calendar />} />
-                    {
-                        userObject ? null : (
-                            <Route path="/login" element={<Login />}/>
-                        )
-                    }
-                    <Route path="/tasks" element={<Tasks />} />
-                    {
-                        userObject ? null : (
-                            <Route path="/login" element={<Login />}/>
-                        )
-                    }
-                    <Route path="/tracker" element={<Tracker />} />
-                    {
-                        userObject ? null : (
-                            <Route path="/login" element={<Login />}/>
-                        )
-                    }
-                    <Route path="/resources" element={<Resources />} />
-                    {
-                        userObject ? null : (
-                            <Route path="/login" element={<Login />}/>
-                        )
-                    }
+                    <Route path="/" element={<Login />} />
+                    <PrivateRoute path="/home" element={<Calendar />} />
+                    {/*{*/}
+                    {/*    userObject ? null : (*/}
+                    {/*        <Route path="/" element={<Login />}/>*/}
+                    {/*    )*/}
+                    {/*}*/}
+                    <PrivateRoute path="/tasks" element={<Tasks />} />
+                    {/*{*/}
+                    {/*    userObject ? null : (*/}
+                    {/*        <Route path="/" element={<Login />}/>*/}
+                    {/*    )*/}
+                    {/*}*/}
+                    <PrivateRoute path="/tracker" element={<Tracker />} />
+                    {/*{*/}
+                    {/*    userObject ? null : (*/}
+                    {/*        <Route path="/" element={<Login />}/>*/}
+                    {/*    )*/}
+                    {/*}*/}
+                    <PrivateRoute path="/resources" element={<Resources />} />
+                    {/*{*/}
+                    {/*    userObject ? null : (*/}
+                    {/*        <Route path="/" element={<Login />}/>*/}
+                    {/*    )*/}
+                    {/*}*/}
                 </Routes>
             </BrowserRouter>
         </div>

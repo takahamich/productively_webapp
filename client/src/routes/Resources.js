@@ -8,7 +8,7 @@ function Resources() {
     const userObject = useContext(myContext);
 
     const logout = () => {
-        axios.get("https://localhost:8080/auth/logout", {
+        axios.get("http://localhost:8080/auth/logout", {
             withCredentials: true
         }).then(res => {
             if (res.data === "done") {
@@ -56,14 +56,7 @@ function Resources() {
                     </FocusNavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    <Link to='/login' onClick={logout}>Log Out</Link>
-                    {
-                        userObject ? (
-                            <li onClick={logout}>Logout </li>
-                        ) : (
-                            <li><Link to='/'>Login</Link></li>
-                        )
-                    }
+                    <p onClick={logout}>Log Out</p>
                 </LogoutElement>
             </SidebarWrapper>
             <MainWrapper>

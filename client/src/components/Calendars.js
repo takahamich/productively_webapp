@@ -52,7 +52,7 @@ function Calendars({userEmail}){
 
   useEffect(() => {
     console.log("use effect")
-    fetch('http://localhost:8080/myTasks')
+    fetch('http://localhost:8080/tasks')
       .then(res => {
         return res.json()
       })

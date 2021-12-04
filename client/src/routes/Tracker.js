@@ -10,7 +10,7 @@ function Tracker() {
     const userObject = useContext(myContext);
 
     const logout = () => {
-        axios.get("https://localhost:8080/auth/logout", {
+        axios.get("http://localhost:8080/auth/logout", {
             withCredentials: true
         }).then(res => {
             if (res.data === "done") {
@@ -101,7 +101,7 @@ function Tracker() {
                 </InfoWrapper>
                 <NavWrapper>
                     <NavElement>
-                        <Link to="/" style={linkStyle}>Calendar</Link>
+                        <Link to="/home" style={linkStyle}>Calendar</Link>
                     </NavElement>
                     <NavElement>
                         <Link to="/tasks" style={linkStyle}>Tasks</Link>
@@ -115,14 +115,7 @@ function Tracker() {
                     </NavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    <Link to='/login' onClick={logout}>Log Out</Link>
-                    {
-                        userObject ? (
-                            <li onClick={logout}>Logout </li>
-                        ) : (
-                            <li><Link to='/'>Login</Link></li>
-                        )
-                    }
+                    <p onClick={logout}>Log Out</p>
                 </LogoutElement>
             </SidebarWrapper>
             <TodayWrapper>

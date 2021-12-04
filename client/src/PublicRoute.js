@@ -11,7 +11,7 @@ const PublicRouter = ({component: Component, ...rest}) => {
             <Route {...rest} render={props => (
                 !isSignedIn ?
                     <Component {...props} /> :
-                    <Navigate to="/home" />
+                    <Navigate to="/home"  />
             )} />
         </div>
     );

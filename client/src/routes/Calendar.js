@@ -1,16 +1,26 @@
 import Calendars from "../components/Calendars";
 import { myContext } from '../Context';
-import {Link} from "react-router-dom";
-import React, {useState, useContext} from "react";
+import {Link, Route} from "react-router-dom";
+import React, {useState, useContext, useEffect} from "react";
 import styled from "styled-components";
 import axios from 'axios';
+import Login from "../components/Login";
 
 function Calendar() {
     const [toggle, setToggle] = useState(false);
-    const userObject = useContext(myContext);
+    const [userObject, setUserObject] = useState(); //useState<any>();
+
+    useEffect(() => {
+        axios.get("https://localhost:8080/getuser", {withCredentials: true}).then(res => { //was slightly diff
+            console.log(res);
+            if (res.data) {
+                setUserObject(res.data);
+            }
+        })
+    }, [])
 
     const logout = () => {
-        axios.get("https://localhost:8080/auth/logout", {
+        axios.get("http://localhost:8080/auth/logout", {
             withCredentials: true
         }).then(res => {
             if (res.data === "done") {
@@ -50,7 +60,7 @@ function Calendar() {
                 <NavWrapper>
                     <FocusNavElement>
                         <Focus> </Focus>
-                        <Link to="/" style={focusLinkStyle}>Calendar</Link>
+                        <Link to="/home" style={focusLinkStyle}>Calendar</Link>
                     </FocusNavElement>
                     <NavElement>
                         <Link to="/tasks" style={linkStyle}>Tasks</Link>
@@ -63,14 +73,7 @@ function Calendar() {
                     </NavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    <Link to='/login' onClick={logout}>Log Out</Link>
-                    {
-                        userObject ? (
-                            <li onClick={logout}>Logout </li>
-                        ) : (
-                            <li><Link to='/login'>Login</Link></li>
-                        )
-                    }
+                    <p onClick={logout}>Log Out</p>
                 </LogoutElement>
             </SidebarWrapper>
             {/*<button className='btn-primary' onClick={logOut}>Log Out</button>*/}

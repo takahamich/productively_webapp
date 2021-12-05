@@ -5,9 +5,6 @@ import styled from "styled-components";
 import {myContext} from "../Context";
 import axios from "axios";
 
-
-
-
 function Tracker() {
     const myCurrentDate = new Date();
     // const date = myCurrentDate.getFullYear() + '-' + (myCurrentDate.getMonth()+1) + '-' + myCurrentDate.getDate();
@@ -15,7 +12,7 @@ function Tracker() {
     // var time = myCurrentDate.getHours() + ":" + myCurrentDate.getMinutes()
     var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
     var day = days[myCurrentDate.getDay()];
-    const userObject = useContext(myContext);
+    // const userObject = useContext(myContext);
 
 
     var myPastDate1 = new Date(myCurrentDate);

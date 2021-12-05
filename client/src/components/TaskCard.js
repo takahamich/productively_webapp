@@ -4,9 +4,18 @@ import UpdateTask from './ModifyTask';
 import Checkbox from './Checkbox';
 import Task from "./Task";
 
-function TaskCard({id, taskName, duration, priority}) {
+function TaskCard({id, taskName, deadline, start, duration, priority, status, difficulty}) {
     const [checked, setChecked] = React.useState(false);
     const [toggle, setToggle] = useState(false);
+
+    let pstring = '';
+    if (priority == 3) {
+        pstring = "High priority";
+    } else if (priority == 2) {
+        pstring = "Medium priority";
+    } else {
+        pstring = "Low priority";
+    }
 
     function handleCheck() {
         setChecked(!checked);
@@ -38,7 +47,18 @@ function TaskCard({id, taskName, duration, priority}) {
                 <p style={taskStyle}>{taskName}</p>
                 <p style={durationStyle}>{duration}</p>
             </TaskBox>
-            {toggle && <UpdateTask name={taskName} PredictedTime={duration} priority={priority}/>}
+            {toggle &&
+                <UpdateTask
+                    id={id}
+                    name={taskName}
+                    PredictedTime={duration}
+                    priority={pstring}
+                    status={status}
+                    difficulty={difficulty}
+                    deadline={deadline}
+                    start={start}
+                />
+            }
         </TaskWrapper>
     )
 }

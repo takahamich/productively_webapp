@@ -8,6 +8,7 @@ import {creator} from '../App'
 
 function UpdateTask({id, name, deadline, priority, predict, start, status, diff}){
     const [data, setData] = useState({
+        id: id,
         taskName: name,
         deadline: deadline,
         priority: priority,
@@ -109,7 +110,7 @@ function UpdateTask({id, name, deadline, priority, predict, start, status, diff}
                         shrink: true,
                     }}/>
 
-                <select id="priority" defaultValue={"Select task priority"} value={data.priority} onChange={(e) => handleChange(e)}
+                <select id="priority" defaultValue={priority} value={data.priority} onChange={(e) => handleChange(e)}
                         style={dropdownStyle}>
                     {/* <Option selected value="Select task priority" /> */}
                     <Option value="Select task priority" disabled></Option>

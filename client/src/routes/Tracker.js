@@ -5,7 +5,6 @@ import styled from "styled-components";
 
 
 
-
 function Tracker() {
     const myCurrentDate = new Date();
     // const date = myCurrentDate.getFullYear() + '-' + (myCurrentDate.getMonth()+1) + '-' + myCurrentDate.getDate();
@@ -71,73 +70,45 @@ function Tracker() {
             body: JSON.stringify(credentials)
         })
         response.json().then(data => {
-            // setProductiveWeekDetails(data[0], data[1], data[2], data[3], data[4], data[5], data[6][0], data[6][1])
-            setProductiveWeekMondayScore(data[0])
-            setProductiveWeekTuesdayScore(data[1])
-            setProductiveWeekWednesdayScore(data[2])
-            setProductiveWeekThursdayScore(data[3])
-            setProductiveWeekFridayScore(data[4])
-            setProductiveWeekSaturdayScore(data[5])
-            setProductiveWeekSundayScore(data[6])
-            setProductiveWeekScore(data[7][0])
-            setProductiveWeekComment(data[7][1])
+            console.log("works", data)
+            processData(data)
      
         })
     }
-    // .catch(err => {
-    //     console.log(err);
-    // });
-
-    // useEffect(() => {
-    //     fetch('http://localhost:8080/tasks')
-    //       .then(res => {
-    //         return res.json()
-    //       })
-    //       .then(data => {
-    //         const parsedData = parse(data)
-    //         const processData = process(parsedData)
-           
-    //       })
-    //   }, [])
 
 
-    //   function parse(data){
-    //     const myCurrentDate = new Date();
-    //     const date = myCurrentDate.getFullYear() + '-' + (myCurrentDate.getMonth()+1) + '-' + myCurrentDate.getDate();
-    //     var finalData = []
-    //     data.forEach((singleData) => {
-    //         if (singleData.predictedEndDate === date) {
-    //             finalData.push({title: singleData.taskName, end: singleData.predictedEndDate, status: singleData.status})
-    //         } 
-    //      })
-    //     return finalData
-    //   }
+    function processData(data){
+        console.log("in here")
+        data.forEach((data) => {
+            console.log(data.length, "hejhhehe")
+    
+            if (data.length === 1) {
+                console.log("IN HERE")
+                setProductiveWeekMondayScore("N/A")
+                setProductiveWeekTuesdayScore("N/A")
+                setProductiveWeekWednesdayScore("N/A")
+                setProductiveWeekThursdayScore("N/A")
+                setProductiveWeekFridayScore("N/A")
+                setProductiveWeekSaturdayScore("N/A")
+                setProductiveWeekSundayScore("N/A")
+                setProductiveWeekScore(0)
+                setProductiveWeekComment(data[0])
+            }
+            else{
+                setProductiveWeekMondayScore(data[0])
+                setProductiveWeekTuesdayScore(data[1])
+                setProductiveWeekWednesdayScore(data[2])
+                setProductiveWeekThursdayScore(data[3])
+                setProductiveWeekFridayScore(data[4])
+                setProductiveWeekSaturdayScore(data[5])
+                setProductiveWeekSundayScore(data[6])
+                setProductiveWeekScore(data[7][0])
+                setProductiveWeekComment(data[7][1])
 
-    //   function process(data){
-    //     const value = []
-    //     console.log("in second function", data, data.length)
-    //     var allTasks = data.length 
+            }
+        })
+    }
 
-        
-    //     var completedTasks = 0
-    //     data.forEach((data) => {
-    //         if (data.status === "Done") {
-    //         completedTasks += 1
-    //         }
-    //     })
-
-    //     if (allTasks == 0){
-    //         console.log("You have not completed all tasks for the day")
-    //         value.push ("You have not completed all tasks for the day")
-
-    //     }
-
-    //     console.log("all", allTasks)
-    //     console.log("completed", completedTasks)
-    //     console.log(completedTasks/allTasks)
-
-    //     return value
-    // }
 
     return (
         <Container>
@@ -183,8 +154,6 @@ function Tracker() {
                 <ThisWeekMultiplier>{productiveWeekScore}x</ThisWeekMultiplier>
                 <WrapperHeader>less than the Amount of Time You Predicted</WrapperHeader>
                 <WrapperMessage> {productiveWeekComment} </WrapperMessage>
-
-            
 
 
                 

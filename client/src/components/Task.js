@@ -149,7 +149,6 @@ function Task({onClick}){
                 <StyledTitleTextField
                     id="taskName"
                     label="Task name"
-                    margin="normal"
                     value={data.taskName}
                     onChange={(e) => handleChange(e)}
                     required
@@ -160,7 +159,6 @@ function Task({onClick}){
                     id="startDate"
                     label="Start date"
                     type="date"
-                    margin="normal"
                     value={data.startDate}
                     onChange={(e) => handleChange(e)}
                     InputLabelProps={{
@@ -169,17 +167,6 @@ function Task({onClick}){
                 <StyledTextField
                     id="start"
                     label="Start Time"
-                    margin="normal"
-                    placeholder= "start time"
-                    value={data.start}
-                    onChange={(e) => handleChange(e)}
-                    required
-                    fullWidth/>
-
-                <StyledTextField
-                    id="start"
-                    label="Start Time"
-                    margin="normal"
                     placeholder= "start time"
                     value={data.start}
                     onChange={(e) => handleChange(e)}
@@ -190,7 +177,6 @@ function Task({onClick}){
                     id="deadline"
                     label="Task deadline"
                     type="date"
-                    margin="normal"
                     value={data.deadline}
                     onChange={(e) => handleChange(e)}
                     InputLabelProps={{
@@ -227,8 +213,7 @@ function Task({onClick}){
                 <StyledTextField
                     id="PredictedTimeHours"
                     label="Predicted Time in Hours"
-                    margin="normal"
-                    placeholder= "hours"
+                    placeholder= "hours"in
                     value={data.PredictedTimeHours}
                     onChange={(e) => handleChange(e)}
                     required
@@ -236,17 +221,6 @@ function Task({onClick}){
                 <StyledTextField
                     id="PredictedTimeMinutes"
                     label="Predicted Time in Minutes"
-                    margin="normal"
-                    placeholder= "minutes"
-                    value={data.PredictedTimeMinutes}
-                    onChange={(e) => handleChange(e)}
-                    required
-                    fullWidth/>
-                
-                <StyledTextField
-                    id="PredictedTimeMinutes"
-                    label="Predicted Time in Minutes"
-                    margin="normal"
                     placeholder= "minutes"
                     value={data.PredictedTimeMinutes}
                     onChange={(e) => handleChange(e)}
@@ -290,7 +264,7 @@ const Wrapper = styled.div`
     height: 100vh;
     background: #fff;
     transition: width 1s;
-    overflow: hidden;
+    overflow: scroll;
 `
 
 const FormWrapper = styled.form`
@@ -308,7 +282,7 @@ const ButtonWrapper = styled.div`
 const FormTitle = styled.p`
     color: #1B3D4A;
     font-size: 1.5em;
-    margin: 2em 0 1em 2em;
+    margin: 1.5em 0 0 0;
 `
 
 const dropdownStyle = {

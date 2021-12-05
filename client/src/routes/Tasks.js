@@ -14,6 +14,7 @@ function Tasks() {
     //const [dates, setDates] = useState(new Set());
     //const [dateArray, setDateArray] = useState([]);
     const [toggle, setToggle] = useState(false);
+    const [hover, setHover] = useState(false);
 
     const logout = () => {
         axios.get("http://localhost:8080/auth/logout", {
@@ -42,13 +43,27 @@ function Tasks() {
         .catch(err => setTasks(err.message));
     }, []);
 
-
+    function Key() {
+        return (
+            <HoverWrapper>
+                <p style={{color: "#E07A7A"}}>High</p>
+                <p style={{color: "#E8C067"}}>Medium</p>
+                <p style={{color: "#6FB3B8"}}>Low</p>
+            </HoverWrapper>
+        );
+    }
 
     function handleOnClick(){
         setToggle(!toggle);
     }
 
+    function handleMouseOver() {
+        setHover(true);
+    }
 
+    function handleMouseOut() {
+        setHover(false);
+    }
 
     return (
         <Container>
@@ -57,7 +72,7 @@ function Tasks() {
                     <PicWrapper>
                         {
                             userObject ? (
-                                <img className="ProfilePicture"
+                                <PicStyle
                                      src={userObject.picture}
                                      alt="profile picture"/>
                             ) : (
@@ -67,9 +82,9 @@ function Tasks() {
                     </PicWrapper>
                     {
                         userObject ? (
-                            <h3>{userObject.name}</h3>
+                            <p>{userObject.name}</p>
                         ) : (
-                            <h3>FirstName LastName</h3>
+                            <p>FirstName LastName</p>
                         )
                     }
                 </InfoWrapper>
@@ -89,7 +104,7 @@ function Tasks() {
                     </NavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    <Link to="/" onClick={logout}>Log Out</Link>
+                    <Link to="/" style={logoutStyle} onClick={logout}>Log Out</Link>
                 </LogoutElement>
             </SidebarWrapper>
             <TaskWrapper>
@@ -108,10 +123,20 @@ function Tasks() {
                             />
                         ))}
             </TaskWrapper>
-            <ButtonWrapper>
-                <TaskButton onClick={handleOnClick}/>
-            </ButtonWrapper>
-            {toggle && <Task onClick={handleOnClick}/>}
+            <RightWrapper>
+                <KeyWrapper>
+                    <KeyButton
+                        onMouseEnter={() => setHover(true)}
+                        onMouseLeave={() => setHover(false)}>
+                        Priority Key
+                    </KeyButton>
+                    {hover && <Key />}
+                </KeyWrapper>
+                <ButtonWrapper>
+                    <TaskButton onClick={handleOnClick}/>
+                </ButtonWrapper>
+                {toggle && <Task onClick={handleOnClick}/>}
+            </RightWrapper>
         </Container>
     )
 }
@@ -151,7 +176,7 @@ const SidebarWrapper = styled.div`
     background: #377F87;
     left: 0;
     height: 100vh;
-    width: 25vw;
+    min-width: 23vw;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
@@ -170,8 +195,42 @@ const TaskWrapper = styled.div`
     margin-left: 5%;
 `
 
+const RightWrapper = styled.div`
+    right: 0;
+    display: flex;
+    flex-flow: column nowrap;
+`
+
+const HoverWrapper = styled.div`
+    position: fixed;
+    background: #fff;
+    padding: 0.5em 1em 0.5em 1em;
+    border-radius: 10%; 
+    color: #1B3D4A;
+    margin-right: 1em;
+`
+
+const KeyWrapper = styled.div`
+    margin-bottom: auto;
+    margin-right: 1em;
+    margin-top: 1em;
+`
+
+const KeyButton = styled.button`
+    background: transparent;
+    padding: 10px;
+    border: none;
+    font-family: 'Proxima Nova';
+    text-transform: uppercase;
+    color: #1B3D4A;
+    font-size: 1em;
+    text-align: right;
+    right: 0;
+`
+
 const ButtonWrapper = styled.div`
     margin-top: auto;
+    margin-left: auto;
     margin-right: 1em;
     margin-bottom: 1em;
 `
@@ -201,6 +260,11 @@ const LogoutElement = styled.div`
     margin: 2.5em 0 2.5em 3em;
 `
 
+const logoutStyle = {
+    color: '#F6F6F2',
+    textDecoration: 'none',
+}
+
 const linkStyle = {
     textDecoration: 'none',
     color: '#BADFE7'
@@ -212,3 +276,9 @@ const focusLinkStyle = {
     order: 2,
     marginLeft: '2.7em',
 }
+
+const PicStyle = styled.img`
+    height: 75px;
+    width: 75px;
+    border-radius: 50%;
+`

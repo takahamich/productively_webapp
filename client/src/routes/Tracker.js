@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
 import {myContext} from "../Context";
+import axios from "axios";
 
 
 
@@ -38,8 +39,17 @@ function Tracker() {
     const [productiveWeekSaturdayScore, setProductiveWeekSaturdayScore] = useState()
     const [productiveWeekSundayScore, setProductiveWeekSundayScore] = useState()
 
+    const logout = () => {
+        axios.get("http://localhost:8080/auth/logout", {
+            withCredentials: true
+        }).then(res => {
+            if (res.data === "done") {
+                window.location.href = "/"
+            }
+        })
+    }
 
-
+    const userObject = useContext(myContext);
 
     useEffect(() => {
         productivityDayScore({"credentials": 'creator'})
@@ -116,9 +126,9 @@ function Tracker() {
                     <PicWrapper>
                         {
                             userObject ? (
-                                <img className="ProfilePicture"
-                                     src={userObject.picture}
-                                     alt="profile picture"/>
+                                <PicStyle
+                                    src={userObject.picture}
+                                    alt="profile picture"/>
                             ) : (
                                 <h3>none</h3>
                             )
@@ -126,9 +136,9 @@ function Tracker() {
                     </PicWrapper>
                     {
                         userObject ? (
-                            <h3>{userObject.name}</h3>
+                            <p>{userObject.name}</p>
                         ) : (
-                            <h3>FirstName LastName</h3>
+                            <p>FirstName LastName</p>
                         )
                     }
                 </InfoWrapper>
@@ -148,7 +158,7 @@ function Tracker() {
                     </NavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    Log Out
+                    <Link to="/" style={logoutStyle} onClick={logout}>Log Out</Link>
                 </LogoutElement>
             </SidebarWrapper>
             <TodayWrapper>
@@ -234,7 +244,7 @@ const SidebarWrapper = styled.div`
     background: #377F87;
     left: 0;
     height: 100vh;
-    width: 23%;
+    min-width: 23vw;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
@@ -346,6 +356,16 @@ const focusLinkStyle = {
     marginLeft: '2.7em',
 }
 
+const logoutStyle = {
+    color: '#F6F6F2',
+    textDecoration: 'none',
+}
+
+const PicStyle = styled.img`
+    height: 75px;
+    width: 75px;
+    border-radius: 50%;
+`
 
 
 // check if each data in finalData array is completed.

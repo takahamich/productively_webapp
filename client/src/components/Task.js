@@ -258,7 +258,7 @@ function Task({onClick}){
                 <div>{message}</div>
                 <ButtonWrapper>
                     <button type="submit" style={submitButton}>Submit Task</button>
-                    <button onClick={schedule}>Make a Schedule</button>
+                    <DoneButton onClick={schedule}>Make a Schedule</DoneButton>
                     <DoneButton onClick={onClick}>Done</DoneButton>
                 </ButtonWrapper>
             </FormWrapper>

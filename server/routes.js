@@ -44,8 +44,7 @@ app.get("/tasks", async (req, res) => { //gets all tasks
 
 app.get("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
     console.log("getting my tasks!");
-    const tasks = await taskModel.find({creator: req.params.id});
-    console.log(tasks);//user.tasks undefined
+    const tasks = await taskModel.find({creator: req.params.id});//user.tasks undefined
 
     // find within user?
     try {
@@ -55,6 +54,14 @@ app.get("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
     }
 });
 
+app.post("/deleteTask", async (req, res) => {
+    console.log("deleting task");
+    const task_id = req.body.id;
+    console.log(task_id);
+    taskModel.deleteOne({_id: task_id}, function(err) {
+        if (err) console.log(err);
+    });
+});
 
 app.post("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
     console.log('Posting a new task to my tasks :p');

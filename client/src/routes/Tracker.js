@@ -70,7 +70,7 @@ function Tracker() {
             body: JSON.stringify(credentials)
         })
         response.json().then(data => {
-            console.log("works", data)
+            console.log("checking data", data)
             processData(data)
      
         })
@@ -78,35 +78,32 @@ function Tracker() {
 
 
     function processData(data){
-        console.log("in here")
-        data.forEach((data) => {
-            console.log(data.length, "hejhhehe")
+        if (data.length === 1) {
+            console.log("IN HERE")
+            setProductiveWeekMondayScore("N/A")
+            setProductiveWeekTuesdayScore("N/A")
+            setProductiveWeekWednesdayScore("N/A")
+            setProductiveWeekThursdayScore("N/A")
+            setProductiveWeekFridayScore("N/A")
+            setProductiveWeekSaturdayScore("N/A")
+            setProductiveWeekSundayScore("N/A")
+            setProductiveWeekScore(0)
+            setProductiveWeekComment(data[0])
+        }
+        else{
     
-            if (data.length === 1) {
-                console.log("IN HERE")
-                setProductiveWeekMondayScore("N/A")
-                setProductiveWeekTuesdayScore("N/A")
-                setProductiveWeekWednesdayScore("N/A")
-                setProductiveWeekThursdayScore("N/A")
-                setProductiveWeekFridayScore("N/A")
-                setProductiveWeekSaturdayScore("N/A")
-                setProductiveWeekSundayScore("N/A")
-                setProductiveWeekScore(0)
-                setProductiveWeekComment(data[0])
-            }
-            else{
-                setProductiveWeekMondayScore(data[0])
-                setProductiveWeekTuesdayScore(data[1])
-                setProductiveWeekWednesdayScore(data[2])
-                setProductiveWeekThursdayScore(data[3])
-                setProductiveWeekFridayScore(data[4])
-                setProductiveWeekSaturdayScore(data[5])
-                setProductiveWeekSundayScore(data[6])
-                setProductiveWeekScore(data[7][0])
-                setProductiveWeekComment(data[7][1])
+            setProductiveWeekMondayScore(data[0])
+            setProductiveWeekTuesdayScore(data[1])
+            setProductiveWeekWednesdayScore(data[2])
+            setProductiveWeekThursdayScore(data[3])
+            setProductiveWeekFridayScore(data[4])
+            setProductiveWeekSaturdayScore(data[5])
+            setProductiveWeekSundayScore(data[6])
+            setProductiveWeekScore(data[7][0])
+            setProductiveWeekComment(data[7][1])
 
-            }
-        })
+        }
+    
     }
 
 

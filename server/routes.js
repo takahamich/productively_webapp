@@ -27,7 +27,10 @@ app.get("/users", async (req, res) => { //gets all users
 });
 
 app.get("/tasks", async (req, res) => { //gets all tasks
-    taskModel.find({}, function(err, result) {
+    taskModel
+        .find({})
+        .sort({ predictedEndDate: 'asc', priority: 'desc' })
+        .exec(function(err, result) {
         if (err) console.log(err);
         res.send(result);
     });

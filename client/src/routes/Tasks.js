@@ -14,6 +14,7 @@ function Tasks() {
     //const [dates, setDates] = useState(new Set());
     //const [dateArray, setDateArray] = useState([]);
     const [toggle, setToggle] = useState(false);
+    const [hover, setHover] = useState(false);
 
     const logout = () => {
         axios.get("http://localhost:8080/auth/logout", {
@@ -42,13 +43,27 @@ function Tasks() {
         .catch(err => setTasks(err.message));
     }, []);
 
-
+    function Key() {
+        return (
+            <HoverWrapper>
+                <p style={{color: "#E07A7A"}}>High</p>
+                <p style={{color: "#E8C067"}}>Medium</p>
+                <p style={{color: "#6FB3B8"}}>Low</p>
+            </HoverWrapper>
+        );
+    }
 
     function handleOnClick(){
         setToggle(!toggle);
     }
 
+    function handleMouseOver() {
+        setHover(true);
+    }
 
+    function handleMouseOut() {
+        setHover(false);
+    }
 
     return (
         <Container>
@@ -108,10 +123,20 @@ function Tasks() {
                             />
                         ))}
             </TaskWrapper>
-            <ButtonWrapper>
-                <TaskButton onClick={handleOnClick}/>
-            </ButtonWrapper>
-            {toggle && <Task onClick={handleOnClick}/>}
+            <RightWrapper>
+                <KeyWrapper>
+                    <KeyButton
+                        onMouseEnter={() => setHover(true)}
+                        onMouseLeave={() => setHover(false)}>
+                        Priority Key
+                    </KeyButton>
+                    {hover && <Key />}
+                </KeyWrapper>
+                <ButtonWrapper>
+                    <TaskButton onClick={handleOnClick}/>
+                </ButtonWrapper>
+                {toggle && <Task onClick={handleOnClick}/>}
+            </RightWrapper>
         </Container>
     )
 }
@@ -170,8 +195,42 @@ const TaskWrapper = styled.div`
     margin-left: 5%;
 `
 
+const RightWrapper = styled.div`
+    right: 0;
+    display: flex;
+    flex-flow: column nowrap;
+`
+
+const HoverWrapper = styled.div`
+    position: fixed;
+    background: #fff;
+    padding: 0.5em 1em 0.5em 1em;
+    border-radius: 10%; 
+    color: #1B3D4A;
+    margin-right: 1em;
+`
+
+const KeyWrapper = styled.div`
+    margin-bottom: auto;
+    margin-right: 1em;
+    margin-top: 1em;
+`
+
+const KeyButton = styled.button`
+    background: transparent;
+    padding: 10px;
+    border: none;
+    font-family: 'Proxima Nova';
+    text-transform: uppercase;
+    color: #1B3D4A;
+    font-size: 1em;
+    text-align: right;
+    right: 0;
+`
+
 const ButtonWrapper = styled.div`
     margin-top: auto;
+    margin-left: auto;
     margin-right: 1em;
     margin-bottom: 1em;
 `

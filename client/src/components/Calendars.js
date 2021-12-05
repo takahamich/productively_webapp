@@ -1,4 +1,4 @@
-// the imports
+
 import { Calendar, dateFnsLocalizer} from 'react-big-calendar' 
 import format from "date-fns/format";
 import parse from "date-fns/parse";
@@ -7,10 +7,10 @@ import getDay from "date-fns/getDay";
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import React, { useState ,useEffect} from "react";
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
-import io from "socket.io-client";
+
 // import DatePicker from "react-datepicker";
 // import Task from "./components/Task";
-import events from './events.js';
+
 // import moment from 'moment'
 
 
@@ -46,9 +46,9 @@ function Calendars({userEmail}){
 
   const [allEvents, setAllEvents] = useState(null)
 
-  function handleAddEvent(){
-    setAllEvents([...allEvents])
-  }
+  // function handleAddEvent(){
+  //   setAllEvents([...allEvents])
+  // }
 
   useEffect(() => {
     console.log("use effect")
@@ -76,7 +76,7 @@ function Calendars({userEmail}){
     var finalData = []
     data.forEach((singleData) => {
       // if (singleData["creator"] === "ayomide.ajayi2839@gmail.com"){
-        // console.log("SingleData", singleData)
+        console.log("SingleData", singleData)
         var finalSingleData = 
         {
           id: singleData._id,
@@ -135,4 +135,115 @@ function Calendars({userEmail}){
 export default Calendars;
 
 
-// The component you should use instead the one you mentioned.
+// // The component you should use instead the one you mentioned.
+
+
+   
+// import React from 'react'
+// import events from './events'
+// import { Calendar, Views } from 'react-big-calendar'
+// import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
+
+
+
+
+// const DragAndDropCalendar = withDragAndDrop(Calendar)
+
+// class Calendars extends React.Component {
+//   constructor(props) {
+//     super(props)
+//     this.state = {
+//       events: events,
+//       displayDragItemInCell: true,
+//     }
+
+//     this.moveEvent = this.moveEvent.bind(this)
+//     this.newEvent = this.newEvent.bind(this)
+//   }
+
+//   handleDragStart = event => {
+//     this.setState({ draggedEvent: event })
+//   }
+
+//   dragFromOutsideItem = () => {
+//     return this.state.draggedEvent
+//   }
+
+//   onDropFromOutside = ({ start, end, allDay }) => {
+//     const { draggedEvent } = this.state
+
+//     const event = {
+//       id: draggedEvent.id,
+//       title: draggedEvent.title,
+//       start,
+//       end,
+//       allDay: allDay,
+//     }
+
+//     this.setState({ draggedEvent: null })
+//     this.moveEvent({ event, start, end })
+//   }
+
+//   moveEvent = ({ event, start, end, isAllDay: droppedOnAllDaySlot }) => {
+//     const { events } = this.state
+
+//     let allDay = event.allDay
+
+//     if (!event.allDay && droppedOnAllDaySlot) {
+//       allDay = true
+//     } else if (event.allDay && !droppedOnAllDaySlot) {
+//       allDay = false
+//     }
+
+//     const nextEvents = events.map(existingEvent => {
+//       return existingEvent.id == event.id
+//         ? { ...existingEvent, start, end, allDay }
+//         : existingEvent
+//     })
+
+//     this.setState({
+//       events: nextEvents,
+//     })
+//   }
+
+//   resizeEvent = ({ event, start, end }) => {
+//     const { events } = this.state
+
+//     const nextEvents = events.map(existingEvent => {
+//       return existingEvent.id == event.id
+//         ? { ...existingEvent, start, end }
+//         : existingEvent
+//     })
+
+//     this.setState({
+//       events: nextEvents,
+//     })
+
+//   }
+
+
+//   render() {
+//     return (
+//       <DragAndDropCalendar
+//         selectable
+//         localizer={this.props.localizer}
+//         events={this.state.events}
+//         onEventDrop={this.moveEvent}
+//         resizable
+//         onEventResize={this.resizeEvent}
+//         onSelectSlot={this.newEvent}
+//         onDragStart={console.log}
+//         defaultView={Views.MONTH}
+//         defaultDate={new Date(2015, 3, 12)}
+//         popup={true}
+//         dragFromOutsideItem={
+//           this.state.displayDragItemInCell ? this.dragFromOutsideItem : null
+//         }
+//         onDropFromOutside={this.onDropFromOutside}
+//         handleDragStart={this.handleDragStart}
+//       />
+//     )
+//   }
+// }
+
+// export default Calendars;

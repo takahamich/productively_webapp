@@ -4,7 +4,7 @@ import UpdateTask from './ModifyTask';
 import Checkbox from './Checkbox';
 import Task from "./Task";
 
-function TaskCard({id, taskName, deadline, start, duration, priority, status, difficulty}) {
+function TaskCard({id, taskName, deadline, startDate, startTime, predictHours, predictMins, priority, difficulty}) {
     const [checked, setChecked] = React.useState(false);
     const [toggle, setToggle] = useState(false);
 
@@ -45,18 +45,19 @@ function TaskCard({id, taskName, deadline, start, duration, priority, status, di
                     />
                 </label>
                 <p style={taskStyle}>{taskName}</p>
-                <p style={durationStyle}>{duration}</p>
+                <p style={durationStyle}>{predictHours}h {predictMins}m</p>
             </TaskBox>
             {toggle &&
                 <UpdateTask
                     id={id}
                     name={taskName}
-                    PredictedTime={duration}
+                    predictHours={predictHours}
+                    predictMins={predictMins}
                     priority={pstring}
-                    status={status}
                     difficulty={difficulty}
                     deadline={deadline}
-                    start={start}
+                    startDate={startDate}
+                    startTime={startTime}
                 />
             }
         </TaskWrapper>

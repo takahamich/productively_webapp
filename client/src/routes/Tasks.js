@@ -11,8 +11,8 @@ import axios from "axios";
 
 function Tasks() {
     const [tasks, setTasks] = useState([]);
-    const [dates, setDates] = useState(new Set());
-    const [dateArray, setDateArray] = useState([]);
+    //const [dates, setDates] = useState(new Set());
+    //const [dateArray, setDateArray] = useState([]);
     const [toggle, setToggle] = useState(false);
 
     const logout = () => {
@@ -99,11 +99,12 @@ function Tasks() {
                                 id={t._id}
                                 taskName={t.taskName}
                                 deadline={t.predictedEndDate}
-                                start={t.startDate}
-                                duration="2h 0m"
+                                startDate={t.startDate}
+                                startTime={t.startTime}
                                 priority={t.priority}
-                                status={t.status}
                                 difficulty={t.difficulty}
+                                predictHours={t.predictedTimeHours}
+                                predictMins={t.predictedTimeMinutes}
                             />
                         ))}
             </TaskWrapper>

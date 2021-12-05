@@ -3,17 +3,19 @@ import styled from "styled-components";
 import {Dropdown, Option} from "./Dropdown";
 import TextField from '@material-ui/core/TextField';
 import {useState } from "react";
-import {creator} from '../App'
+//import {creator} from '../App'
 
 
-function UpdateTask({id, name, deadline, priority, predict, start, status, diff}){
+function UpdateTask({id, name, deadline, priority, predictHours, predictMins, startDate, startTime, diff}){
     const [data, setData] = useState({
+        id: id,
         taskName: name,
         deadline: deadline,
         priority: priority,
-        PredictedTime: predict,
-        startDate: start,
-        status: status,
+        PredictedTimeHours: predictHours,
+        PredictedTimeMinutes: predictMins,
+        startDate: startDate,
+        startTime: startTime,
         difficulty: diff,
     });
 
@@ -29,11 +31,11 @@ function UpdateTask({id, name, deadline, priority, predict, start, status, diff}
 
     function submit(e){
         e.preventDefault()
-        console.log('this is the current user email' + creator);
+        //console.log('this is the current user email' + creator);
         // const profile = googleUser.getBasicProfile();
-        data.creatorId = creator;
+        //data.creatorId = creator;
 
-        fetch('http://localhost:8080/tasks', {
+        fetch('http://localhost:8080/myTasks', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -57,12 +59,12 @@ function UpdateTask({id, name, deadline, priority, predict, start, status, diff}
     }
 
     function deleteTask() {
-        fetch('http://localhost:8080/tasks', {
+        fetch('http://localhost:8080/deleteTask', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
             },
-            body: JSON.stringify(id)
+            body: JSON.stringify(data)
         }).then(response => {
             if (!response.ok) {
                 throw new Error(response.statusText);
@@ -71,6 +73,8 @@ function UpdateTask({id, name, deadline, priority, predict, start, status, diff}
         }).catch(err => {
             console.log(err);
         });
+        alert("Your task has been deleted!")
+        refreshPage();
     }
 
     return (
@@ -97,7 +101,14 @@ function UpdateTask({id, name, deadline, priority, predict, start, status, diff}
                     InputLabelProps={{
                         shrink: true,
                     }}/>
-
+                <StyledTextField
+                    id="start"
+                    label="Start Time"
+                    placeholder= "start time"
+                    value={data.startTime}
+                    onChange={(e) => handleChange(e)}
+                    required
+                    fullWidth/>
                 <StyledTextField
                     id="deadline"
                     label="Task deadline"
@@ -109,20 +120,13 @@ function UpdateTask({id, name, deadline, priority, predict, start, status, diff}
                         shrink: true,
                     }}/>
 
-                <select id="priority" defaultValue={"Select task priority"} value={data.priority} onChange={(e) => handleChange(e)}
+                <select id="priority" defaultValue={priority} value={data.priority} onChange={(e) => handleChange(e)}
                         style={dropdownStyle}>
                     {/* <Option selected value="Select task priority" /> */}
                     <Option value="Select task priority" disabled></Option>
                     <Option value="Low priority" />
                     <Option value="Medium priority" />
                     <Option value="High priority" />
-                </select>
-                <br></br>
-                <select id="status" defaultValue={status} value={data.status} onChange={(e) => handleChange(e)}
-                        style={dropdownStyle}>
-                    <Option value="Not started" />
-                    <Option value="In Progress" />
-                    <Option value="Done" />
                 </select>
                 <br></br>
                 <select id="difficulty" defaultValue={"Select difficulty"} value={data.difficulty} onChange={(e) => handleChange(e)}
@@ -136,11 +140,18 @@ function UpdateTask({id, name, deadline, priority, predict, start, status, diff}
                 </select>
                 <br></br>
                 <StyledTextField
-                    id="PredictedTime"
-                    label="Expected Time"
-                    margin="normal"
-                    placeholder= "In hours and minutes"
-                    value={data.PredictedTime}
+                    id="PredictedTimeHours"
+                    label="Predicted Time in Hours"
+                    placeholder= "hours"
+                    value={data.PredictedTimeHours}
+                    onChange={(e) => handleChange(e)}
+                    required
+                    fullWidth/>
+                <StyledTextField
+                    id="PredictedTimeMinutes"
+                    label="Predicted Time in Minutes"
+                    placeholder= "minutes"
+                    value={data.PredictedTimeMinutes}
                     onChange={(e) => handleChange(e)}
                     required
                     fullWidth/>
@@ -179,13 +190,15 @@ function UpdateTask({id, name, deadline, priority, predict, start, status, diff}
 export default UpdateTask;
 
 const Wrapper = styled.div`
-    position: absolute;
+    position: fixed;
     right: 0px;
     width: 25vw;
     height: 100vh;
     background: #fff;
     transition: width 1s;
-    overflow: hidden;
+    overflow: scroll;
+    right: 0;
+    top: 0;
 `
 
 const FormWrapper = styled.form`

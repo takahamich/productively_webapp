@@ -19,6 +19,8 @@ export function Option(props) {
     );
 }
 
+
+
 export const DropdownWrapper = styled.form`
   display: flex;
   flex-flow: column;
@@ -36,3 +38,4 @@ export const StyledSelect = styled.select`
 export const StyledOption = styled.option`
   color: ${(props) => (props.selected ? "lightgrey" : "black")};
 `;
+

@@ -1,18 +1,22 @@
-import React from "react";
+import React, {useContext} from "react";
 import styled from "styled-components";
 import {Dropdown, Option} from "./Dropdown";
 import TextField from '@material-ui/core/TextField';
 import {useState } from "react";
 import App from '../App'
-import {creator} from '../App'
+import { myContext } from '../Context';
+
 
 
 function Task({onClick}){
+    const userObject = useContext(myContext);
+
     const [data, setData] = useState({
         taskName: "",
         deadline: "",
         priority: "",
-        PredictedTime: "",
+        PredictedTimeHours: "",
+        PredictedTimeMinutes: "",
         ActualTime: "",
         start:"",
         end:"",
@@ -22,10 +26,15 @@ function Task({onClick}){
         creatorId: "",
     });
 
+    const [message, setMessage] = useState('');
+
     function refreshPage() {
         window.location.href = window.location.href
     }
 
+    function updateMessage(nm){
+        setMessage(nm);
+    }
 
     function handleChange(e){
         const newdata={...data}
@@ -33,13 +42,83 @@ function Task({onClick}){
         setData(newdata)
     }
 
+    async function postData(url = '', data = '') {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: data
+        })
+        response.json().then(data => {
+            let m = ''
+            for (let i = 0; i < data.length; i++) {
+                m += data[i];
+                m += '\n';
+            }
+            updateMessage(m)
+            alert(m);
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    /*async function getData(url = '') {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json'
+            },
+        })
+        response.json().then(data => {
+                alert(data);
+        }).catch(err => {
+            console.log(err);
+        });
+    }*/
+
+    function schedule() {
+        console.log("Making today's schedule for user: " + userObject.name)
+
+        postData('http://localhost:8080/tasks/schedule', userObject);
+        //getData('http://localhost:8080/tasks/schedule');
+        /*fetch('http://localhost:8080/tasks/schedule', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: creator
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            console.log("get your POST done")
+            console.log(response.json());
+
+        }).catch(err => {
+            console.log(err);
+        });*/
+
+       /* fetch('http://localhost:8080/tasks/schedule')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(err => {
+                console.log(err);
+            });*/
+
+        alert("scheduled!");
+
+    }
+
     function submit(e){
         e.preventDefault()
-        console.log('this is the current user email' + creator);
+        //console.log('this is the current user email' + user);
         // const profile = googleUser.getBasicProfile();
-        data.creatorId = creator;
+        data.creatorId = userObject.email;
 
-        fetch('http://localhost:8080/tasks', {
+        fetch('http://localhost:8080/myTasks/' + userObject.email, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -70,7 +149,6 @@ function Task({onClick}){
                 <StyledTitleTextField
                     id="taskName"
                     label="Task name"
-                    margin="normal"
                     value={data.taskName}
                     onChange={(e) => handleChange(e)}
                     required
@@ -81,18 +159,24 @@ function Task({onClick}){
                     id="startDate"
                     label="Start date"
                     type="date"
-                    margin="normal"
                     value={data.startDate}
                     onChange={(e) => handleChange(e)}
                     InputLabelProps={{
                         shrink: true,
                     }}/>
+                <StyledTextField
+                    id="start"
+                    label="Start Time"
+                    placeholder= "start time"
+                    value={data.start}
+                    onChange={(e) => handleChange(e)}
+                    required
+                    fullWidth/>
 
                 <StyledTextField
                     id="deadline"
                     label="Task deadline"
                     type="date"
-                    margin="normal"
                     value={data.deadline}
                     onChange={(e) => handleChange(e)}
                     InputLabelProps={{
@@ -107,7 +191,7 @@ function Task({onClick}){
                     <Option value="Medium priority" />
                     <Option value="High priority" />
                 </select>
-                <br></br>
+                {/* <br></br>
                 <select id="status" defaultValue={"Select status"} value={data.status} onChange={(e) => handleChange(e)}
                         style={dropdownStyle}>
                     <Option value="Select status" disabled></Option>
@@ -115,7 +199,7 @@ function Task({onClick}){
                     <Option value="In Progress" />
                     <Option value="Done" />
                 </select>
-                    <br></br>
+                    <br></br> */}
                 <select id="difficulty" defaultValue={"Select difficulty"} value={data.difficulty} onChange={(e) => handleChange(e)}
                         style={dropdownStyle}>
                     <Option value="Select difficulty" disabled></Option>
@@ -127,39 +211,43 @@ function Task({onClick}){
                 </select>
                 <br></br>
                 <StyledTextField
-                    id="PredictedTime"
-                    label="Expected Time"
-                    margin="normal"
-                    placeholder= "In hours and minutes"
-                    value={data.PredictedTime}
+                    id="PredictedTimeHours"
+                    label="Predicted Time in Hours"
+                    placeholder= "hours"in
+                    value={data.PredictedTimeHours}
+                    onChange={(e) => handleChange(e)}
+                    required
+                    fullWidth/>
+                <StyledTextField
+                    id="PredictedTimeMinutes"
+                    label="Predicted Time in Minutes"
+                    placeholder= "minutes"
+                    value={data.PredictedTimeMinutes}
                     onChange={(e) => handleChange(e)}
                     required
                     fullWidth/>
 
-                {/* <TextField
+                 {/* <TextField
                     id="ActualTime"
                     label=" Actual: Time in hours, seconds"
-                    margin="normal"
-                    placeholder=" Actual: How much time did this task actually take you?"
-                    value={data.ActualTime}
-                    onChange={(e) => handleChange(e)}
-                    fullWidth/> 
+                    fullWidth/>  */}
 
-                <label for="start">Start Time</label>
+                {/* <label for="start">Start Time</label>
                 <input type="time" id="start" name="start"
                     value={data.start}
-                    onChange={(e) => handleChange(e)}></input>
+                    onChange={(e) => handleChange(e)}></input> */}
 
-                <label for="end">End Time</label>
+                {/* <label for="end">End Time</label>
                 <input type="time" id="end" name="end"
                  value={data.end}
-                onChange={(e) => handleChange(e)}></input> */}
-
+                onChange={(e) => handleChange(e)}></input>  */}
                 {/*<ButtonWrapper>
                     <button type="button" onClick={onClick}>Delete</button>
                 </ButtonWrapper>*/}
+                <div>{message}</div>
                 <ButtonWrapper>
                     <button type="submit" style={submitButton}>Submit Task</button>
+                    <button onClick={schedule}>Make a Schedule</button>
                     <DoneButton onClick={onClick}>Done</DoneButton>
                 </ButtonWrapper>
             </FormWrapper>
@@ -176,7 +264,7 @@ const Wrapper = styled.div`
     height: 100vh;
     background: #fff;
     transition: width 1s;
-    overflow: hidden;
+    overflow: scroll;
 `
 
 const FormWrapper = styled.form`
@@ -194,7 +282,7 @@ const ButtonWrapper = styled.div`
 const FormTitle = styled.p`
     color: #1B3D4A;
     font-size: 1.5em;
-    margin: 2em 0 1em 2em;
+    margin: 1.5em 0 0 0;
 `
 
 const dropdownStyle = {

@@ -1,29 +1,59 @@
 import Calendars from "../components/Calendars";
-import TaskButton from "../components/TaskButton";
-import Task from "../components/Task";
-import {Link} from "react-router-dom";
-import React, {useState} from "react";
+import { myContext } from '../Context';
+import {Link, Route} from "react-router-dom";
+import React, {useState, useContext, useEffect} from "react";
 import styled from "styled-components";
+import axios from 'axios';
+import Login from "../components/Login";
 
 function Calendar() {
     const [toggle, setToggle] = useState(false);
+
+    const logout = () => {
+        axios.get("http://localhost:8080/auth/logout", {
+            withCredentials: true
+        }).then(res => {
+            if (res.data === "done") {
+                window.location.href = "/"
+            }
+        })
+    }
 
     // Handle when the user creates the create task button
     function handleOnClick(){
         setToggle(!toggle);
     }
 
+    const userObject = useContext(myContext);
+    console.log('user object :' + userObject);
+
     return (
         <Container>
             <SidebarWrapper>
                 <InfoWrapper>
-                    <PicWrapper> </PicWrapper>
-                    Firstname Lastname
+                    <PicWrapper>
+                        {
+                            userObject ? (
+                                <img className="ProfilePicture"
+                                     src={userObject.picture}
+                                     alt="profile picture"/>
+                            ) : (
+                                <h3>none</h3>
+                            )
+                        }
+                    </PicWrapper>
+                    {
+                        userObject ? (
+                            <h3>{userObject.name}</h3>
+                        ) : (
+                            <h3>FirstName LastName</h3>
+                        )
+                    }
                 </InfoWrapper>
                 <NavWrapper>
                     <FocusNavElement>
                         <Focus> </Focus>
-                        <Link to="/" style={focusLinkStyle}>Calendar</Link>
+                        <Link to="/home" style={focusLinkStyle}>Calendar</Link>
                     </FocusNavElement>
                     <NavElement>
                         <Link to="/tasks" style={linkStyle}>Tasks</Link>
@@ -36,7 +66,8 @@ function Calendar() {
                     </NavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    Log Out
+                    {/*<button onClick={logout}>Log Out</button>*/}
+                    <Link to="/" onClick={logout}>Log Out</Link>
                 </LogoutElement>
             </SidebarWrapper>
             {/*<button className='btn-primary' onClick={logOut}>Log Out</button>*/}

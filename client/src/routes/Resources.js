@@ -1,19 +1,49 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Link} from "react-router-dom";
-import TaskCard from "../components/TaskCard";
 import styled from "styled-components";
+import axios from "axios";
+import {myContext} from "../Context";
 
 function Resources() {
+    const logout = () => {
+        axios.get("http://localhost:8080/auth/logout", {
+            withCredentials: true
+        }).then(res => {
+            if (res.data === "done") {
+                window.location.href = "/"
+            }
+        })
+    }
+
+    const userObject = useContext(myContext);
+    console.log('user object :' + userObject);
+
     return (
         <Container>
             <SidebarWrapper>
                 <InfoWrapper>
-                    <PicWrapper> </PicWrapper>
-                    Firstname Lastname
+                    <PicWrapper>
+                        {
+                            userObject ? (
+                                <img className="ProfilePicture"
+                                     src={userObject.picture}
+                                     alt="profile picture"/>
+                            ) : (
+                                <h3>none</h3>
+                            )
+                        }
+                    </PicWrapper>
+                    {
+                        userObject ? (
+                            <h3>{userObject.name}</h3>
+                        ) : (
+                            <h3>FirstName LastName</h3>
+                        )
+                    }
                 </InfoWrapper>
                 <NavWrapper>
                     <NavElement>
-                        <Link to="/" style={linkStyle}>Calendar</Link>
+                        <Link to="/home" style={linkStyle}>Calendar</Link>
                     </NavElement>
                     <NavElement>
                         <Link to="/tasks" style={linkStyle}>Tasks</Link>
@@ -27,11 +57,32 @@ function Resources() {
                     </FocusNavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    Log Out
+                    <Link to="/" onClick={logout}>Log Out</Link>
                 </LogoutElement>
             </SidebarWrapper>
             <MainWrapper>
+                <Category>
+                    The Method Behind Our Site
+                </Category>
+                <a href="https://blog.usejournal.com/calendar-in-stead-of-to-do-lists-9ada86a512dd"
+                      style={resourceLinkStyle}>Scheduling Multiplier</a>
+                <ResourceDescription>This is the description for the link above.</ResourceDescription>
 
+                <Category>
+                    For More
+                </Category>
+                <a href="https://www.coursera.org/learn/learning-how-to-learn"
+                   style={resourceLinkStyle}>Learning How to Learn, Course by Barbara Oakley</a>
+                <ResourceDescription>This is the description for the link above.</ResourceDescription>
+                <a href="https://fsou1.github.io/2020/06/12/Learning_how_to_learn/"
+                   style={resourceLinkStyle}>Learning How to Learn, Summary #1</a>
+                <ResourceDescription>This is the description for the link above.</ResourceDescription>
+                <a href="https://medium.com/learn-love-code/learnings-from-learning-how-to-learn-19d149920dc4"
+                   style={resourceLinkStyle}>Learning How to Learn, Summary #2</a>
+                <ResourceDescription>This is the description for the link above.</ResourceDescription>
+                <a href="https://www.lifehack.org/878293/effective-to-do-list"
+                   style={resourceLinkStyle}>Strategies for To Do Lists</a>
+                <ResourceDescription>This is the description for the link above.</ResourceDescription>
             </MainWrapper>
         </Container>
     )
@@ -91,6 +142,27 @@ const MainWrapper = styled.div`
     margin-left: 5%;
 `
 
+const Category = styled.div`
+    color: #1D3C4A;
+    font-size: 1.5em;
+    text-align: left; 
+    text-transform: bold;
+    vertical-align: middle;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    margin-bottom: 2%;
+    border-bottom: 2px solid grey;
+    width:85%;
+`
+
+const ResourceDescription = styled.div`
+    color: #D3D3D3;
+    text-align: left; 
+    vertical-align: middle;
+    padding-top: 0.25%;
+    padding-bottom: 2%;
+`
+
 const NavElement = styled.div`
     text_decoration: none;
     margin: 2.5em 0 2.5em 3em;
@@ -126,4 +198,9 @@ const focusLinkStyle = {
     textDecoration: 'none',
     order: 2,
     marginLeft: '2.7em',
+}
+
+const resourceLinkStyle = {
+    textDecoration: 'none',
+    color: '#41b5a9'
 }

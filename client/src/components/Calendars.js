@@ -5,16 +5,17 @@ import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import React, { useState ,useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
+import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import io from "socket.io-client";
 // import DatePicker from "react-datepicker";
 // import Task from "./components/Task";
 import events from './events.js';
+import {myContext} from "../Context";
 // import moment from 'moment'
 
 
-const socket = io('http://localhost:8080', { transports: ['websocket', 'polling', 'flashsocket'] });
-
+// const socket = io('http://localhost:8080', { transports: ['websocket', 'polling', 'flashsocket'] });
 const locales = {
   "en-US": require("date-fns/locale/en-US")
   }
@@ -27,23 +28,17 @@ const localizer = dateFnsLocalizer({
   locales
 })
 
-// const events = [
-//   {
-//     title: "Big Meeting",
-//     allDay: true, 
-//     start: new Date(2021, 6, 0),
-//     end: new Date(2021, 6, 0)
-//   },
-//   {
-//     title: "Vacation",
-//     start: new Date(2021, 6, 7),
-//     end: new Date(2021, 6, 10)
-//   },
-// ]
+
 
 function Calendars({userEmail}){
-  const [state, seState] = useState({message : '', name: ''})
+  const myCurrentDate = new Date();
+  const date = myCurrentDate.getFullYear() + '-' + (myCurrentDate.getMonth()+1) + '-' + myCurrentDate.getDate();
+  const newCurrentDate = "Current Date and Time: "+date;
+  console.log("today", newCurrentDate)
+  const DnDCalendar = withDragAndDrop(Calendar);
 
+  const userObject = useContext(myContext);
+  console.log('user object :' + userObject);
   console.log(userEmail);
 
   // const [newEvent, setNewEvent] = useState({
@@ -52,7 +47,7 @@ function Calendars({userEmail}){
   //   end:""
   // })
 
-   const [allEvents, setAllEvents] = useState(null)
+  const [allEvents, setAllEvents] = useState(null)
 
   function handleAddEvent(){
     setAllEvents([...allEvents])
@@ -60,7 +55,7 @@ function Calendars({userEmail}){
 
   useEffect(() => {
     console.log("use effect")
-    fetch('http://localhost:8080/myTasks')
+    fetch('http://localhost:8080/myTasks/' + userObject.email)
       .then(res => {
         return res.json()
       })
@@ -82,15 +77,18 @@ function Calendars({userEmail}){
    
 
     var finalData = []
-    data.forEach( (singleData) => {
+    data.forEach((singleData) => {
       // if (singleData["creator"] === "ayomide.ajayi2839@gmail.com"){
-        console.log("SingleData", singleData)
+        // console.log("SingleData", singleData)
         var finalSingleData = 
         {
           id: singleData._id,
           title: singleData.taskName,
           start: getDate(singleData.startDate), //new Date(singleData.predictedEndDate),
-          end: getDate(singleData.predictedEndDate) //new Date(singleData.startDate)
+          end: getDate(singleData.predictedEndDate), //new Date(singleData.startDate)
+          priority: singleData.priority
+       
+
       }
       finalData.push(finalSingleData)
 
@@ -101,18 +99,36 @@ function Calendars({userEmail}){
     })
     return finalData
   }
-
- 
-
-
   return (
     <div>
-      { allEvents && <Calendar
+      { allEvents && <DnDCalendar
       localizer={localizer}
       events={allEvents}
       startAccessor="start"
       endAccessor="end"
-      style={{height: '100vh', width: '77vw', padding: 30}}
+      style={{height: '100vh', width: '77vw', padding: 30, color: "black"}}
+      eventPropGetter={
+        (events) => {
+          let newStyle = {
+            backgroundColor: "lightgrey",
+            color: 'black',
+            borderRadius: "0px",
+            border: "none"
+          };
+          if (events.priority == "1"){
+            newStyle.backgroundColor = '#6FB3B8';
+          } else if (events.priority == "2"){
+            newStyle.backgroundColor = '#E8C067';
+          } else {
+            newStyle.backgroundColor = '#E07A7A';
+          }
+          return {
+            className: "",
+            style: newStyle
+          };
+        }
+      }
+  
       />}
     </div>
   )

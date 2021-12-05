@@ -1,27 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Routes } from "react-router-dom"; //,Routes
 import './index.css';
 import App from './App';
-import Calendar from './routes/Calendar';
-import Tasks from './routes/Tasks';
-import Tracker from './routes/Tracker';
-import Resources from './routes/Resources';
 import reportWebVitals from './reportWebVitals';
+import Context from "./Context";
+//import { BrowserRouter } from 'react-router-dom';
+
 
 ReactDOM.render(
-  <React.StrictMode>
-      <BrowserRouter>
-          <Routes>
-              <Route path="/" element={<Calendar />} />
-              <Route path="tasks" element={<Tasks />} />
-              <Route path="tracker" element={<Tracker />} />
-              <Route path="resources" element={<Resources />} />
-          </Routes>
-      </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <Context>
+            <App />
+        </Context>
+    </React.StrictMode>,
+    document.getElementById('root')
 );
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

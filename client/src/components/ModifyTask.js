@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {Dropdown, Option} from "./Dropdown";
 import TextField from '@material-ui/core/TextField';
 import {useState } from "react";
-import {creator} from '../App'
+//import {creator} from '../App'
 
 
 function UpdateTask({id, name, deadline, priority, predict, start, status, diff}){
@@ -30,11 +30,11 @@ function UpdateTask({id, name, deadline, priority, predict, start, status, diff}
 
     function submit(e){
         e.preventDefault()
-        console.log('this is the current user email' + creator);
+        //console.log('this is the current user email' + creator);
         // const profile = googleUser.getBasicProfile();
-        data.creatorId = creator;
+        //data.creatorId = creator;
 
-        fetch('http://localhost:8080/tasks', {
+        fetch('http://localhost:8080/myTasks', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -58,7 +58,7 @@ function UpdateTask({id, name, deadline, priority, predict, start, status, diff}
     }
 
     function deleteTask() {
-        fetch('http://localhost:8080/tasks', {
+        fetch('http://localhost:8080/myTasks', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'

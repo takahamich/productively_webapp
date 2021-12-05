@@ -6,7 +6,7 @@ import {useState } from "react";
 //import {creator} from '../App'
 
 
-function UpdateTask({id, name, deadline, priority, predictHours, predictMins, startDate, startTime, diff}){
+function UpdateTask({id, name, deadline, priority, predictHours, predictMins, startDate, startTime, difficulty}){
     const [data, setData] = useState({
         id: id,
         taskName: name,
@@ -16,7 +16,7 @@ function UpdateTask({id, name, deadline, priority, predictHours, predictMins, st
         PredictedTimeMinutes: predictMins,
         startDate: startDate,
         startTime: startTime,
-        difficulty: diff,
+        difficulty: difficulty,
     });
 
     function refreshPage() {
@@ -35,7 +35,7 @@ function UpdateTask({id, name, deadline, priority, predictHours, predictMins, st
         // const profile = googleUser.getBasicProfile();
         //data.creatorId = creator;
 
-        fetch('http://localhost:8080/myTasks', {
+        fetch('http://localhost:8080/updateTask', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -100,15 +100,21 @@ function UpdateTask({id, name, deadline, priority, predictHours, predictMins, st
                     onChange={(e) => handleChange(e)}
                     InputLabelProps={{
                         shrink: true,
-                    }}/>
+                    }}
+                    required
+                    fullWidth
+                />
+
                 <StyledTextField
-                    id="start"
+                    id="startTime"
                     label="Start Time"
-                    placeholder= "start time"
+                    type="time"
                     value={data.startTime}
                     onChange={(e) => handleChange(e)}
                     required
-                    fullWidth/>
+                    fullWidth
+                />
+
                 <StyledTextField
                     id="deadline"
                     label="Task deadline"
@@ -118,7 +124,10 @@ function UpdateTask({id, name, deadline, priority, predictHours, predictMins, st
                     onChange={(e) => handleChange(e)}
                     InputLabelProps={{
                         shrink: true,
-                    }}/>
+                    }}
+                    required
+                    fullWidth
+                />
 
                 <select id="priority" defaultValue={priority} value={data.priority} onChange={(e) => handleChange(e)}
                         style={dropdownStyle}>
@@ -129,7 +138,7 @@ function UpdateTask({id, name, deadline, priority, predictHours, predictMins, st
                     <Option value="High priority" />
                 </select>
                 <br></br>
-                <select id="difficulty" defaultValue={"Select difficulty"} value={data.difficulty} onChange={(e) => handleChange(e)}
+                <select id="difficulty" defaultValue={difficulty} value={data.difficulty} onChange={(e) => handleChange(e)}
                         style={dropdownStyle}>
                     <Option value="Select difficulty" disabled></Option>
                     <Option value="1 - easiest" />
@@ -143,6 +152,7 @@ function UpdateTask({id, name, deadline, priority, predictHours, predictMins, st
                     id="PredictedTimeHours"
                     label="Predicted Time in Hours"
                     placeholder= "hours"
+                    margin="normal"
                     value={data.PredictedTimeHours}
                     onChange={(e) => handleChange(e)}
                     required
@@ -151,6 +161,7 @@ function UpdateTask({id, name, deadline, priority, predictHours, predictMins, st
                     id="PredictedTimeMinutes"
                     label="Predicted Time in Minutes"
                     placeholder= "minutes"
+                    margin="normal"
                     value={data.PredictedTimeMinutes}
                     onChange={(e) => handleChange(e)}
                     required

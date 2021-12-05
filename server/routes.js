@@ -188,7 +188,7 @@ function getTimesForProductivityScore(tasks){
     }
    
 
-    console.log("totalPredTimeis", totalPredTime)
+    // console.log("totalPredTimeis", totalPredTime)
 
     // Do the same for actual time
 
@@ -216,8 +216,7 @@ function productivityScoreBucket(prodScore){
         case (prodScore < .75):
             result.push(prodScore)
             result.push("Wow! You're hyper-productive. Feel free to do more things, or just enjoy your day!")
-            break;
-                
+            break;     
         case (prodScore <= 1):
             result.push(prodScore)
             result.push("Yay! You're pretty spot on with your time estimates. Keep it up!");
@@ -328,7 +327,6 @@ app.post('/goalTrackerWeek', async (req,res) => {
         for (var i = 0; i < checkDates.length; i++){
             const tasks = await taskModel.find({"predictedEndDate":checkDates[i]});
             let value = getTimesForProductivityScore(tasks)
-            console.log("checking", Number.isNaN(value))
             if (
                 
                 Number.isNaN(value[0]) === true
@@ -346,8 +344,8 @@ app.post('/goalTrackerWeek', async (req,res) => {
             totalPredictedTime += value[0]
             totalActualTime += value[1]
         }
-        console.log("totalPredictedTime", totalPredictedTime)
-        console.log("totalacttime", totalActualTime)
+
+    
         result.push(calculateProductivityScore(totalPredictedTime, totalActualTime))
         // console.log("resulttt", result)
        
@@ -356,7 +354,7 @@ app.post('/goalTrackerWeek', async (req,res) => {
     else{
         // result.push("1", "2", "3", "4", "5", "6", ["5", "You do not have a productivity score yet Please check back at the end of the week!"])
         result.push(["You do not have a productivity score yet Please check back at the end of the week!"])
-        console.log("result issss", result)
+        // console.log("result issss", result)
     }
     
     // console.log("RESULTS", result)

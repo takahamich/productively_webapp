@@ -72,7 +72,7 @@ function Tracker() {
             body: JSON.stringify(credentials)
         })
         response.json().then(data => {
-            console.log("checking data", data)
+           
             processData(data)
 
         })
@@ -169,10 +169,6 @@ function Tracker() {
                 <ThisWeekMultiplier>{productiveWeekScore}x</ThisWeekMultiplier>
                 <WrapperHeader>less than the Amount of Time You Predicted</WrapperHeader>
                 <WrapperMessage> {productiveWeekComment} </WrapperMessage>
-
-
-
-
                 <WrapperMessage>
                     <h2>Summary:</h2>
                     <li> On Monday, you were  {productiveWeekMondayScore}x, less productive than anticipated. </li>

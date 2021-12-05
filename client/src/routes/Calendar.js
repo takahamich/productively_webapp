@@ -8,16 +8,6 @@ import Login from "../components/Login";
 
 function Calendar() {
     const [toggle, setToggle] = useState(false);
-    const [userObject, setUserObject] = useState(); //useState<any>();
-
-    useEffect(() => {
-        axios.get("https://localhost:8080/getuser", {withCredentials: true}).then(res => { //was slightly diff
-            console.log(res);
-            if (res.data) {
-                setUserObject(res.data);
-            }
-        })
-    }, [])
 
     const logout = () => {
         axios.get("http://localhost:8080/auth/logout", {
@@ -34,6 +24,9 @@ function Calendar() {
         setToggle(!toggle);
     }
 
+    const userObject = useContext(myContext);
+    console.log('user object :' + userObject);
+
     return (
         <Container>
             <SidebarWrapper>
@@ -45,15 +38,15 @@ function Calendar() {
                                      src={userObject.picture}
                                      alt="profile picture"/>
                             ) : (
-                                <h1>FirstName LastName</h1>
+                                <h3>none</h3>
                             )
                         }
                     </PicWrapper>
                     {
                         userObject ? (
-                            <h1>{userObject.name}</h1>
+                            <h3>{userObject.name}</h3>
                         ) : (
-                            <h1>FirstName LastName</h1>
+                            <h3>FirstName LastName</h3>
                         )
                     }
                 </InfoWrapper>
@@ -73,7 +66,7 @@ function Calendar() {
                     </NavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    <p onClick={logout}>Log Out</p>
+                    <Link to="/" onClick={logout}>Log Out</Link>
                 </LogoutElement>
             </SidebarWrapper>
             {/*<button className='btn-primary' onClick={logOut}>Log Out</button>*/}

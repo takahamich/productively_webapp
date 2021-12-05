@@ -5,8 +5,6 @@ import axios from "axios";
 import {myContext} from "../Context";
 
 function Resources() {
-    const userObject = useContext(myContext);
-
     const logout = () => {
         axios.get("http://localhost:8080/auth/logout", {
             withCredentials: true
@@ -16,6 +14,9 @@ function Resources() {
             }
         })
     }
+
+    const userObject = useContext(myContext);
+    console.log('user object :' + userObject);
 
     return (
         <Container>
@@ -28,15 +29,15 @@ function Resources() {
                                      src={userObject.picture}
                                      alt="profile picture"/>
                             ) : (
-                                <h1>FirstName LastName</h1>
+                                <h3>none</h3>
                             )
                         }
                     </PicWrapper>
                     {
                         userObject ? (
-                            <h1>{userObject.name}</h1>
+                            <h3>{userObject.name}</h3>
                         ) : (
-                            <h1>FirstName LastName</h1>
+                            <h3>FirstName LastName</h3>
                         )
                     }
                 </InfoWrapper>
@@ -56,7 +57,7 @@ function Resources() {
                     </FocusNavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    <p onClick={logout}>Log Out</p>
+                    <Link to="/" onClick={logout}>Log Out</Link>
                 </LogoutElement>
             </SidebarWrapper>
             <MainWrapper>

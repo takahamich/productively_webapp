@@ -7,9 +7,9 @@ import Context from "./Context";
 
 ReactDOM.render(
     <React.StrictMode>
-        <Context>
-            <AppTest />
-        </Context>
+    <Context>
+        <AppTest />
+    </Context>
     </React.StrictMode>,
     document.getElementById('root')
 );

@@ -12,8 +12,6 @@ function Tasks() {
     const [tasks, setTasks] = useState([]);
     const [toggle, setToggle] = useState(false);
 
-    const userObject = useContext(myContext);
-
     const logout = () => {
         axios.get("http://localhost:8080/auth/logout", {
             withCredentials: true
@@ -40,6 +38,9 @@ function Tasks() {
         setToggle(!toggle);
     }
 
+    const userObject = useContext(myContext);
+    console.log('user object :' + userObject);
+
     return (
         <Container>
             <SidebarWrapper>
@@ -51,15 +52,15 @@ function Tasks() {
                                      src={userObject.picture}
                                      alt="profile picture"/>
                             ) : (
-                                <h1>FirstName LastName</h1>
+                                <h3>none</h3>
                             )
                         }
                     </PicWrapper>
                     {
                         userObject ? (
-                            <h1>{userObject.name}</h1>
+                            <h3>{userObject.name}</h3>
                         ) : (
-                            <h1>FirstName LastName</h1>
+                            <h3>FirstName LastName</h3>
                         )
                     }
                 </InfoWrapper>
@@ -79,7 +80,7 @@ function Tasks() {
                     </NavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    <p onClick={logout}>Log Out</p>
+                    <Link to="/" onClick={logout}>Log Out</Link>
                 </LogoutElement>
             </SidebarWrapper>
             <TaskWrapper>

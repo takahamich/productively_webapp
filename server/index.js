@@ -12,7 +12,7 @@ const app = express();
 const port = 8080;
 const cookieParser = require('cookie-parser');
 
-app.use(cors({credentials: true})); //might not need to be commented out
+app.use(cors({credentials: true, origin: 'http://localhost:3000'})); //might not need to be commented out
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
@@ -88,10 +88,11 @@ passport.use(new GoogleStrategy({
                     googleId: profile.id,
                     name: profile.displayName,
                     email: profile.emails[0].value,
-                    picture: profile.picture,
+                    picture: profile.photos[0].value,
                 });
                 console.log('name: ' + newUser.name );
                 console.log('email: ' + newUser.email);
+                console.log('picture url: ' + newUser.picture);
                 await newUser.save();
                 return done(null, newUser);
             }
@@ -99,6 +100,7 @@ passport.use(new GoogleStrategy({
             console.log('found user');
             console.log('name: ' + user.name );
             console.log('email: ' + user.email);
+            console.log('picture url: ' + user.picture);
             return done(null, user);
         })
 
@@ -113,7 +115,7 @@ app.get('/auth/google',
 app.get('/auth/google/callback',
     passport.authenticate('google', {
         failureMessage: "Cannot login to Google, please try again later!",
-        failureRedirect: 'http://localhost:3000/login'
+        failureRedirect: 'http://localhost:3000/'
     }),
     function(req, res) {
         console.log('User :' + req.user);
@@ -126,10 +128,12 @@ app.get('/auth/google/callback',
 app.get("/getuser", (req, res) => {
     console.log("tried to get user and found: ");
     console.log(req.user);
-    if(req.user)
-        res.send(req.user);
-    else
+    if(req.user) {
+        console.log('sending req.user!');
+        return res.send(req.user);
+    } else {
         console.log("couldn't find user / user undefined");
+    }
     return null;
 });
 

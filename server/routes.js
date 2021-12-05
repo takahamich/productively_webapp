@@ -54,6 +54,33 @@ app.get("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
     }
 });
 
+app.put("/tasks/:id", async (req, res) => {
+    const task = await taskModel.findById(req.params.id)
+
+    if(!task) return res.status(404).send("Task not found")
+
+    const newTask = new taskModel({
+        taskName: req.body.taskName,
+        startDate: req.body.startDate,
+        status: req.body.status,
+        difficulty: req.body.difficulty,
+        predictedEndDate: req.body.deadline,
+        priority: req.body.priority,
+        predictedTime: req.body.predictedTime,
+        actualTime: req.body.actualTime,
+        startTime: req.body.start,
+        endTime: req.body.end,
+    });
+
+    try{
+        const updatedTask = await taskModel.findByIdAndUpdate(req.params.id, newTask, { new: true});
+        res.send(updatedTask);
+    }catch (error) {
+        res.status(500).send(error.message);
+        console.log(error.message);
+    }
+});
+
 app.post("/deleteTask", async (req, res) => {
     console.log("deleting task");
     const task_id = req.body.id;

@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Route, Navigate, Routes} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 import { myContext } from './Context';
 
 

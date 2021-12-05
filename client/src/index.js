@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import AppTest from './AppTest';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Context from "./Context";
 //import { BrowserRouter } from 'react-router-dom';
@@ -10,7 +10,7 @@ import Context from "./Context";
 ReactDOM.render(
     <React.StrictMode>
         <Context>
-            <AppTest />
+            <App />
         </Context>
     </React.StrictMode>,
     document.getElementById('root')

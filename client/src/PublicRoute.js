@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
-import {Route, Navigate, Redirect} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 import {myContext} from "./Context";
 
-const PublicRouter = ({children}) => {
+const PublicRoute = ({children}) => {
     const user = useContext(myContext);
 
     if(user){
@@ -12,4 +12,4 @@ const PublicRouter = ({children}) => {
     }
 };
 
-export default PublicRouter;
+export default PublicRoute;

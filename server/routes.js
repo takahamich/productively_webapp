@@ -266,7 +266,7 @@ app.post('/goalTrackerWeek', async (req,res) => {
     const date6 = myPastDate6.getFullYear() + '-' +  (myPastDate6.getMonth()+1) + '-' + myPastDate6.getDate();
     
 
-    if (day === "Sundays"){
+    if (day === "Sunday"){
         checkDates.push(date1, date2, date3, date4, date5, date6, date)
         // const tasks = await taskModel.find({"predictedEndDate":"2021-11-18"});
 

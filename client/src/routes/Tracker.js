@@ -176,12 +176,12 @@ function Tracker() {
                 <WrapperMessage>
                     <h2>Summary:</h2>
                     <li> On Monday, you were  {productiveWeekMondayScore}x, less productive than anticipated. </li>
-                    <li> On Tuesday {productiveWeekTuesdayScore}x, less productive than anticipated. </li>
-                    <li> On Wednesday {productiveWeekWednesdayScore}x, less productive than anticipated. </li>
-                    <li> On Thursday {productiveWeekThursdayScore}x, less productive than anticipated.</li>
-                    <li> On Friday productivity score: {productiveWeekFridayScore}x, less productive than anticipated. </li>
-                    <li> On Saturday productivity score: {productiveWeekSaturdayScore}x, less productive than anticipated. </li>
-                    <li> On Sunday productivity score: {productiveWeekSundayScore}x, less productive than anticipated. </li>
+                    <li> On Tuesday, you were {productiveWeekTuesdayScore}x, less productive than anticipated. </li>
+                    <li> On Wednesday, you were {productiveWeekWednesdayScore}x, less productive than anticipated. </li>
+                    <li> On Thursday, you were {productiveWeekThursdayScore}x, less productive than anticipated.</li>
+                    <li> On Friday, you were  {productiveWeekFridayScore}x, less productive than anticipated. </li>
+                    <li> On Saturday, you were  {productiveWeekSaturdayScore}x, less productive than anticipated. </li>
+                    <li> On Sunday, you were  {productiveWeekSundayScore}x, less productive than anticipated. </li>
 
 
                 </WrapperMessage>

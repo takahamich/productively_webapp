@@ -4,12 +4,15 @@ import {Link} from "react-router-dom";
 import TaskCard from "../components/TaskCard";
 import TaskButton from "../components/TaskButton";
 import Task from "../components/Task";
+import UpdateTask from "../components/ModifyTask";
+import TaskGroup from '../components/TaskGroup';
 import {myContext} from "../Context";
 import axios from "axios";
 
-
 function Tasks() {
     const [tasks, setTasks] = useState([]);
+    const [dates, setDates] = useState(new Set());
+    const [dateArray, setDateArray] = useState([]);
     const [toggle, setToggle] = useState(false);
 
     const logout = () => {
@@ -31,14 +34,12 @@ function Tasks() {
         .then(data => {
             for (let i = 0; i < data.length; i++) {
                 setTasks(tasks => [...tasks, data[i]]);
+                //setDates(dates => new Set(dates).add(data[i].predictedEndDate));
             }
+            //setDateArray([...dates]);
             console.log(tasks);
         })
         .catch(err => setTasks(err.message));
-
-
-  
-        
     }, []);
 
 
@@ -92,9 +93,19 @@ function Tasks() {
                 </LogoutElement>
             </SidebarWrapper>
             <TaskWrapper>
-                {tasks.map(t => (
-                    <TaskCard id={t._id} taskName={t.taskName} duration="2h 0m" priority={t.priority} status={"In Progress"}/>
-                ))}
+                {/*dateArray.map(d => (<TaskGroup date={d} tasks={tasks.slice(0,4)}/>))*/
+                    tasks.map(t => (
+                            <TaskCard
+                                id={t._id}
+                                taskName={t.taskName}
+                                deadline={t.predictedEndDate}
+                                start={t.startDate}
+                                duration="2h 0m"
+                                priority={t.priority}
+                                status={t.status}
+                                difficulty={t.difficulty}
+                            />
+                        ))}
             </TaskWrapper>
             <ButtonWrapper>
                 <TaskButton onClick={handleOnClick}/>

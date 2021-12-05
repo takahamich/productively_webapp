@@ -46,18 +46,30 @@ app.get("/myTasks", async (req, res) => { //gets all tasks for Calendar
     }
 });
 
-app.put("/submitActualTime", async (req, res) => {
-    const actualTime = req.body.actualTime;
-    const id = req.body.id;
+app.put("/tasks/:id", async (req, res) => {
+    const task = await taskModel.findById(req.params.id)
 
-    try {
-        await taskModel.findById(id,(error, updatedTask)=> {
-            updatedTask.actualTime = actualTime;
-            updatedTask.save();
-            res.send(updatedTask);
-        })
-    } catch (error) {
-        res.status(500).send(error);
+    if(!task) return res.status(404).send("Task not found")
+
+    const newTask = new taskModel({
+        taskName: req.body.taskName,
+        startDate: req.body.startDate,
+        status: req.body.status,
+        difficulty: req.body.difficulty,
+        predictedEndDate: req.body.deadline,
+        priority: req.body.priority,
+        predictedTime: req.body.PredictedTime,
+        actualTime: req.body.ActualTime,
+        startTime: req.body.start,
+        endTime: req.body.end,
+    });
+
+    try{
+        const updatedTask = await taskModel.findByIdAndUpdate(req.params.id, newTask, { new: true});
+        res.send(updatedTask);
+    }catch (error) {
+        res.status(500).send(error.message);
+        console.log(error.message);
     }
 });
 

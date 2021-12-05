@@ -19,13 +19,15 @@ function TaskCard({id, taskName, duration, priority}) {
     }
 
     function updateActualTime() {
-        // Simple PUT request with a JSON body using fetch
+        const data = {
+            actualTime: actualTime
+        }
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(actualTime)
+            body: JSON.stringify(data)
         };
-        fetch('http://localhost:8080/submitActualTime', requestOptions)
+        fetch('http://localhost:8080/tasks/' + id, requestOptions)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(response.statusText);

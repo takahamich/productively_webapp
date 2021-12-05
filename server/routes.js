@@ -58,8 +58,8 @@ app.put("/tasks/:id", async (req, res) => {
         difficulty: req.body.difficulty,
         predictedEndDate: req.body.deadline,
         priority: req.body.priority,
-        predictedTime: req.body.PredictedTime,
-        actualTime: req.body.ActualTime,
+        predictedTime: req.body.predictedTime,
+        actualTime: req.body.actualTime,
         startTime: req.body.start,
         endTime: req.body.end,
     });

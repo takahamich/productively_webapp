@@ -93,7 +93,6 @@ function Tracker() {
             setProductiveWeekComment(data[0])
         }
         else{
-
             setProductiveWeekMondayScore(data[0])
             setProductiveWeekTuesdayScore(data[1])
             setProductiveWeekWednesdayScore(data[2])
@@ -101,6 +100,7 @@ function Tracker() {
             setProductiveWeekFridayScore(data[4])
             setProductiveWeekSaturdayScore(data[5])
             setProductiveWeekSundayScore(data[6])
+            console.log(data[7], 'data')
             setProductiveWeekScore(data[7][0])
             setProductiveWeekComment(data[7][1])
 

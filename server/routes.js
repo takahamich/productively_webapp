@@ -136,6 +136,7 @@ function getTimesForProductivityScore(tasks){
     for(var i = 0; i < finalData.length; i++) {
         totalPredTime += finalData[i].predTime
     }
+   
 
     console.log("totalPredTimeis", totalPredTime)
 
@@ -277,7 +278,20 @@ app.post('/goalTrackerWeek', async (req,res) => {
         for (var i = 0; i < checkDates.length; i++){
             const tasks = await taskModel.find({"predictedEndDate":checkDates[i]});
             let value = getTimesForProductivityScore(tasks)
+            console.log("checking", Number.isNaN(value))
+            if (
+                
+                Number.isNaN(value[0]) === true
+                
+                ){
+                value[0] = 0
+            } else if( Number.isNaN(value[1]) === true){
+                value[1] = 0
+
+            }
+            
             score = calculateProductivityScore(value[0], value[1])
+            // console.log("score," , score)
             result.push(score[0])
             totalPredictedTime += value[0]
             totalActualTime += value[1]
@@ -285,7 +299,7 @@ app.post('/goalTrackerWeek', async (req,res) => {
         console.log("totalPredictedTime", totalPredictedTime)
         console.log("totalacttime", totalActualTime)
         result.push(calculateProductivityScore(totalPredictedTime, totalActualTime))
-        console.log("resulttt", result)
+        // console.log("resulttt", result)
        
 
     }

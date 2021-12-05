@@ -149,6 +149,7 @@ function Task({onClick}){
                 <StyledTitleTextField
                     id="taskName"
                     label="Task name"
+                    margin="normal"
                     value={data.taskName}
                     onChange={(e) => handleChange(e)}
                     required
@@ -159,29 +160,39 @@ function Task({onClick}){
                     id="startDate"
                     label="Start date"
                     type="date"
+                    margin="normal"
                     value={data.startDate}
                     onChange={(e) => handleChange(e)}
                     InputLabelProps={{
                         shrink: true,
-                    }}/>
+                    }}
+                    required
+                    fullWidth
+                />
+
                 <StyledTextField
                     id="start"
                     label="Start Time"
-                    placeholder= "start time"
+                    type="time"
                     value={data.start}
                     onChange={(e) => handleChange(e)}
                     required
-                    fullWidth/>
+                    fullWidth
+                />
 
                 <StyledTextField
                     id="deadline"
                     label="Task deadline"
                     type="date"
+                    margin="normal"
                     value={data.deadline}
                     onChange={(e) => handleChange(e)}
                     InputLabelProps={{
                         shrink: true,
-                    }}/>
+                    }}
+                    required
+                    fullWidth
+                />
 
                 <select id="priority" defaultValue={"Select task priority"} value={data.priority} onChange={(e) => handleChange(e)}
                         style={dropdownStyle}>
@@ -282,7 +293,7 @@ const ButtonWrapper = styled.div`
 const FormTitle = styled.p`
     color: #1B3D4A;
     font-size: 1.5em;
-    margin: 1.5em 0 0 0;
+    margin: 2em 0 1em 2em;
 `
 
 const dropdownStyle = {

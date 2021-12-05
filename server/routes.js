@@ -90,6 +90,29 @@ app.post("/deleteTask", async (req, res) => {
     });
 });
 
+app.post("/updateTask", async (req, res) => {
+    console.log("updating task");
+    const task_id = req.body.id;
+    console.log(task_id);
+    let taskPriority = 0;
+    if (req.body.priority == "Low priority" || req.body.priority == "1") {
+        taskPriority = 1;
+    } else if (req.body.priority == "Medium priority" || req.body.priority == "2") {
+        taskPriority = 2;
+    } else {
+        taskPriority = 3;
+    }
+    taskModel.updateOne(
+        {_id: task_id},
+        {taskName: req.body.taskName, predictedEndDate: req.body.deadline,
+            priority: taskPriority, predictedTimeHours: req.body.PredictedTimeHours,
+            predictedTimeMinutes: req.body.PredictedTimeMinutes, startDate: req.body.startDate,
+            startTime: req.body.startTime, difficulty: req.body.difficulty},
+        function(err) {
+        if (err) console.log(err);
+    });
+});
+
 app.post("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
     console.log('Posting a new task to my tasks :p');
     console.log(req.body);

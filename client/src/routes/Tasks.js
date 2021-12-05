@@ -57,7 +57,7 @@ function Tasks() {
                     <PicWrapper>
                         {
                             userObject ? (
-                                <img className="ProfilePicture"
+                                <PicStyle
                                      src={userObject.picture}
                                      alt="profile picture"/>
                             ) : (
@@ -67,9 +67,9 @@ function Tasks() {
                     </PicWrapper>
                     {
                         userObject ? (
-                            <h3>{userObject.name}</h3>
+                            <p>{userObject.name}</p>
                         ) : (
-                            <h3>FirstName LastName</h3>
+                            <p>FirstName LastName</p>
                         )
                     }
                 </InfoWrapper>
@@ -89,7 +89,7 @@ function Tasks() {
                     </NavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    <Link to="/" onClick={logout}>Log Out</Link>
+                    <Link to="/" style={logoutStyle} onClick={logout}>Log Out</Link>
                 </LogoutElement>
             </SidebarWrapper>
             <TaskWrapper>
@@ -151,7 +151,7 @@ const SidebarWrapper = styled.div`
     background: #377F87;
     left: 0;
     height: 100vh;
-    width: 25vw;
+    min-width: 23vw;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
@@ -201,6 +201,11 @@ const LogoutElement = styled.div`
     margin: 2.5em 0 2.5em 3em;
 `
 
+const logoutStyle = {
+    color: '#F6F6F2',
+    textDecoration: 'none',
+}
+
 const linkStyle = {
     textDecoration: 'none',
     color: '#BADFE7'
@@ -212,3 +217,9 @@ const focusLinkStyle = {
     order: 2,
     marginLeft: '2.7em',
 }
+
+const PicStyle = styled.img`
+    height: 75px;
+    width: 75px;
+    border-radius: 50%;
+`

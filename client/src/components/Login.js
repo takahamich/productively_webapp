@@ -1,13 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import './Login.css';
-import axios from "axios";
 
 function Login() {
     const googleLogin = () => { //was const not function = () => {
         window.open("http://localhost:8080/auth/google", "_self");
         //window.location.href = "localhost:8080/auth/google";
     }
-
 
     return(
         <div className="login-wrapper">
@@ -21,13 +19,10 @@ function Login() {
                 {/*<LoginButton/>*/}
             </div>
         </div>
+
       )
 }
 
 
 export default Login;
-
-
-
-
 

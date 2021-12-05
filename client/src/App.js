@@ -45,4 +45,4 @@ function App() {
     );
 }
 
-export default AppTest;
+export default App;

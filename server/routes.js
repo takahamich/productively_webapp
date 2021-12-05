@@ -39,14 +39,70 @@ app.get("/tasks", async (req, res) => { //gets all tasks
     }*/
 });
 
-app.get("/myTasks", async (req, res) => { //gets all tasks for Calendar
-    const tasks = await taskModel.find({});
+app.get("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
+    console.log("getting my tasks!");
+    const tasks = await taskModel.find({creator: req.params.id});
+    console.log(tasks);//user.tasks undefined
 
+    // find within user?
     try {
         res.send(tasks);
     } catch (error) {
         res.status(500).send(error);
     }
+});
+
+app.post("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
+    console.log('Posting a new task to my tasks :p');
+    console.log(req.body);
+
+    let taskPriority = 0;
+    if (req.body.priority == "Low priority") {
+        taskPriority = 1;
+    } else if (req.body.priority == "Medium priority") {
+        taskPriority = 2;
+    } else {
+        taskPriority = 3;
+    }
+
+    userModel.findOne({email: req.params.id}, async (err, user) => {
+        if (err) {
+            console.log('error finding user');
+            return done(err, null);
+        }
+
+        const newTask = new taskModel({
+            _id: new mongoose.Types.ObjectId, //req.params.id,
+            taskName: req.body.taskName,
+            predictedEndDate: req.body.deadline,
+            priority: taskPriority,
+            predictedTimeHours: req.body.PredictedTimeHours,
+            predictedTimeMinutes: req.body.PredictedTimeMinutes,
+            actualTime: req.body.ActualTime,
+            startTime: req.body.start,
+            endTime: req.body.end,
+            startDate: req.body.startDate,
+            status: req.body.status,
+            difficulty: req.body.difficulty,
+            creator: req.params.id,
+        });
+
+        console.log('new task was created as follows: ');
+        console.log(newTask);
+
+        taskModel.create(newTask, (err, task) => {
+            if (err) {
+                res.redirect('/');
+                throw new Error(err);
+            }
+
+            user.tasks.push(newTask);
+            console.log(user.tasks);
+            user.save((err) => {
+                return res.send(user.tasks);
+            });
+        });
+    });
 });
 
 app.post('/signedin', (req, res) => {

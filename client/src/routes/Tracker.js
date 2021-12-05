@@ -23,8 +23,12 @@ function Tracker() {
    
     const [mydate, setMyDate] = useState(null)
 
+    const userObject = useContext(myContext);
+    console.log('user object :' + userObject);
+    //console.log(userEmail);
+
     useEffect(() => {
-        fetch('http://localhost:8080/tasks')
+        fetch('http://localhost:8080/myTasks/' + userObject.email)
           .then(res => {
             return res.json()
           })
@@ -73,8 +77,6 @@ function Tracker() {
 
         return value
     }
-    const userObject = useContext(myContext);
-    console.log('user object :' + userObject);
 
     return (
         <Container>

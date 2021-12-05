@@ -21,9 +21,12 @@ function Tasks() {
             }
         })
     }
+    const userObject = useContext(myContext);
+    console.log('user object :' + userObject);
+    console.log('user object email:' + userObject.email);
 
     useEffect(() => {
-        fetch('http://localhost:8080/tasks')
+        fetch('http://localhost:8080/myTasks/' + userObject.email)
         .then(response => response.json())
         .then(data => {
             for (let i = 0; i < data.length; i++) {
@@ -38,8 +41,7 @@ function Tasks() {
         setToggle(!toggle);
     }
 
-    const userObject = useContext(myContext);
-    console.log('user object :' + userObject);
+
 
     return (
         <Container>

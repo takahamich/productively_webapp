@@ -54,6 +54,33 @@ app.get("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
     }
 });
 
+app.put("/tasks/:id", async (req, res) => {
+    const task = await taskModel.findById(req.params.id)
+
+    if(!task) return res.status(404).send("Task not found")
+
+    const newTask = new taskModel({
+        taskName: req.body.taskName,
+        startDate: req.body.startDate,
+        status: req.body.status,
+        difficulty: req.body.difficulty,
+        predictedEndDate: req.body.deadline,
+        priority: req.body.priority,
+        predictedTime: req.body.predictedTime,
+        actualTime: req.body.actualTime,
+        startTime: req.body.start,
+        endTime: req.body.end,
+    });
+
+    try{
+        const updatedTask = await taskModel.findByIdAndUpdate(req.params.id, newTask, { new: true});
+        res.send(updatedTask);
+    }catch (error) {
+        res.status(500).send(error.message);
+        console.log(error.message);
+    }
+});
+
 app.post("/deleteTask", async (req, res) => {
     console.log("deleting task");
     const task_id = req.body.id;
@@ -159,6 +186,7 @@ function getTimesForProductivityScore(tasks){
     for(var i = 0; i < finalData.length; i++) {
         totalPredTime += finalData[i].predTime
     }
+   
 
     console.log("totalPredTimeis", totalPredTime)
 
@@ -289,7 +317,7 @@ app.post('/goalTrackerWeek', async (req,res) => {
     const date6 = myPastDate6.getFullYear() + '-' +  (myPastDate6.getMonth()+1) + '-' + myPastDate6.getDate();
     
 
-    if (day === "Sundays"){
+    if (day === "Sunday"){
         checkDates.push(date1, date2, date3, date4, date5, date6, date)
         // const tasks = await taskModel.find({"predictedEndDate":"2021-11-18"});
 
@@ -300,7 +328,20 @@ app.post('/goalTrackerWeek', async (req,res) => {
         for (var i = 0; i < checkDates.length; i++){
             const tasks = await taskModel.find({"predictedEndDate":checkDates[i]});
             let value = getTimesForProductivityScore(tasks)
+            console.log("checking", Number.isNaN(value))
+            if (
+                
+                Number.isNaN(value[0]) === true
+                
+                ){
+                value[0] = 0
+            } else if( Number.isNaN(value[1]) === true){
+                value[1] = 0
+
+            }
+            
             score = calculateProductivityScore(value[0], value[1])
+            // console.log("score," , score)
             result.push(score[0])
             totalPredictedTime += value[0]
             totalActualTime += value[1]
@@ -308,7 +349,7 @@ app.post('/goalTrackerWeek', async (req,res) => {
         console.log("totalPredictedTime", totalPredictedTime)
         console.log("totalacttime", totalActualTime)
         result.push(calculateProductivityScore(totalPredictedTime, totalActualTime))
-        console.log("resulttt", result)
+        // console.log("resulttt", result)
        
 
     }

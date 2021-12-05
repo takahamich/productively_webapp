@@ -15,7 +15,7 @@ function Tracker() {
     // var time = myCurrentDate.getHours() + ":" + myCurrentDate.getMinutes()
     var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
     var day = days[myCurrentDate.getDay()];
-
+    const userObject = useContext(myContext);
 
 
     var myPastDate1 = new Date(myCurrentDate);
@@ -103,7 +103,6 @@ function Tracker() {
             setProductiveWeekComment(data[0])
         }
         else{
-
             setProductiveWeekMondayScore(data[0])
             setProductiveWeekTuesdayScore(data[1])
             setProductiveWeekWednesdayScore(data[2])
@@ -111,6 +110,7 @@ function Tracker() {
             setProductiveWeekFridayScore(data[4])
             setProductiveWeekSaturdayScore(data[5])
             setProductiveWeekSundayScore(data[6])
+            console.log(data[7], 'data')
             setProductiveWeekScore(data[7][0])
             setProductiveWeekComment(data[7][1])
 
@@ -173,7 +173,7 @@ function Tracker() {
             </TodayWrapper>
             <ThisWeekWrapper>
                 <WrapperHeader>
-                    This Week: day1 date1 - day date
+                    This Week: {day1}, {date1} - {day}, {date}
                 </WrapperHeader>
                 <WrapperHeader>Your Tasks Have Taken</WrapperHeader>
                 <ThisWeekMultiplier>{productiveWeekScore}x</ThisWeekMultiplier>
@@ -186,12 +186,12 @@ function Tracker() {
                 <WrapperMessage>
                     <h2>Summary:</h2>
                     <li> On Monday, you were  {productiveWeekMondayScore}x, less productive than anticipated. </li>
-                    <li> On Tuesday {productiveWeekTuesdayScore}x, less productive than anticipated. </li>
-                    <li> On Wednesday {productiveWeekWednesdayScore}x, less productive than anticipated. </li>
-                    <li> On Thursday {productiveWeekThursdayScore}x, less productive than anticipated.</li>
-                    <li> On Friday productivity score: {productiveWeekFridayScore}x, less productive than anticipated. </li>
-                    <li> On Saturday productivity score: {productiveWeekSaturdayScore}x, less productive than anticipated. </li>
-                    <li> On Sunday productivity score: {productiveWeekSundayScore}x, less productive than anticipated. </li>
+                    <li> On Tuesday, you were {productiveWeekTuesdayScore}x, less productive than anticipated. </li>
+                    <li> On Wednesday, you were {productiveWeekWednesdayScore}x, less productive than anticipated. </li>
+                    <li> On Thursday, you were {productiveWeekThursdayScore}x, less productive than anticipated.</li>
+                    <li> On Friday, you were  {productiveWeekFridayScore}x, less productive than anticipated. </li>
+                    <li> On Saturday, you were  {productiveWeekSaturdayScore}x, less productive than anticipated. </li>
+                    <li> On Sunday, you were  {productiveWeekSundayScore}x, less productive than anticipated. </li>
 
 
                 </WrapperMessage>

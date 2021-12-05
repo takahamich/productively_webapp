@@ -77,9 +77,9 @@ function Calendars({userEmail}){
    
 
     var finalData = []
-    data.forEach( (singleData) => {
+    data.forEach((singleData) => {
       // if (singleData["creator"] === "ayomide.ajayi2839@gmail.com"){
-        console.log("SingleData", singleData)
+        // console.log("SingleData", singleData)
         var finalSingleData = 
         {
           id: singleData._id,

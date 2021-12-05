@@ -35,7 +35,13 @@ function Tasks() {
             console.log(tasks);
         })
         .catch(err => setTasks(err.message));
+
+
+  
+        
     }, []);
+
+
 
     function handleOnClick(){
         setToggle(!toggle);

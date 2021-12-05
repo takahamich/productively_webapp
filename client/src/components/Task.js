@@ -7,6 +7,7 @@ import App from '../App'
 import { myContext } from '../Context';
 
 
+
 function Task({onClick}){
     const userObject = useContext(myContext);
 
@@ -25,15 +26,90 @@ function Task({onClick}){
         creatorId: "",
     });
 
+    const [message, setMessage] = useState('');
+
     function refreshPage() {
         window.location.href = window.location.href
     }
 
+    function updateMessage(nm){
+        setMessage(nm);
+    }
 
     function handleChange(e){
         const newdata={...data}
         newdata[e.target.id] = e.target.value
         setData(newdata)
+    }
+
+    async function postData(url = '', data = '') {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: data
+        })
+        response.json().then(data => {
+            let m = ''
+            for (let i = 0; i < data.length; i++) {
+                m += data[i];
+                m += '\n';
+            }
+            updateMessage(m)
+            alert(m);
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    /*async function getData(url = '') {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json'
+            },
+        })
+        response.json().then(data => {
+                alert(data);
+        }).catch(err => {
+            console.log(err);
+        });
+    }*/
+
+    function schedule() {
+        console.log("Making today's schedule for user: " + creator)
+
+        postData('http://localhost:8080/tasks/schedule', creator);
+        //getData('http://localhost:8080/tasks/schedule');
+        /*fetch('http://localhost:8080/tasks/schedule', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: creator
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            console.log("get your POST done")
+            console.log(response.json());
+
+        }).catch(err => {
+            console.log(err);
+        });*/
+
+       /* fetch('http://localhost:8080/tasks/schedule')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(err => {
+                console.log(err);
+            });*/
+
+        alert("scheduled!");
+
     }
 
     function submit(e){
@@ -90,6 +166,15 @@ function Task({onClick}){
                     InputLabelProps={{
                         shrink: true,
                     }}/>
+                <StyledTextField
+                    id="start"
+                    label="Start Time"
+                    margin="normal"
+                    placeholder= "start time"
+                    value={data.start}
+                    onChange={(e) => handleChange(e)}
+                    required
+                    fullWidth/>
 
                 <StyledTextField
                     id="start"
@@ -120,15 +205,15 @@ function Task({onClick}){
                     <Option value="Medium priority" />
                     <Option value="High priority" />
                 </select>
-                {/*<br></br>*/}
-                {/*<select id="status" defaultValue={"Select status"} value={data.status} onChange={(e) => handleChange(e)}*/}
-                {/*        style={dropdownStyle}>*/}
-                {/*    <Option value="Select status" disabled></Option>*/}
-                {/*    <Option value="Not started" />*/}
-                {/*    <Option value="In Progress" />*/}
-                {/*    <Option value="Done" />*/}
-                {/*</select>*/}
-                {/*<br></br>*/}
+                {/* <br></br>
+                <select id="status" defaultValue={"Select status"} value={data.status} onChange={(e) => handleChange(e)}
+                        style={dropdownStyle}>
+                    <Option value="Select status" disabled></Option>
+                    <Option value="Not started" />
+                    <Option value="In Progress" />
+                    <Option value="Done" />
+                </select>
+                    <br></br> */}
                 <select id="difficulty" defaultValue={"Select difficulty"} value={data.difficulty} onChange={(e) => handleChange(e)}
                         style={dropdownStyle}>
                     <Option value="Select difficulty" disabled></Option>
@@ -148,7 +233,6 @@ function Task({onClick}){
                     onChange={(e) => handleChange(e)}
                     required
                     fullWidth/>
-
                 <StyledTextField
                     id="PredictedTimeMinutes"
                     label="Predicted Time in Minutes"
@@ -158,11 +242,38 @@ function Task({onClick}){
                     onChange={(e) => handleChange(e)}
                     required
                     fullWidth/>
+                
+                <StyledTextField
+                    id="PredictedTimeMinutes"
+                    label="Predicted Time in Minutes"
+                    margin="normal"
+                    placeholder= "minutes"
+                    value={data.PredictedTimeMinutes}
+                    onChange={(e) => handleChange(e)}
+                    required
+                    fullWidth/>
+
+                 {/* <TextField
+                    id="ActualTime"
+                    label=" Actual: Time in hours, seconds"
+                    fullWidth/>  */}
+
+                {/* <label for="start">Start Time</label>
+                <input type="time" id="start" name="start"
+                    value={data.start}
+                    onChange={(e) => handleChange(e)}></input> */}
+
+                {/* <label for="end">End Time</label>
+                <input type="time" id="end" name="end"
+                 value={data.end}
+                onChange={(e) => handleChange(e)}></input>  */}
                 {/*<ButtonWrapper>
                     <button type="button" onClick={onClick}>Delete</button>
                 </ButtonWrapper>*/}
+                <div>{message}</div>
                 <ButtonWrapper>
                     <button type="submit" style={submitButton}>Submit Task</button>
+                    <button onClick={schedule}>Make a Schedule</button>
                     <DoneButton onClick={onClick}>Done</DoneButton>
                 </ButtonWrapper>
             </FormWrapper>

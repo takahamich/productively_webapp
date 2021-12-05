@@ -1,35 +1,24 @@
-import React, {useContext, useEffect, useState} from "react";
+
+import React, { useContext, useEffect, useState } from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
-//import LogoutButton from '../components/LogoutButton';
 import {myContext} from "../Context";
-import axios from "axios";
 
 
 
 
 function Tracker() {
-    const logout = () => {
-        axios.get("http://localhost:8080/auth/logout", {
-            withCredentials: true
-        }).then(res => {
-            if (res.data === "done") {
-                window.location.href = "/"
-            }
-        })
-    }
-
     const myCurrentDate = new Date();
     // const date = myCurrentDate.getFullYear() + '-' + (myCurrentDate.getMonth()+1) + '-' + myCurrentDate.getDate();
     const date = (myCurrentDate.getMonth()+1) + '/' + myCurrentDate.getDate() + '/' + myCurrentDate.getFullYear();
-    // var time = myCurrentDate.getHours() + ":" + myCurrentDate.getMinutes() 
+    // var time = myCurrentDate.getHours() + ":" + myCurrentDate.getMinutes()
     var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
     var day = days[myCurrentDate.getDay()];
-   
+
 
 
     var myPastDate1 = new Date(myCurrentDate);
-    myPastDate1.setDate(myPastDate1.getDate() - 6)  
+    myPastDate1.setDate(myPastDate1.getDate() - 6)
     var day1 = days[myPastDate1.getDay()];
     const date1 = (myPastDate1.getMonth()+1) + '/' + myPastDate1.getDate() + '/' + myPastDate1.getFullYear();
 
@@ -48,30 +37,16 @@ function Tracker() {
     const [productiveWeekFridayScore, setProductiveWeekFridayScore] = useState()
     const [productiveWeekSaturdayScore, setProductiveWeekSaturdayScore] = useState()
     const [productiveWeekSundayScore, setProductiveWeekSundayScore] = useState()
-   
 
-    
 
-    const userObject = useContext(myContext);
-    console.log('user object :' + userObject);
-    //console.log(userEmail);
+
 
     useEffect(() => {
-        fetch('http://localhost:8080/myTasks/' + userObject.email)
-          .then(res => {
-            return res.json()
-          })
-          .then(data => {
-            const parsedData = parse(data)
-            const processData = process(parsedData)
-           
-          })
-      }, [])
+        productivityDayScore({"credentials": 'creator'})
+        productivityWeekScore({"credentials": 'creator'})
+    }, [])
 
-       productivityDayScore({"credentials": 'creator'})
-       productivityWeekScore({"credentials": 'creator'})
 
-      
     async function productivityDayScore(credentials) {
         const response = await fetch("http://localhost:8080/goalTracker", {
             method: 'POST',
@@ -83,7 +58,7 @@ function Tracker() {
         response.json().then(data => {
             setProductiveScore(data[0])
             setProductiveComment(data[1])
-     
+
         })
     }
 
@@ -99,7 +74,7 @@ function Tracker() {
         response.json().then(data => {
             console.log("checking data", data)
             processData(data)
-     
+
         })
     }
 
@@ -118,7 +93,7 @@ function Tracker() {
             setProductiveWeekComment(data[0])
         }
         else{
-    
+
             setProductiveWeekMondayScore(data[0])
             setProductiveWeekTuesdayScore(data[1])
             setProductiveWeekWednesdayScore(data[2])
@@ -130,7 +105,7 @@ function Tracker() {
             setProductiveWeekComment(data[7][1])
 
         }
-    
+
     }
 
 
@@ -138,28 +113,12 @@ function Tracker() {
         <Container>
             <SidebarWrapper>
                 <InfoWrapper>
-                    <PicWrapper>
-                        {
-                            userObject ? (
-                                <img className="ProfilePicture"
-                                     src={userObject.picture}
-                                     alt="profile picture"/>
-                            ) : (
-                                <h3>none</h3>
-                            )
-                        }
-                    </PicWrapper>
-                    {
-                        userObject ? (
-                            <h3>{userObject.name}</h3>
-                        ) : (
-                            <h3>FirstName LastName</h3>
-                        )
-                    }
+                    <PicWrapper> </PicWrapper>
+                    Firstname Lastname
                 </InfoWrapper>
                 <NavWrapper>
                     <NavElement>
-                        <Link to="/home" style={linkStyle}>Calendar</Link>
+                        <Link to="/" style={linkStyle}>Calendar</Link>
                     </NavElement>
                     <NavElement>
                         <Link to="/tasks" style={linkStyle}>Tasks</Link>
@@ -173,7 +132,7 @@ function Tracker() {
                     </NavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    <Link to="/" onClick={logout}>Log Out</Link>
+                    Log Out
                 </LogoutElement>
             </SidebarWrapper>
             <TodayWrapper>
@@ -188,7 +147,7 @@ function Tracker() {
             </TodayWrapper>
             <ThisWeekWrapper>
                 <WrapperHeader>
-                    This Week: {day1, date1} - {day, date}
+                    This Week: day1 date1 - day date
                 </WrapperHeader>
                 <WrapperHeader>Your Tasks Have Taken</WrapperHeader>
                 <ThisWeekMultiplier>{productiveWeekScore}x</ThisWeekMultiplier>
@@ -196,9 +155,9 @@ function Tracker() {
                 <WrapperMessage> {productiveWeekComment} </WrapperMessage>
 
 
-                
 
-                <WrapperMessage> 
+
+                <WrapperMessage>
                     <h2>Summary:</h2>
                     <li> On Monday, you were  {productiveWeekMondayScore}x, less productive than anticipated. </li>
                     <li> On Tuesday {productiveWeekTuesdayScore}x, less productive than anticipated. </li>
@@ -208,7 +167,7 @@ function Tracker() {
                     <li> On Saturday productivity score: {productiveWeekSaturdayScore}x, less productive than anticipated. </li>
                     <li> On Sunday productivity score: {productiveWeekSundayScore}x, less productive than anticipated. </li>
 
-                
+
                 </WrapperMessage>
             </ThisWeekWrapper>
         </Container>
@@ -376,11 +335,11 @@ const focusLinkStyle = {
 }
 
 
-       
-        // check if each data in finalData array is completed. 
-        // get the total number of tasks, find the percentage completed.
-        // If all the tasks are completed then productivity score is 100
-        // If 50% of the tasks are completed then productivity score is 50
+
+// check if each data in finalData array is completed.
+// get the total number of tasks, find the percentage completed.
+// If all the tasks are completed then productivity score is 100
+// If 50% of the tasks are completed then productivity score is 50
 //get all the tasks from the database for that user - Shaina
 // get expected time
 // get the actual time it took to complete the task [time stamp the user marks as completed] - Michiko

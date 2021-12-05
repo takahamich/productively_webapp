@@ -78,9 +78,9 @@ function Task({onClick}){
     }*/
 
     function schedule() {
-        console.log("Making today's schedule for user: " + creator)
+        console.log("Making today's schedule for user: " + userObject.name)
 
-        postData('http://localhost:8080/tasks/schedule', creator);
+        postData('http://localhost:8080/tasks/schedule', userObject);
         //getData('http://localhost:8080/tasks/schedule');
         /*fetch('http://localhost:8080/tasks/schedule', {
             method: 'POST',

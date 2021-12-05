@@ -1,11 +1,21 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Route, Navigate, Redirect} from 'react-router-dom';
-import { useGoogleAuth } from "./GoogleLogin";
-import axios from "axios";
+import React, {useContext, useState} from 'react';
+import {Route, Navigate, Routes} from 'react-router-dom';
 import { myContext } from './Context';
 
-function PrivateRoute({children, component: Component, ...rest}) { //component: Component, ...rest
 
-};
+function PrivateRoute({children}) { //children
+    const user = useContext(myContext);
+    if(user){
+        return children;
+    } else {
+        return <Navigate to="/" />
+    }
+
+
+    // return (
+    //     ((user!=null) ? children : <Navigate to="/" />)
+    // );
+
+}
 
 export default PrivateRoute;

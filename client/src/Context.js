@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useEffect, useState, useMemo, useContext } from 'react'
 import axios from 'axios';
 //import { AxiosResponse } from 'axios';
 
@@ -9,13 +9,17 @@ export default function Context(props) { //props: any
 
     useEffect(() => {
         axios.get("http://localhost:8080/getuser", {withCredentials: true}).then(res => { //was slightly diff
-            console.log(res);
             if (res.data) {
                 setUserObject(res.data);
+            } else {
+                setUserObject(null);
             }
         })
     }, [])
+
     return (
         <myContext.Provider value={userObject}>{props.children}</myContext.Provider>
     )
 }
+
+//export const useMyContext = () => useContext(myContext);

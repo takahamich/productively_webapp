@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './Login.css';
 import axios from "axios";
-const https = require("https");
 
 function Login() {
     const googleLogin = () => { //was const not function = () => {
@@ -9,9 +8,6 @@ function Login() {
         //window.location.href = "localhost:8080/auth/google";
     }
 
-    // const googleLogin = https.get("http://localhost:8080/auth/google", response => {
-    //     console.log(response.statusCode);
-    // });
 
     return(
         <div className="login-wrapper">

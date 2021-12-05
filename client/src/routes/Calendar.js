@@ -66,6 +66,7 @@ function Calendar() {
                     </NavElement>
                 </NavWrapper>
                 <LogoutElement>
+                    {/*<button onClick={logout}>Log Out</button>*/}
                     <Link to="/" onClick={logout}>Log Out</Link>
                 </LogoutElement>
             </SidebarWrapper>

@@ -1,20 +1,15 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Route, Navigate, Redirect} from 'react-router-dom';
-import { useGoogleAuth } from "./GoogleLogin";
+import {myContext} from "./Context";
 
-const PublicRouter = ({component: Component, ...rest}) => {
+const PublicRouter = ({children}) => {
+    const user = useContext(myContext);
 
-    const { isSignedIn } = useGoogleAuth();
-
-    return (
-        <div>
-            <Route {...rest} render={props => (
-                !isSignedIn ?
-                    <Component {...props} /> :
-                    <Navigate to="/home"  />
-            )} />
-        </div>
-    );
+    if(user){
+        return <Navigate to="/home" />;
+    } else {
+        return children;
+    }
 };
 
 export default PublicRouter;

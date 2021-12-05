@@ -5,12 +5,13 @@ import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import React, { useState ,useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import io from "socket.io-client";
 // import DatePicker from "react-datepicker";
 // import Task from "./components/Task";
 import events from './events.js';
+import {myContext} from "../Context";
 // import moment from 'moment'
 
 
@@ -36,6 +37,8 @@ function Calendars({userEmail}){
   console.log("today", newCurrentDate)
   const DnDCalendar = withDragAndDrop(Calendar);
 
+  const userObject = useContext(myContext);
+  console.log('user object :' + userObject);
   console.log(userEmail);
 
   // const [newEvent, setNewEvent] = useState({
@@ -52,7 +55,7 @@ function Calendars({userEmail}){
 
   useEffect(() => {
     console.log("use effect")
-    fetch('http://localhost:8080/myTasks')
+    fetch('http://localhost:8080/myTasks/' + userObject.email)
       .then(res => {
         return res.json()
       })

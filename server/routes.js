@@ -1,4 +1,5 @@
 // import {myFunction} from './index.js'
+const passport = require("passport");
 const express = require("express");
 const taskModel = require("./models/Task");
 const userModel = require("./models/User");
@@ -12,6 +13,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
 // TODO: send message if x not found, instead of throwing an error?
+
+
 
 app.get("/users", async (req, res) => { //gets all users
     const users = await userModel.find({});
@@ -36,14 +39,71 @@ app.get("/tasks", async (req, res) => { //gets all tasks
     }*/
 });
 
-app.get("/myTasks", async (req, res) => { //gets all tasks for Calendar
-    const tasks = await taskModel.find({});
+app.get("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
+    console.log("getting my tasks!");
+    const tasks = await taskModel.find({creator: req.params.id});
+    console.log(tasks);//user.tasks undefined
 
+    // find within user?
     try {
         res.send(tasks);
     } catch (error) {
         res.status(500).send(error);
     }
+});
+
+
+app.post("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
+    console.log('Posting a new task to my tasks :p');
+    console.log(req.body);
+
+    let taskPriority = 0;
+    if (req.body.priority == "Low priority") {
+        taskPriority = 1;
+    } else if (req.body.priority == "Medium priority") {
+        taskPriority = 2;
+    } else {
+        taskPriority = 3;
+    }
+
+    userModel.findOne({email: req.params.id}, async (err, user) => {
+        if (err) {
+            console.log('error finding user');
+            return done(err, null);
+        }
+
+        const newTask = new taskModel({
+            _id: new mongoose.Types.ObjectId, //req.params.id,
+            taskName: req.body.taskName,
+            predictedEndDate: req.body.deadline,
+            priority: taskPriority,
+            predictedTimeHours: req.body.PredictedTimeHours,
+            predictedTimeMinutes: req.body.PredictedTimeMinutes,
+            actualTime: req.body.ActualTime,
+            startTime: req.body.start,
+            endTime: req.body.end,
+            startDate: req.body.startDate,
+            status: req.body.status,
+            difficulty: req.body.difficulty,
+            creator: req.params.id,
+        });
+
+        console.log('new task was created as follows: ');
+        console.log(newTask);
+
+        taskModel.create(newTask, (err, task) => {
+            if (err) {
+                res.redirect('/');
+                throw new Error(err);
+            }
+
+            user.tasks.push(newTask);
+            console.log(user.tasks);
+            user.save((err) => {
+                return res.send(user.tasks);
+            });
+        });
+    });
 });
 
 
@@ -336,51 +396,6 @@ app.post('/tasks', (req, res) => {
     //res.send(newTask);
 });
 
-// app.get("/tasks/:id", async (req, res) => {
-//     const tasks = await taskModel.find({creator: req.params.id});
-//     console.log(tasks);//user.tasks undefined
-//
-//     // find within user?
-//     try {
-//         res.send(tasks);
-//     } catch (error) {
-//         res.status(500).send(error);
-//     }
-// });
-
-
-// app.post("/tasks/:id", async (req, res) => {
-//     //console.log(JSON.stringify(req.body));
-//     console.log(req.body);
-//     userModel.findById(req.params.id, (err,user)=> {
-//         if(err) {
-//             throw new Error(err);
-//         }
-//         const newTask = new taskModel ({
-//             _id: new mongoose.Types.ObjectId, //req.params.id,
-//             taskName: req.body[0].taskName,
-//             predictedEndDate: req.body[0].predictedEndDate,
-//             priority: req.body[0].priority,
-//             creator: req.params.id,
-//         });
-//
-//         console.log(newTask);
-//
-//         taskModel.create(newTask, (err, task) => {
-//             if (err) {
-//                 res.redirect('/');
-//                 throw new Error(err);
-//             }
-//
-//             user.tasks.push(newTask);
-//             console.log(user.tasks);
-//             user.save((err)=> {
-//                     return res.send(user.tasks);
-//             });
-//         });
-//
-//     });
-// });
 
 app.post("/users", async (req, res) => {
     const users = new userModel(req.body);

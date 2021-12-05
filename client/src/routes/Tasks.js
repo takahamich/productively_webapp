@@ -1,17 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 import TaskCard from "../components/TaskCard";
 import TaskButton from "../components/TaskButton";
 import Task from "../components/Task";
-import UpdateTask from "../components/ModifyTask";
+import {myContext} from "../Context";
+import axios from "axios";
+
 
 function Tasks() {
     const [tasks, setTasks] = useState([]);
     const [toggle, setToggle] = useState(false);
 
+    const logout = () => {
+        axios.get("http://localhost:8080/auth/logout", {
+            withCredentials: true
+        }).then(res => {
+            if (res.data === "done") {
+                window.location.href = "/"
+            }
+        })
+    }
+    const userObject = useContext(myContext);
+    console.log('user object :' + userObject);
+    console.log('user object email:' + userObject.email);
+
     useEffect(() => {
-        fetch('http://localhost:8080/tasks')
+        fetch('http://localhost:8080/myTasks/' + userObject.email)
         .then(response => response.json())
         .then(data => {
             for (let i = 0; i < data.length; i++) {
@@ -32,16 +47,34 @@ function Tasks() {
         setToggle(!toggle);
     }
 
+
+
     return (
         <Container>
             <SidebarWrapper>
                 <InfoWrapper>
-                    <PicWrapper> </PicWrapper>
-                    Firstname Lastname
+                    <PicWrapper>
+                        {
+                            userObject ? (
+                                <img className="ProfilePicture"
+                                     src={userObject.picture}
+                                     alt="profile picture"/>
+                            ) : (
+                                <h3>none</h3>
+                            )
+                        }
+                    </PicWrapper>
+                    {
+                        userObject ? (
+                            <h3>{userObject.name}</h3>
+                        ) : (
+                            <h3>FirstName LastName</h3>
+                        )
+                    }
                 </InfoWrapper>
                 <NavWrapper>
                     <NavElement>
-                        <Link to="/" style={linkStyle}>Calendar</Link>
+                        <Link to="/home" style={linkStyle}>Calendar</Link>
                     </NavElement>
                     <FocusNavElement>
                         <Focus> </Focus>
@@ -55,7 +88,7 @@ function Tasks() {
                     </NavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    Log Out
+                    <Link to="/" onClick={logout}>Log Out</Link>
                 </LogoutElement>
             </SidebarWrapper>
             <TaskWrapper>

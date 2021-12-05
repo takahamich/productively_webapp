@@ -1,11 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
+//import LogoutButton from '../components/LogoutButton';
+import {myContext} from "../Context";
+import axios from "axios";
 
 
 
 
 function Tracker() {
+    const logout = () => {
+        axios.get("http://localhost:8080/auth/logout", {
+            withCredentials: true
+        }).then(res => {
+            if (res.data === "done") {
+                window.location.href = "/"
+            }
+        })
+    }
+
     const myCurrentDate = new Date();
     // const date = myCurrentDate.getFullYear() + '-' + (myCurrentDate.getMonth()+1) + '-' + myCurrentDate.getDate();
     const date = (myCurrentDate.getMonth()+1) + '/' + myCurrentDate.getDate() + '/' + myCurrentDate.getFullYear();
@@ -39,12 +52,26 @@ function Tracker() {
 
     
 
+    const userObject = useContext(myContext);
+    console.log('user object :' + userObject);
+    //console.log(userEmail);
+
     useEffect(() => {
-       productivityDayScore({"credentials": 'creator'})
-       productivityWeekScore({"credentials": 'creator'})
+        fetch('http://localhost:8080/myTasks/' + userObject.email)
+          .then(res => {
+            return res.json()
+          })
+          .then(data => {
+            const parsedData = parse(data)
+            const processData = process(parsedData)
+           
+          })
       }, [])
 
+       productivityDayScore({"credentials": 'creator'})
+       productivityWeekScore({"credentials": 'creator'})
 
+      
     async function productivityDayScore(credentials) {
         const response = await fetch("http://localhost:8080/goalTracker", {
             method: 'POST',
@@ -111,12 +138,28 @@ function Tracker() {
         <Container>
             <SidebarWrapper>
                 <InfoWrapper>
-                    <PicWrapper> </PicWrapper>
-                    Firstname Lastname
+                    <PicWrapper>
+                        {
+                            userObject ? (
+                                <img className="ProfilePicture"
+                                     src={userObject.picture}
+                                     alt="profile picture"/>
+                            ) : (
+                                <h3>none</h3>
+                            )
+                        }
+                    </PicWrapper>
+                    {
+                        userObject ? (
+                            <h3>{userObject.name}</h3>
+                        ) : (
+                            <h3>FirstName LastName</h3>
+                        )
+                    }
                 </InfoWrapper>
                 <NavWrapper>
                     <NavElement>
-                        <Link to="/" style={linkStyle}>Calendar</Link>
+                        <Link to="/home" style={linkStyle}>Calendar</Link>
                     </NavElement>
                     <NavElement>
                         <Link to="/tasks" style={linkStyle}>Tasks</Link>
@@ -130,7 +173,7 @@ function Tracker() {
                     </NavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    Log Out
+                    <Link to="/" onClick={logout}>Log Out</Link>
                 </LogoutElement>
             </SidebarWrapper>
             <TodayWrapper>

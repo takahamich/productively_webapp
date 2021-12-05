@@ -1,14 +1,18 @@
+const session = require("express-session");
+const passport = require("passport");
 const express = require("express");
 const mongoose = require("mongoose");
 const Router = require("./routes");
 const bodyParser = require('body-parser');
 const taskModel = require("./models/Task");
 const userModel = require("./models/User");
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const cors = require('cors')
 const app = express();
 const port = 8080;
+const cookieParser = require('cookie-parser');
 
-app.use(cors());
+app.use(cors({credentials: true, origin: 'http://localhost:3000'})); //might not need to be commented out
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
@@ -31,6 +35,118 @@ mongoose.connect(
     `mongodb+srv://nolombardo:%40ndw3simplys%40id@cluster0.kjv7f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
 );
 const db = mongoose.connection;
+
+app.use(express.json());
+//app.use(cors({ origin: "https://localhost:3000", credentials: true })); //check
+
+app.set("trust proxy", 1);
+
+app.use(cookieParser());
+// app.use(express.bodyParser());
+app.use(session({
+    secret: "secretcode",
+    resave: true,
+    saveUninitialized: true
+    //proxy: true,
+    // cookie: {
+    //     sameSite: "none",
+    //     secure: true,
+    //     maxAge: 1000 * 60 * 60 * 24 * 7 // One Week
+    // }
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+passport.serializeUser(function(user, done) {
+    done(null, user.id); //or simply id
+});
+
+passport.deserializeUser(function(id, done) {
+    userModel.findById(id, function(err, user) {
+        done(err, user);
+    });
+});
+
+
+passport.use(new GoogleStrategy({
+        clientID: `844612426523-iqc51n1du6su4dome75g0n7p35ru5k7j.apps.googleusercontent.com`,
+        clientSecret: `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`,
+        callbackURL: "/auth/google/callback"
+    },
+    function (token, tokenSecret, profile, done) {
+
+        userModel.findOne({ googleId: profile.id }, async (err, user) => {
+            console.log('trying to find user or create');
+            if (err) {
+                console.log('error finding user');
+                return done(err, null);
+            }
+
+            if (!user) {
+                console.log('creating user');
+                const newUser = new userModel({
+                    _id: new mongoose.Types.ObjectId,
+                    googleId: profile.id,
+                    name: profile.displayName,
+                    email: profile.emails[0].value,
+                    picture: profile.photos[0].value,
+                });
+                console.log('name: ' + newUser.name );
+                console.log('email: ' + newUser.email);
+                console.log('picture url: ' + newUser.picture);
+                await newUser.save();
+                return done(null, newUser);
+            }
+
+            console.log('found user');
+            console.log('name: ' + user.name );
+            console.log('email: ' + user.email);
+            console.log('picture url: ' + user.picture);
+            return done(null, user);
+        })
+
+    }));
+
+app.get('/auth/google',
+    passport.authenticate('google', { scope: [
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/userinfo.email'
+        ] })); //or just 'profile' vs https://www.googleapis.com/auth/plus.login
+
+app.get('/auth/google/callback',
+    passport.authenticate('google', {
+        failureMessage: "Cannot login to Google, please try again later!",
+        failureRedirect: 'http://localhost:3000/'
+    }),
+    function(req, res) {
+        console.log('User :' + req.user);
+        req.session.save();
+        //req.session.user = req.user;
+        console.log("session is: " + req.session);
+        res.redirect('http://localhost:3000/home');
+    });
+
+app.get("/getuser", (req, res) => {
+    console.log("tried to get user and found: ");
+    console.log(req.user);
+    if(req.user) {
+        console.log('sending req.user!');
+        return res.send(req.user);
+    } else {
+        console.log("couldn't find user / user undefined");
+    }
+    return null;
+});
+
+app.get("/auth/logout", (req, res) => {
+    if (req.user) {
+        req.logout();
+        console.log("logging out!");
+        return res.send("done");
+    }
+});
+
 db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", function () {
     console.log("Connected successfully");

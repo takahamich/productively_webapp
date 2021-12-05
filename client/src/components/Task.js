@@ -1,14 +1,16 @@
-import React from "react";
+import React, {useContext} from "react";
 import styled from "styled-components";
 import {Dropdown, Option} from "./Dropdown";
 import TextField from '@material-ui/core/TextField';
 import {useState } from "react";
 import App from '../App'
-import {creator} from '../App'
+import { myContext } from '../Context';
 
 
 
 function Task({onClick}){
+    const userObject = useContext(myContext);
+
     const [data, setData] = useState({
         taskName: "",
         deadline: "",
@@ -112,11 +114,11 @@ function Task({onClick}){
 
     function submit(e){
         e.preventDefault()
-        console.log('this is the current user email' + creator);
+        //console.log('this is the current user email' + user);
         // const profile = googleUser.getBasicProfile();
-        data.creatorId = creator;
+        data.creatorId = userObject.email;
 
-        fetch('http://localhost:8080/tasks', {
+        fetch('http://localhost:8080/myTasks/' + userObject.email, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -164,6 +166,16 @@ function Task({onClick}){
                     InputLabelProps={{
                         shrink: true,
                     }}/>
+                <StyledTextField
+                    id="start"
+                    label="Start Time"
+                    margin="normal"
+                    placeholder= "start time"
+                    value={data.start}
+                    onChange={(e) => handleChange(e)}
+                    required
+                    fullWidth/>
+
                 <StyledTextField
                     id="start"
                     label="Start Time"
@@ -231,14 +243,19 @@ function Task({onClick}){
                     required
                     fullWidth/>
                 
+                <StyledTextField
+                    id="PredictedTimeMinutes"
+                    label="Predicted Time in Minutes"
+                    margin="normal"
+                    placeholder= "minutes"
+                    value={data.PredictedTimeMinutes}
+                    onChange={(e) => handleChange(e)}
+                    required
+                    fullWidth/>
 
                  {/* <TextField
                     id="ActualTime"
                     label=" Actual: Time in hours, seconds"
-                    margin="normal"
-                    placeholder=" Actual: How much time did this task actually take you?"
-                    value={data.ActualTime}
-                    onChange={(e) => handleChange(e)}
                     fullWidth/>  */}
 
                 {/* <label for="start">Start Time</label>
@@ -250,7 +267,6 @@ function Task({onClick}){
                 <input type="time" id="end" name="end"
                  value={data.end}
                 onChange={(e) => handleChange(e)}></input>  */}
-
                 {/*<ButtonWrapper>
                     <button type="button" onClick={onClick}>Delete</button>
                 </ButtonWrapper>*/}

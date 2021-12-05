@@ -1,19 +1,49 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Link} from "react-router-dom";
-import TaskCard from "../components/TaskCard";
 import styled from "styled-components";
+import axios from "axios";
+import {myContext} from "../Context";
 
 function Resources() {
+    const logout = () => {
+        axios.get("http://localhost:8080/auth/logout", {
+            withCredentials: true
+        }).then(res => {
+            if (res.data === "done") {
+                window.location.href = "/"
+            }
+        })
+    }
+
+    const userObject = useContext(myContext);
+    console.log('user object :' + userObject);
+
     return (
         <Container>
             <SidebarWrapper>
                 <InfoWrapper>
-                    <PicWrapper> </PicWrapper>
-                    Firstname Lastname
+                    <PicWrapper>
+                        {
+                            userObject ? (
+                                <img className="ProfilePicture"
+                                     src={userObject.picture}
+                                     alt="profile picture"/>
+                            ) : (
+                                <h3>none</h3>
+                            )
+                        }
+                    </PicWrapper>
+                    {
+                        userObject ? (
+                            <h3>{userObject.name}</h3>
+                        ) : (
+                            <h3>FirstName LastName</h3>
+                        )
+                    }
                 </InfoWrapper>
                 <NavWrapper>
                     <NavElement>
-                        <Link to="/" style={linkStyle}>Calendar</Link>
+                        <Link to="/home" style={linkStyle}>Calendar</Link>
                     </NavElement>
                     <NavElement>
                         <Link to="/tasks" style={linkStyle}>Tasks</Link>
@@ -27,7 +57,7 @@ function Resources() {
                     </FocusNavElement>
                 </NavWrapper>
                 <LogoutElement>
-                    Log Out
+                    <Link to="/" onClick={logout}>Log Out</Link>
                 </LogoutElement>
             </SidebarWrapper>
             <MainWrapper>

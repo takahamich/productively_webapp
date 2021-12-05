@@ -22,6 +22,8 @@ app.post('/', (req, res) => {
 
 });
 
+
+
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 
@@ -32,6 +34,17 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", function () {
     console.log("Connected successfully");
+    //console.log(`Tasks:`);
+    /*taskModel.find({}, function (err, result) {
+        if (err) return handleError(err);
+        // console.log(result);
+
+        for(var i = 0; i < result.length; i++) {
+            var obj = result[i];
+            myFunction(obj.startTime, obj.endTime);
+        }
+    })*/
+    // Schedule();
 
     //Schedule();
     
@@ -145,8 +158,17 @@ function compareWeight( task1, task2 ) {
     if ( w1 < w2 ){
         return -1;
     }
-    if (w1 > w2){
-        return 1;
+
+    function compareWeight( task1, task2 ) {
+        let w1 = task1.value;
+        let w2 = task2.value;
+        if ( w1 < w2 ){
+            return -1;
+        }
+        if (w1 > w2){
+            return 1;
+        }
+        return 0;
     }
     return 0;
 }
@@ -166,10 +188,10 @@ function createTodaysSchedule(taskList, message) {
         message.push("Start time: " + start.getHours() + ":00");
         message.push("Task Name: " + taskList[i].taskName) ;
         currHour =  currHour + taskList[i].predTime + 1;
-    }
-    return -1;
-}
+    }}
 
+
+// });
 /*function WIS(taskList, p) {
     var M = Array(taskList.length);
     var pred = Array(taskList.length);

@@ -13,7 +13,8 @@ function Task({onClick}){
         taskName: "",
         deadline: "",
         priority: "",
-        PredictedTime: "",
+        PredictedTimeHours: "",
+        PredictedTimeMinutes: "",
         ActualTime: "",
         start:"",
         end:"",
@@ -163,6 +164,15 @@ function Task({onClick}){
                     InputLabelProps={{
                         shrink: true,
                     }}/>
+                <StyledTextField
+                    id="start"
+                    label="Start Time"
+                    margin="normal"
+                    placeholder= "start time"
+                    value={data.start}
+                    onChange={(e) => handleChange(e)}
+                    required
+                    fullWidth/>
 
                 <StyledTextField
                     id="deadline"
@@ -183,7 +193,7 @@ function Task({onClick}){
                     <Option value="Medium priority" />
                     <Option value="High priority" />
                 </select>
-                <br></br>
+                {/* <br></br>
                 <select id="status" defaultValue={"Select status"} value={data.status} onChange={(e) => handleChange(e)}
                         style={dropdownStyle}>
                     <Option value="Select status" disabled></Option>
@@ -191,7 +201,7 @@ function Task({onClick}){
                     <Option value="In Progress" />
                     <Option value="Done" />
                 </select>
-                    <br></br>
+                    <br></br> */}
                 <select id="difficulty" defaultValue={"Select difficulty"} value={data.difficulty} onChange={(e) => handleChange(e)}
                         style={dropdownStyle}>
                     <Option value="Select difficulty" disabled></Option>
@@ -203,33 +213,43 @@ function Task({onClick}){
                 </select>
                 <br></br>
                 <StyledTextField
-                    id="PredictedTime"
-                    label="Expected Time"
+                    id="PredictedTimeHours"
+                    label="Predicted Time in Hours"
                     margin="normal"
-                    placeholder= "In hours and minutes"
-                    value={data.PredictedTime}
+                    placeholder= "hours"
+                    value={data.PredictedTimeHours}
                     onChange={(e) => handleChange(e)}
                     required
                     fullWidth/>
+                <StyledTextField
+                    id="PredictedTimeMinutes"
+                    label="Predicted Time in Minutes"
+                    margin="normal"
+                    placeholder= "minutes"
+                    value={data.PredictedTimeMinutes}
+                    onChange={(e) => handleChange(e)}
+                    required
+                    fullWidth/>
+                
 
-                {/* <TextField
+                 {/* <TextField
                     id="ActualTime"
                     label=" Actual: Time in hours, seconds"
                     margin="normal"
                     placeholder=" Actual: How much time did this task actually take you?"
                     value={data.ActualTime}
                     onChange={(e) => handleChange(e)}
-                    fullWidth/> 
+                    fullWidth/>  */}
 
-                <label for="start">Start Time</label>
+                {/* <label for="start">Start Time</label>
                 <input type="time" id="start" name="start"
                     value={data.start}
-                    onChange={(e) => handleChange(e)}></input>
+                    onChange={(e) => handleChange(e)}></input> */}
 
-                <label for="end">End Time</label>
+                {/* <label for="end">End Time</label>
                 <input type="time" id="end" name="end"
                  value={data.end}
-                onChange={(e) => handleChange(e)}></input> */}
+                onChange={(e) => handleChange(e)}></input>  */}
 
                 {/*<ButtonWrapper>
                     <button type="button" onClick={onClick}>Delete</button>

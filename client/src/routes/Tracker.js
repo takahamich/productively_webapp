@@ -3,63 +3,109 @@ import {Link} from "react-router-dom";
 import styled from "styled-components";
 
 
+
+
 function Tracker() {
     const myCurrentDate = new Date();
-    const date = myCurrentDate.getFullYear() + '-' + (myCurrentDate.getMonth()+1) + '-' + myCurrentDate.getDate();
-    var time = myCurrentDate.getHours() + ":" + myCurrentDate.getMinutes() 
+    // const date = myCurrentDate.getFullYear() + '-' + (myCurrentDate.getMonth()+1) + '-' + myCurrentDate.getDate();
+    const date = (myCurrentDate.getMonth()+1) + '/' + myCurrentDate.getDate() + '/' + myCurrentDate.getFullYear();
+    // var time = myCurrentDate.getHours() + ":" + myCurrentDate.getMinutes() 
+    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var day = days[myCurrentDate.getDay()];
    
-    const [mydate, setMyDate] = useState(null)
+
+
+    var myPastDate1 = new Date(myCurrentDate);
+    myPastDate1.setDate(myPastDate1.getDate() - 6)  
+    var day1 = days[myPastDate1.getDay()];
+    const date1 = (myPastDate1.getMonth()+1) + '/' + myPastDate1.getDate() + '/' + myPastDate1.getFullYear();
+
+
+    const [productiveScore, setProductiveScore] = useState()
+    const [productiveComment, setProductiveComment] = useState()
+
+    const [productiveWeekScore, setProductiveWeekScore] = useState()
+    const [productiveWeekComment, setProductiveWeekComment] = useState()
+
+    //This could be more efficient but using this way for now
+    const [productiveWeekMondayScore, setProductiveWeekMondayScore] = useState()
+    const [productiveWeekTuesdayScore, setProductiveWeekTuesdayScore] = useState()
+    const [productiveWeekWednesdayScore, setProductiveWeekWednesdayScore] = useState()
+    const [productiveWeekThursdayScore, setProductiveWeekThursdayScore] = useState()
+    const [productiveWeekFridayScore, setProductiveWeekFridayScore] = useState()
+    const [productiveWeekSaturdayScore, setProductiveWeekSaturdayScore] = useState()
+    const [productiveWeekSundayScore, setProductiveWeekSundayScore] = useState()
+   
+
+    
 
     useEffect(() => {
-        fetch('http://localhost:8080/tasks')
-          .then(res => {
-            return res.json()
-          })
-          .then(data => {
-            const parsedData = parse(data)
-            const processData = process(parsedData)
-           
-          })
+       productivityDayScore({"credentials": 'creator'})
+       productivityWeekScore({"credentials": 'creator'})
       }, [])
 
 
-      function parse(data){
-        const myCurrentDate = new Date();
-        const date = myCurrentDate.getFullYear() + '-' + (myCurrentDate.getMonth()+1) + '-' + myCurrentDate.getDate();
-        var finalData = []
-        data.forEach((singleData) => {
-            if (singleData.predictedEndDate === date) {
-                finalData.push({title: singleData.taskName, end: singleData.predictedEndDate, status: singleData.status})
-            } 
-         })
-        return finalData
-      }
-
-      function process(data){
-        const value = []
-        console.log("in second function", data, data.length)
-        var allTasks = data.length 
-
-        
-        var completedTasks = 0
-        data.forEach((data) => {
-            if (data.status === "Done") {
-            completedTasks += 1
-            }
+    async function productivityDayScore(credentials) {
+        const response = await fetch("http://localhost:8080/goalTracker", {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(credentials)
         })
+        response.json().then(data => {
+            setProductiveScore(data[0])
+            setProductiveComment(data[1])
+     
+        })
+    }
 
-        if (allTasks == 0){
-            console.log("You have not completed all tasks for the day")
-            value.push ("You have not completed all tasks for the day")
+
+    async function productivityWeekScore(credentials) {
+        const response = await fetch("http://localhost:8080/goalTrackerWeek", {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(credentials)
+        })
+        response.json().then(data => {
+            console.log("checking data", data)
+            processData(data)
+     
+        })
+    }
+
+
+    function processData(data){
+        if (data.length === 1) {
+            console.log("IN HERE")
+            setProductiveWeekMondayScore("N/A")
+            setProductiveWeekTuesdayScore("N/A")
+            setProductiveWeekWednesdayScore("N/A")
+            setProductiveWeekThursdayScore("N/A")
+            setProductiveWeekFridayScore("N/A")
+            setProductiveWeekSaturdayScore("N/A")
+            setProductiveWeekSundayScore("N/A")
+            setProductiveWeekScore(0)
+            setProductiveWeekComment(data[0])
+        }
+        else{
+    
+            setProductiveWeekMondayScore(data[0])
+            setProductiveWeekTuesdayScore(data[1])
+            setProductiveWeekWednesdayScore(data[2])
+            setProductiveWeekThursdayScore(data[3])
+            setProductiveWeekFridayScore(data[4])
+            setProductiveWeekSaturdayScore(data[5])
+            setProductiveWeekSundayScore(data[6])
+            setProductiveWeekScore(data[7][0])
+            setProductiveWeekComment(data[7][1])
 
         }
-
-        console.log("all", allTasks)
-        console.log("completed", completedTasks)
-        console.log(completedTasks/allTasks)
-
-        return value
+    
     }
+
 
     return (
         <Container>
@@ -90,28 +136,37 @@ function Tracker() {
             <TodayWrapper>
 
                 {date && <WrapperHeader>
-                    Today, {date}
+                    Today: {date}
                 </WrapperHeader>}
-                <WrapperHeader>Your Tasks Have Taken </WrapperHeader>
-                <TodayMultiplier>1.5x</TodayMultiplier>
-                <WrapperHeader>The Amount of Time You Predicted</WrapperHeader>
-
-                <WrapperMessage> Oof. Do you need a day off on Tuesdays?
-                    Are you taking a day off at least once a week?</WrapperMessage>
-
+                <WrapperHeader>Your Tasks Have Taken</WrapperHeader>
+                <TodayMultiplier> {productiveScore}x </TodayMultiplier>
+                <WrapperHeader>less than the Amount of Time You Predicted</WrapperHeader>
+                <WrapperMessage> {productiveComment}</WrapperMessage>
             </TodayWrapper>
             <ThisWeekWrapper>
-
                 <WrapperHeader>
-                    This Week
+                    This Week: {day1, date1} - {day, date}
                 </WrapperHeader>
                 <WrapperHeader>Your Tasks Have Taken</WrapperHeader>
-                <ThisWeekMultiplier>2.3x</ThisWeekMultiplier>
-                <WrapperHeader>The Amount of Time You Predicted</WrapperHeader>
+                <ThisWeekMultiplier>{productiveWeekScore}x</ThisWeekMultiplier>
+                <WrapperHeader>less than the Amount of Time You Predicted</WrapperHeader>
+                <WrapperMessage> {productiveWeekComment} </WrapperMessage>
 
-                <WrapperMessage> Hmm, do you want to add some buffer time
-                    in your day, and plan to spend more time on your tasks? </WrapperMessage>
 
+                
+
+                <WrapperMessage> 
+                    <h2>Summary:</h2>
+                    <li> On Monday, you were  {productiveWeekMondayScore}x, less productive than anticipated. </li>
+                    <li> On Tuesday {productiveWeekTuesdayScore}x, less productive than anticipated. </li>
+                    <li> On Wednesday {productiveWeekWednesdayScore}x, less productive than anticipated. </li>
+                    <li> On Thursday {productiveWeekThursdayScore}x, less productive than anticipated.</li>
+                    <li> On Friday productivity score: {productiveWeekFridayScore}x, less productive than anticipated. </li>
+                    <li> On Saturday productivity score: {productiveWeekSaturdayScore}x, less productive than anticipated. </li>
+                    <li> On Sunday productivity score: {productiveWeekSundayScore}x, less productive than anticipated. </li>
+
+                
+                </WrapperMessage>
             </ThisWeekWrapper>
         </Container>
     )
@@ -129,6 +184,19 @@ const Container = styled.div`
     display: flex;
     flex-flow: row;
 `
+
+const dropdownStyle = {
+    background: '#fff',
+    border: 'none',
+    padding: '10px',
+    width: '100%',
+    margin: '0.25em 0 0.25em 0',
+    color: '#1B3D4A',
+    fontFamily: 'Proxima Nova',
+    fontSize: '1em',
+    textTransform: 'uppercase',
+    borderRadius: '25px'
+}
 
 const InfoWrapper = styled.div`
     width: 100%;
@@ -270,3 +338,6 @@ const focusLinkStyle = {
         // get the total number of tasks, find the percentage completed.
         // If all the tasks are completed then productivity score is 100
         // If 50% of the tasks are completed then productivity score is 50
+//get all the tasks from the database for that user - Shaina
+// get expected time
+// get the actual time it took to complete the task [time stamp the user marks as completed] - Michiko

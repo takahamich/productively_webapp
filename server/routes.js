@@ -46,6 +46,199 @@ app.get("/myTasks", async (req, res) => { //gets all tasks for Calendar
     }
 });
 
+
+function getTimesForProductivityScore(tasks){
+    let finalData = []
+    let result = []
+
+    for(var i = 0; i < tasks.length; i++) {
+        let obj = tasks[i];
+        finalData.push({
+            id:obj.id,
+            taskName: obj.taskName,
+            deadline: new Date(obj.predictedEndDate),
+            predTime:parseInt(obj.predictedTime)})
+       
+    }
+    totalPredTime = 0
+    totalActualTime = 10
+
+    for(var i = 0; i < finalData.length; i++) {
+        totalPredTime += finalData[i].predTime
+    }
+
+    console.log("totalPredTimeis", totalPredTime)
+
+    // Do the same for actual time
+
+    result.push(totalPredTime, totalActualTime)
+    return result
+
+}
+
+function calculateProductivityScore(predTime, actualTime) {
+//    let getTime = getTimesForProductivityScore(tasks)
+//    let predTime = getTime[0]
+//    let actTime = getTime[1]
+   var prodScore = (actualTime/predTime).toPrecision(2)
+   return productivityScoreBucket(prodScore)
+        
+}
+
+function productivityScoreBucket(prodScore){
+    result = []
+    switch (true) {
+        case (prodScore === "Infinity"):
+            result.push('0')
+            result.push("You do not have a productivity score for today! As you add tasks and complete them, your daily productivity score will be available to you!")
+            break;
+        case (prodScore < .75):
+            result.push(prodScore)
+            result.push("Wow! You're hyper-productive. Feel free to do more things, or just enjoy your day!")
+            break;
+                
+        case (prodScore <= 1):
+            result.push(prodScore)
+            result.push("Yay! You're pretty spot on with your time estimates. Keep it up!");
+            break;
+        case (prodScore < 1.5):
+            result.push(prodScore)
+            result.push("Hmm, do you want to add some buffer time in your day, and plan spend more time on your tasks?");
+            break;
+        case (prodScore >= 1.5):
+            result.push(prodScore)
+            result.push("Oof. You might need a day off! Are you taking a day off at least once a week? Also, do you want to add some buffer time in your day, and plan spend more time on your tasks?");
+            // let startTimeStr = req.body.start;
+            // let startHour = Number(startTimeStr.substring(0, 2));
+            // switch (true) {
+            //     case (startHour < 12):
+            //         console.log("Hmm. Maybe you're not a morning person. " +
+            //             "What do you think about not assigning yourself tasks during the morning?");
+            //         break;
+            //     case (startHour < 17) :
+            //         console.log("Hmm. Maybe you're not a afternoon person. " +
+            //             "What do you think about not assigning yourself tasks during the afternoon?");
+            //         break;
+            //     case (startHour < 21):
+            //         console.log("Hmm. Maybe you're not a evening person. " +
+            //             "What do you think about not assigning yourself tasks during the evening?");
+            //         break;
+            //     case (startHour >= 21):
+            //         console.log("Hmm. Maybe you're not a night person. " +
+            //             "What do you think about not assigning yourself tasks during the night?");
+            //         break;
+            // }
+    }
+    return result
+}
+
+
+app.post('/goalTracker', async (req,res) => {
+    let id = JSON.stringify(req.body);
+    // console.log("User email:" + id);
+
+    //change this to look at creator id for that particular date, this will just look at priority for now!
+    //check current date and look for tasks due that day for that user.
+    const myCurrentDate = new Date();
+    const date = myCurrentDate.getFullYear() + '-' + (myCurrentDate.getMonth()+1) + '-' + myCurrentDate.getDate();
+    const tasks = await taskModel.find({"predictedEndDate":date});
+    let value = getTimesForProductivityScore(tasks)
+    score = calculateProductivityScore(value[0], value[1])
+ 
+    try {
+        res.send(score);
+    } 
+    catch (error) {
+        res.status(500).send(error);
+    }
+})
+
+app.post('/goalTrackerWeek', async (req,res) => {
+    let id = JSON.stringify(req.body);
+    const checkDates = []
+    const result = []
+  
+    const myCurrentDate = new Date();
+    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var day = days[myCurrentDate.getDay()];
+    const date = myCurrentDate.getFullYear() + '-' +  (myCurrentDate.getMonth()+1) + '-' + myCurrentDate.getDate();
+
+
+    var myPastDate1 = new Date(myCurrentDate);
+    myPastDate1.setDate(myPastDate1.getDate() - 6)  
+    // var day1 = days[myPastDate1.getDay()];
+    const date1 =  myPastDate1.getFullYear() + '-' +  (myPastDate1.getMonth()+1) + '-' + myPastDate1.getDate();
+  
+
+    var myPastDate2 = new Date(myCurrentDate);
+    myPastDate2.setDate(myPastDate2.getDate() - 5)
+    // var day2 = days[myPastDate2.getDay()];
+    const date2 = myPastDate2.getFullYear() + '-' +  (myPastDate2.getMonth()+1) + '-' + myPastDate2.getDate();
+    
+    var myPastDate3 = new Date(myCurrentDate);
+    myPastDate3.setDate(myPastDate3.getDate() - 4)
+    // var day3 = days[myPastDate3.getDay()];
+    const date3 = myPastDate3.getFullYear() + '-' +  (myPastDate3.getMonth()+1) + '-' + myPastDate3.getDate();
+
+    var myPastDate4 = new Date(myCurrentDate);
+    myPastDate4.setDate(myPastDate4.getDate() - 3)
+    // var day4 = days[myPastDate4.getDay()];
+    const date4 = myPastDate4.getFullYear() + '-' +  (myPastDate4.getMonth()+1) + '-' + myPastDate4.getDate();
+
+    var myPastDate5 = new Date(myCurrentDate);
+    // myPastDate5.setDate(myPastDate5.getDate() - 2)
+    // var day5 = days[myPastDate5.getDay()];
+    const date5 = myPastDate5.getFullYear() + '-' +  (myPastDate5.getMonth()+1) + '-' + myPastDate5.getDate();
+
+    var myPastDate6 = new Date(myCurrentDate);
+    myPastDate6.setDate(myPastDate6.getDate() - 1)
+    // var day6 = days[myPastDate6.getDay()];
+    const date6 = myPastDate6.getFullYear() + '-' +  (myPastDate6.getMonth()+1) + '-' + myPastDate6.getDate();
+    
+
+    if (day === "Sundays"){
+        checkDates.push(date1, date2, date3, date4, date5, date6, date)
+        // const tasks = await taskModel.find({"predictedEndDate":"2021-11-18"});
+
+        totalProductivityScore = 0
+        var totalPredictedTime = 0
+        var totalActualTime = 0
+
+        for (var i = 0; i < checkDates.length; i++){
+            const tasks = await taskModel.find({"predictedEndDate":checkDates[i]});
+            let value = getTimesForProductivityScore(tasks)
+            score = calculateProductivityScore(value[0], value[1])
+            result.push(score[0])
+            totalPredictedTime += value[0]
+            totalActualTime += value[1]
+        }
+        console.log("totalPredictedTime", totalPredictedTime)
+        console.log("totalacttime", totalActualTime)
+        result.push(calculateProductivityScore(totalPredictedTime, totalActualTime))
+        console.log("resulttt", result)
+       
+
+    }
+    else{
+        // result.push("1", "2", "3", "4", "5", "6", ["5", "You do not have a productivity score yet Please check back at the end of the week!"])
+        result.push(["You do not have a productivity score yet Please check back at the end of the week!"])
+        console.log("result issss", result)
+    }
+    
+    // console.log("RESULTS", result)
+    
+    try {
+        res.send(result);
+    } 
+    catch (error) {
+        res.status(500).send(error);
+    }
+
+
+  
+   
+})
+
 app.post('/signedin', (req, res) => {
     console.log(req.body);
 
@@ -78,8 +271,10 @@ app.post('/signedin', (req, res) => {
 
 });
 
+
+
+
 app.post('/tasks', (req, res) => {
-    console.log(req.body);
     let taskPriority = 0;
     if (req.body.priority == "Low priority") {
         taskPriority = 1;
@@ -136,52 +331,7 @@ app.post('/tasks', (req, res) => {
     console.log("I received your POST request. This is what you sent me");
     console.log(newTask);
 
-
-
-    let prodScore = Number(req.body.ActualTime) / Number(req.body.PredictedTime);
-    switch (true) {
-        case (prodScore < .75):
-            console.log("Your productivity score is: " + prodScore + "." +
-                "Wow! You're hyper-productive. " +
-                "Feel free to do more things, or just enjoy your day!");
-            break;
-        case (prodScore <= 1):
-            console.log("Your productivity score is: " + prodScore + "." +
-                "Yay! You're pretty spot on with your time estimates. " +
-                "Keep it up!");
-            break;
-        case (prodScore < 1.5):
-            console.log("Your productivity score is: " + prodScore + "." +
-                "Hmm, do you want to add some buffer time in your day, " +
-                "and plan spend more time on your tasks?");
-            break;
-        case (prodScore >= 1.5):
-            console.log("Your productivity score is: " + prodScore + "." +
-                "Oof. Do you need a day off on [day of the week]s? " +
-                "Are you taking a day off at least once a week? " +
-                "Also, do you want to add some buffer time in your day, " +
-                "and plan spend more time on your tasks?");
-            let startTimeStr = req.body.start;
-            let startHour = Number(startTimeStr.substring(0, 2));
-            switch (true) {
-                case (startHour < 12):
-                    console.log("Hmm. Maybe you're not a morning person. " +
-                        "What do you think about not assigning yourself tasks during the morning?");
-                    break;
-                case (startHour < 17) :
-                    console.log("Hmm. Maybe you're not a afternoon person. " +
-                        "What do you think about not assigning yourself tasks during the afternoon?");
-                    break;
-                case (startHour < 21):
-                    console.log("Hmm. Maybe you're not a evening person. " +
-                        "What do you think about not assigning yourself tasks during the evening?");
-                    break;
-                case (startHour >= 21):
-                    console.log("Hmm. Maybe you're not a night person. " +
-                        "What do you think about not assigning yourself tasks during the night?");
-                    break;
-            }
-    }
+    
 
     //res.send(newTask);
 });

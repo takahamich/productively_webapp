@@ -14,7 +14,7 @@ function Tracker() {
     // var time = myCurrentDate.getHours() + ":" + myCurrentDate.getMinutes()
     var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
     var day = days[myCurrentDate.getDay()];
-
+    const userObject = useContext(myContext);
 
 
     var myPastDate1 = new Date(myCurrentDate);
@@ -113,8 +113,24 @@ function Tracker() {
         <Container>
             <SidebarWrapper>
                 <InfoWrapper>
-                    <PicWrapper> </PicWrapper>
-                    Firstname Lastname
+                    <PicWrapper>
+                        {
+                            userObject ? (
+                                <img className="ProfilePicture"
+                                     src={userObject.picture}
+                                     alt="profile picture"/>
+                            ) : (
+                                <h3>none</h3>
+                            )
+                        }
+                    </PicWrapper>
+                    {
+                        userObject ? (
+                            <h3>{userObject.name}</h3>
+                        ) : (
+                            <h3>FirstName LastName</h3>
+                        )
+                    }
                 </InfoWrapper>
                 <NavWrapper>
                     <NavElement>

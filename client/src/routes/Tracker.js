@@ -163,7 +163,7 @@ function Tracker() {
             </TodayWrapper>
             <ThisWeekWrapper>
                 <WrapperHeader>
-                    This Week: day1 date1 - day date
+                    This Week: {day1}, {date1} - {day}, {date}
                 </WrapperHeader>
                 <WrapperHeader>Your Tasks Have Taken</WrapperHeader>
                 <ThisWeekMultiplier>{productiveWeekScore}x</ThisWeekMultiplier>

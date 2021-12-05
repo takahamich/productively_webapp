@@ -2,11 +2,13 @@ import React, {useState} from 'react';
 import styled from "styled-components";
 import UpdateTask from './ModifyTask';
 import Checkbox from './Checkbox';
+import Popup from './Popup';
 import Task from "./Task";
 
 function TaskCard({id, taskName, deadline, startDate, startTime, predictHours, predictMins, priority, difficulty}) {
     const [checked, setChecked] = React.useState(false);
     const [toggle, setToggle] = useState(false);
+    const [actualTime, setActualTime] = useState();
 
     let pstring = '';
     if (priority == 3) {
@@ -25,8 +27,42 @@ function TaskCard({id, taskName, deadline, startDate, startTime, predictHours, p
         setToggle(!toggle);
     }
 
+    function updateActualTime() {
+        const data = {
+            actualTime: actualTime
+        }
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        };
+        fetch('http://localhost:8080/tasks/' + id, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+                console.log(response.text);
+            }).catch(err => {
+                console.log(err);
+            });
+    }
+
     return (
         <TaskWrapper>
+            {checked && <Popup
+                content={<>
+                    <form>
+                        <h3>Good Job!</h3>
+                        <label>
+                            Amount of time taken:
+                            <input type="text" onChange={e => setActualTime(e.target.value)} />
+                        </label>
+                        <br />
+                        <button onClick={updateActualTime}>Submit</button>
+                    </form>
+                </>}
+                handleClose={handleCheck}
+            />}
             {
                 (() => {
                     if (priority == 3)
@@ -61,7 +97,7 @@ function TaskCard({id, taskName, deadline, startDate, startTime, predictHours, p
                 />
             }
         </TaskWrapper>
-    )
+        )
 }
 
 export default TaskCard;

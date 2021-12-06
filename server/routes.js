@@ -26,25 +26,11 @@ app.get("/users", async (req, res) => { //gets all users
     }
 });
 
-app.get("/tasks", async (req, res) => { //gets all tasks
-    taskModel
-        .find({})
-        .sort({ predictedEndDate: 'asc', priority: 'desc' })
-        .exec(function(err, result) {
-        if (err) console.log(err);
-        res.send(result);
-    });
-
-    /*try {
-        res.send(tasks);
-    } catch (error) {
-        res.status(500).send(error);
-    }*/
-});
-
 app.get("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
     console.log("getting my tasks!");
-    const tasks = await taskModel.find({creator: req.params.id});//user.tasks undefined
+    const tasks = await taskModel
+        .find({creator: req.params.id, complete: false})
+        .sort({ predictedEndDate: 'asc', priority: 'desc' });//user.tasks undefined
 
     // find within user?
     try {
@@ -82,18 +68,18 @@ app.put("/completed/:id", async (req, res) => {
     }
 });
 
-app.post("/deleteTask", async (req, res) => {
+app.post("/deleteTask/:id", async (req, res) => {
     console.log("deleting task");
-    const task_id = req.body.id;
+    const task_id = req.params.id;
     console.log(task_id);
     taskModel.deleteOne({_id: task_id}, function(err) {
         if (err) console.log(err);
     });
 });
 
-app.post("/updateTask", async (req, res) => {
+app.post("/updateTask/:id", async (req, res) => {
     console.log("updating task");
-    const task_id = req.body.id;
+    const task_id = req.params.id;
     console.log(task_id);
     let taskPriority = 0;
     if (req.body.priority == "Low priority" || req.body.priority == "1") {
@@ -145,7 +131,7 @@ app.post("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
             startTime: req.body.start,
             endTime: req.body.end,
             startDate: req.body.startDate,
-            complete: req.body.complete,
+            complete: false,
             difficulty: req.body.difficulty,
             creator: req.params.id,
         });

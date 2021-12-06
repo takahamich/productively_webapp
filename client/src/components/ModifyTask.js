@@ -35,7 +35,7 @@ function UpdateTask({id, name, deadline, priority, predictHours, predictMins, st
         // const profile = googleUser.getBasicProfile();
         //data.creatorId = creator;
 
-        fetch('http://localhost:8080/updateTask', {
+        fetch('http://localhost:8080/updateTask/' + id, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -59,7 +59,7 @@ function UpdateTask({id, name, deadline, priority, predictHours, predictMins, st
     }
 
     function deleteTask() {
-        fetch('http://localhost:8080/deleteTask', {
+        fetch('http://localhost:8080/deleteTask/' + id, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'

@@ -17,11 +17,11 @@ function Task({onClick}){
         priority: "",
         PredictedTimeHours: "",
         PredictedTimeMinutes: "",
-        ActualTime: "",
+        actualTimeHours: "",
+        actualTimeMinutes: "",
         start:"",
         end:"",
         startDate:"",
-        status: "",
         difficulty: "",
         creatorId: "",
     });
@@ -224,7 +224,7 @@ function Task({onClick}){
                 <StyledTextField
                     id="PredictedTimeHours"
                     label="Predicted Time in Hours"
-                    placeholder= "hours"in
+                    placeholder= "hours"
                     value={data.PredictedTimeHours}
                     onChange={(e) => handleChange(e)}
                     required

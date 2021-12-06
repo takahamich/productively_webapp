@@ -13,6 +13,7 @@ function Tracker() {
     var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
     var day = days[myCurrentDate.getDay()];
     // const userObject = useContext(myContext);
+    const [hover, setHover] = useState(false);
 
 
     var myPastDate1 = new Date(myCurrentDate);
@@ -107,12 +108,27 @@ function Tracker() {
             setProductiveWeekFridayScore(data[4])
             setProductiveWeekSaturdayScore(data[5])
             setProductiveWeekSundayScore(data[6])
-            console.log(data[7], 'data')
             setProductiveWeekScore(data[7][0])
             setProductiveWeekComment(data[7][1])
 
         }
 
+    }
+
+
+    function Details() {
+        return (
+            <HoverWrapper>
+                    <h2>Summary:</h2>
+                    <li> On Monday, you were  {productiveWeekMondayScore}x, less productive than anticipated. </li>
+                    <li> On Tuesday, you were {productiveWeekTuesdayScore}x, less productive than anticipated. </li>
+                    <li> On Wednesday, you were {productiveWeekWednesdayScore}x, less productive than anticipated. </li>
+                    <li> On Thursday, you were {productiveWeekThursdayScore}x, less productive than anticipated.</li>
+                    <li> On Friday, you were  {productiveWeekFridayScore}x, less productive than anticipated. </li>
+                    <li> On Saturday, you were  {productiveWeekSaturdayScore}x, less productive than anticipated. </li>
+                    <li> On Sunday, you were  {productiveWeekSundayScore}x, less productive than anticipated. </li>
+            </HoverWrapper>
+        );
     }
 
 
@@ -175,19 +191,14 @@ function Tracker() {
                 <WrapperHeader>Your Tasks Have Taken</WrapperHeader>
                 <ThisWeekMultiplier>{productiveWeekScore}x</ThisWeekMultiplier>
                 <WrapperHeader>less than the Amount of Time You Predicted</WrapperHeader>
+                <DetailsButton
+                        onMouseEnter={() => setHover(true)}
+                        onMouseLeave={() => setHover(false)}>
+                        Weekly Summary
+                </DetailsButton>
+                {hover && <Details/>}
                 <WrapperMessage> {productiveWeekComment} </WrapperMessage>
-                <WrapperMessage>
-                    <h2>Summary:</h2>
-                    <li> On Monday, you were  {productiveWeekMondayScore}x, less productive than anticipated. </li>
-                    <li> On Tuesday, you were {productiveWeekTuesdayScore}x, less productive than anticipated. </li>
-                    <li> On Wednesday, you were {productiveWeekWednesdayScore}x, less productive than anticipated. </li>
-                    <li> On Thursday, you were {productiveWeekThursdayScore}x, less productive than anticipated.</li>
-                    <li> On Friday, you were  {productiveWeekFridayScore}x, less productive than anticipated. </li>
-                    <li> On Saturday, you were  {productiveWeekSaturdayScore}x, less productive than anticipated. </li>
-                    <li> On Sunday, you were  {productiveWeekSundayScore}x, less productive than anticipated. </li>
-
-
-                </WrapperMessage>
+             
             </ThisWeekWrapper>
         </Container>
     )
@@ -228,7 +239,24 @@ const InfoWrapper = styled.div`
     align-items: center;
     flex-flow: column nowrap;
 `
-
+const HoverWrapper = styled.div`
+    position: fixed;
+    background: #fff;
+    padding: 0.5em 1em 0.5em 1em;
+    border-radius: 10%; 
+    color: #1B3D4A;
+    margin-right: 1em;
+`
+const DetailsButton = styled.button`
+    background: transparent;
+    padding: 5px;
+    border-radius: 10px;
+    font-family: 'Proxima Nova';
+    color: #1B3D4A;
+    font-size: 1em;
+    text-align: right;
+    right: 0;
+`
 const PicWrapper = styled.div`
     height: 75px;
     width: 75px;

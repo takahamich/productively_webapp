@@ -22,9 +22,9 @@ const TaskSchema = new mongoose.Schema({
         type: String,
         default: "",
     },
-    status: {
-        type: String,
-        default: "",
+    complete: {
+        type: Boolean,
+        default: false,
     },
     difficulty: {
         type: String,
@@ -38,7 +38,11 @@ const TaskSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    actualTime: {
+    actualTimeHours: {
+        type: String,
+        default: "",
+    },
+    actualTimeMinutes: {
         type: String,
         default: "",
     },

@@ -26,25 +26,11 @@ app.get("/users", async (req, res) => { //gets all users
     }
 });
 
-app.get("/tasks", async (req, res) => { //gets all tasks
-    taskModel
-        .find({})
-        .sort({ predictedEndDate: 'asc', priority: 'desc' })
-        .exec(function(err, result) {
-        if (err) console.log(err);
-        res.send(result);
-    });
-
-    /*try {
-        res.send(tasks);
-    } catch (error) {
-        res.status(500).send(error);
-    }*/
-});
-
 app.get("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
     console.log("getting my tasks!");
-    const tasks = await taskModel.find({creator: req.params.id});//user.tasks undefined
+    const tasks = await taskModel
+        .find({creator: req.params.id, complete: false})
+        .sort({ predictedEndDate: 'asc', priority: 'desc' });//user.tasks undefined
 
     // find within user?
     try {
@@ -54,7 +40,7 @@ app.get("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
     }
 });
 
-app.put("/tasks/:id", async (req, res) => {
+app.put("/completed/:id", async (req, res) => {
     const task = await taskModel.findById(req.params.id)
 
     if(!task) return res.status(404).send("Task not found")
@@ -62,14 +48,15 @@ app.put("/tasks/:id", async (req, res) => {
     const newTask = new taskModel({
         taskName: req.body.taskName,
         startDate: req.body.startDate,
-        status: req.body.status,
+        complete: req.body.complete,
         difficulty: req.body.difficulty,
         predictedEndDate: req.body.deadline,
         priority: req.body.priority,
-        predictedTime: req.body.predictedTime,
-        actualTime: req.body.actualTime,
-        startTime: req.body.start,
-        endTime: req.body.end,
+        predictedTimeHours: req.body.PredictedTimeHours,
+        predictedTimeMinutes: req.body.PredictedTimeMinutes,
+        actualTimeHours: req.body.actualTimeHours,
+        actualTimeMinutes: req.body.actualTimeMinutes,
+        startTime: req.body.startTime,
     });
 
     try{
@@ -81,18 +68,18 @@ app.put("/tasks/:id", async (req, res) => {
     }
 });
 
-app.post("/deleteTask", async (req, res) => {
+app.post("/deleteTask/:id", async (req, res) => {
     console.log("deleting task");
-    const task_id = req.body.id;
+    const task_id = req.params.id;
     console.log(task_id);
     taskModel.deleteOne({_id: task_id}, function(err) {
         if (err) console.log(err);
     });
 });
 
-app.post("/updateTask", async (req, res) => {
+app.post("/updateTask/:id", async (req, res) => {
     console.log("updating task");
-    const task_id = req.body.id;
+    const task_id = req.params.id;
     console.log(task_id);
     let taskPriority = 0;
     if (req.body.priority == "Low priority" || req.body.priority == "1") {
@@ -139,11 +126,12 @@ app.post("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
             priority: taskPriority,
             predictedTimeHours: req.body.PredictedTimeHours,
             predictedTimeMinutes: req.body.PredictedTimeMinutes,
-            actualTime: req.body.ActualTime,
+            actualTimeHours: req.body.actualTimeHours,
+            actualTimeMinutes: req.body.actualTimeMinutes,
             startTime: req.body.start,
             endTime: req.body.end,
             startDate: req.body.startDate,
-            status: req.body.status,
+            complete: false,
             difficulty: req.body.difficulty,
             creator: req.params.id,
         });
@@ -417,16 +405,18 @@ app.post('/tasks', (req, res) => {
     }
     const newTask = new taskModel({
         _id: new mongoose.Types.ObjectId, //req.params.id,
-        //creator: req.body.creatorId,
+        creator: req.body.creatorId,
         taskName: req.body.taskName,
         startDate: req.body.startDate,
-        status: req.body.status,
+        complete: req.body.complete,
         difficulty: req.body.difficulty,
         predictedEndDate: req.body.deadline,
         //priority: req.body.priority,
         priority: taskPriority,
-        predictedTime: req.body.PredictedTime,
-        actualTime: req.body.ActualTime,
+        predictedTimeHours: req.body.PredictedTimeHours,
+        predictedTimeMinutes: req.body.PredictedTimeMinutes,
+        actualTimeHours: req.body.actualTimeHours,
+        actualTimeMinutes: req.body.actualTimeMinutes,
         startTime: req.body.start,
         endTime: req.body.end,
     });

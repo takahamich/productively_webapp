@@ -120,31 +120,16 @@ app.get("/auth/logout", (req, res) => {
     }
 });
 
-/*function myFunction(startTimeValue, endTimeValue) {
-    console.log("IN HERE", startTimeValue, endTimeValue);
-    return startTimeValue, endTimeValue  // The function returns the product of p1 and p2
-  }*/
 let message = [];
 
 app.post('/tasks/schedule', (req, res) => {
-    let id = JSON.stringify(req.body);
+    let id = req.body.credentials;
     console.log("User email:" + id);
     console.log("Handling POST request for schedule...");
     message = Schedule(id);
-    console.log(message);
     res.send(message);
 })
 
-
-/*app.get('/tasks/schedule', (req, res) => {
-    try {
-        console.log("Handling GET request for schedule...");
-        console.log(message);
-        res.send(message);
-    } catch (error) {
-        res.status(500).send(error);
-    }
-});*/
 
 
 
@@ -166,8 +151,6 @@ function Schedule(id = ''){
     }
 
     tasks.sort(compareDeadline);
-    //console.log("Sorted Tasks with Weights")
-    //console.log(tasks)
 
     //Prompt a schedule for the user
     let today = new Date(); // This is based on UTC, will consider change timezone to EST next iteration.

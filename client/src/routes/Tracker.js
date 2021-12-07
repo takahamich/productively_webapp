@@ -117,21 +117,6 @@ function Tracker() {
     }
 
 
-    function Details() {
-        return (
-            <HoverWrapper>
-                    <h2>Summary:</h2>
-                    <li> On Monday, you were  {productiveWeekMondayScore}x, less productive than anticipated. </li>
-                    <li> On Tuesday, you were {productiveWeekTuesdayScore}x, less productive than anticipated. </li>
-                    <li> On Wednesday, you were {productiveWeekWednesdayScore}x, less productive than anticipated. </li>
-                    <li> On Thursday, you were {productiveWeekThursdayScore}x, less productive than anticipated.</li>
-                    <li> On Friday, you were  {productiveWeekFridayScore}x, less productive than anticipated. </li>
-                    <li> On Saturday, you were  {productiveWeekSaturdayScore}x, less productive than anticipated. </li>
-                    <li> On Sunday, you were  {productiveWeekSundayScore}x, less productive than anticipated. </li>
-            </HoverWrapper>
-        );
-    }
-
 
     return (
         <Container>
@@ -192,12 +177,7 @@ function Tracker() {
                 <WrapperHeader>Your Tasks Have Taken</WrapperHeader>
                 <ThisWeekMultiplier>{productiveWeekScore}x</ThisWeekMultiplier>
                 <WrapperHeader>the Amount of Time You Predicted</WrapperHeader>
-                <DetailsButton
-                        onMouseEnter={() => setHover(true)}
-                        onMouseLeave={() => setHover(false)}>
-                        Weekly Summary
-                </DetailsButton>
-                {hover && <Details/>}
+                
                 <WrapperMessage> {productiveWeekComment} </WrapperMessage>
              
             </ThisWeekWrapper>
@@ -218,18 +198,6 @@ const Container = styled.div`
     flex-flow: row;
 `
 
-const dropdownStyle = {
-    background: '#fff',
-    border: 'none',
-    padding: '10px',
-    width: '100%',
-    margin: '0.25em 0 0.25em 0',
-    color: '#1B3D4A',
-    fontFamily: 'Proxima Nova',
-    fontSize: '1em',
-    textTransform: 'uppercase',
-    borderRadius: '25px'
-}
 
 const InfoWrapper = styled.div`
     width: 100%;

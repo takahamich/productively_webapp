@@ -219,29 +219,6 @@ function productivityScoreBucket(prodScore){
         case (prodScore >= 1.5):
             result.push(prodScore)
             result.push("Oof. You might need a day off! Are you taking a day off at least once a week? Also, do you want to add some buffer time in your day, and plan spend more time on your tasks?");
-            
-    
-            
-            // let startTimeStr = req.body.start;
-            // let startHour = Number(startTimeStr.substring(0, 2));
-            // switch (true) {
-            //     case (startHour < 12):
-            //         console.log("Hmm. Maybe you're not a morning person. " +
-            //             "What do you think about not assigning yourself tasks during the morning?");
-            //         break;
-            //     case (startHour < 17) :
-            //         console.log("Hmm. Maybe you're not a afternoon person. " +
-            //             "What do you think about not assigning yourself tasks during the afternoon?");
-            //         break;
-            //     case (startHour < 21):
-            //         console.log("Hmm. Maybe you're not a evening person. " +
-            //             "What do you think about not assigning yourself tasks during the evening?");
-            //         break;
-            //     case (startHour >= 21):
-            //         console.log("Hmm. Maybe you're not a night person. " +
-            //             "What do you think about not assigning yourself tasks during the night?");
-            //         break;
-            // }
     }
 
     return result
@@ -253,19 +230,12 @@ app.post('/goalTracker', async (req,res) => {
     const today = new Date(new Date().getTime() - new Date().getTimezoneOffset()*60*1000).toISOString().substr(0,10); 
     const tasks = await taskModel.find({"creator":id, "predictedEndDate": today});
     console.log("my tasks", tasks)
-    let value = getTimesForProductivityScore(tasks)
-    if (         
-        Number.isNaN(value[0]) === true
-        
-        ){
-        value[0] = 0
-    } else if( Number.isNaN(value[1]) === true){
-        value[1] = 0
-    }
+    var value = getTimesForProductivityScore(tasks)
+    console.log("value is", value)
     score = calculateProductivityScore(value[0], value[1])
+    console.log(score, "scoree")
     if (score.length === 0){
-        console.log("yesss")
-        score.push("--", "You do not have a productivity score yet. As you add tasks, your productivity score will increase!")
+        score.push("--", "You do not have a productivity score yet. As you add tasks and check them off as complete, your productivity score will increase!")
     }
     try {
         res.send(score);

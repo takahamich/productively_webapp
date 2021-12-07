@@ -18,8 +18,8 @@ function Tracker() {
 
     var myPastDate1 = new Date(myCurrentDate);
     myPastDate1.setDate(myPastDate1.getDate() - 6)
-    var day1 = days[myPastDate1.getDay()];
-    const date1 = (myPastDate1.getMonth()+1) + '/' + myPastDate1.getDate() + '/' + myPastDate1.getFullYear();
+    // var day1 = days[myPastDate1.getDay()];
+    // const date1 = (myPastDate1.getMonth()+1) + '/' + myPastDate1.getDate() + '/' + myPastDate1.getFullYear();
 
 
     const [productiveScore, setProductiveScore] = useState()
@@ -48,10 +48,11 @@ function Tracker() {
     }
 
     const userObject = useContext(myContext);
+    console.log("userObject", userObject.email)
 
     useEffect(() => {
-        productivityDayScore({"credentials": 'creator'})
-        productivityWeekScore({"credentials": 'creator'})
+        productivityDayScore({credentials: userObject.email})
+        productivityWeekScore({credentials: userObject.email})
     }, [])
 
 
@@ -90,14 +91,14 @@ function Tracker() {
     function processData(data){
         if (data.length === 1) {
             console.log("IN HERE")
-            setProductiveWeekMondayScore("N/A")
-            setProductiveWeekTuesdayScore("N/A")
-            setProductiveWeekWednesdayScore("N/A")
-            setProductiveWeekThursdayScore("N/A")
-            setProductiveWeekFridayScore("N/A")
-            setProductiveWeekSaturdayScore("N/A")
-            setProductiveWeekSundayScore("N/A")
-            setProductiveWeekScore(0)
+            setProductiveWeekMondayScore("_ _")
+            setProductiveWeekTuesdayScore("_ _")
+            setProductiveWeekWednesdayScore("_ _")
+            setProductiveWeekThursdayScore("_ _")
+            setProductiveWeekFridayScore("_ _")
+            setProductiveWeekSaturdayScore("_ _")
+            setProductiveWeekSundayScore("_ _")
+            setProductiveWeekScore("_ _")
             setProductiveWeekComment(data[0])
         }
         else{
@@ -181,16 +182,16 @@ function Tracker() {
                 </WrapperHeader>}
                 <WrapperHeader>Your Tasks Have Taken</WrapperHeader>
                 <TodayMultiplier> {productiveScore}x </TodayMultiplier>
-                <WrapperHeader>less than the Amount of Time You Predicted</WrapperHeader>
+                <WrapperHeader>the Amount of Time You Predicted</WrapperHeader>
                 <WrapperMessage> {productiveComment}</WrapperMessage>
             </TodayWrapper>
             <ThisWeekWrapper>
                 <WrapperHeader>
-                    This Week: {day1}, {date1} - {day}, {date}
+                    This Week
                 </WrapperHeader>
                 <WrapperHeader>Your Tasks Have Taken</WrapperHeader>
                 <ThisWeekMultiplier>{productiveWeekScore}x</ThisWeekMultiplier>
-                <WrapperHeader>less than the Amount of Time You Predicted</WrapperHeader>
+                <WrapperHeader>the Amount of Time You Predicted</WrapperHeader>
                 <DetailsButton
                         onMouseEnter={() => setHover(true)}
                         onMouseLeave={() => setHover(false)}>

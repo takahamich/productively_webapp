@@ -66,6 +66,8 @@ To get a local copy up and running follow these simple example steps.
 
 ### Installation
 
+NOTE: If you're using IntelliJ IDEA, please install the ".env files support" plugin
+
 1. Clone the repo
    ```sh
    git clone https://github.com/jhu-oose/2021-fall-group-moose.git
@@ -76,9 +78,8 @@ To get a local copy up and running follow these simple example steps.
    npm install --save styled-components
    npm i --save react-big-calendar
    ```
-3. Run the server in the currect directory
+3. Run the server in the currect directory (You should have already ran npm install)
    ```js
-   You shoudl have already ran npm install
    npm start
    ```
    
@@ -224,21 +225,3 @@ Michiko Takahashi - mtakaha4@jhu.edu
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-Please note that many of pair programmed together to make the process more efficient. Pushes from one person sometimes mean the work of many people. In this particular iteration, please note the following pairings and groups that worked together often:
-
-Michiko, Shaina, Keidai
-
-Shaina, Ayo
-
-Michiko, Ayo
-
-Shaina, Michiko
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-

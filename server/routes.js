@@ -165,20 +165,23 @@ function getTimesForProductivityScore(tasks){
             id:obj.id,
             taskName: obj.taskName,
             deadline: new Date(obj.predictedEndDate),
-            predTime:parseInt(obj.predictedTime)})
+            predTime: parseInt(obj.predictedTimeMinutes)/60 + parseInt(obj.predictedTimeHours),
+            actualTime:parseInt(obj.actualTimeMinutes)/60 + parseInt(obj.actualTimeHours)})
        
     }
+    
     totalPredTime = 0
-    totalActualTime = 10
+    totalActualTime = 0
 
     for(var i = 0; i < finalData.length; i++) {
         totalPredTime += finalData[i].predTime
+        totalActualTime += finalData[i].actualTime
     }
    
 
-    // console.log("totalPredTimeis", totalPredTime)
+    console.log("totalPredTimeis", totalPredTime)
+    console.log("totalActualTimeis", totalActualTime)
 
-    // Do the same for actual time
 
     result.push(totalPredTime, totalActualTime)
     return result
@@ -186,10 +189,10 @@ function getTimesForProductivityScore(tasks){
 }
 
 function calculateProductivityScore(predTime, actualTime) {
-//    let getTime = getTimesForProductivityScore(tasks)
-//    let predTime = getTime[0]
-//    let actTime = getTime[1]
-   var prodScore = (actualTime/predTime).toPrecision(2)
+   
+    var prodScore = (actualTime/predTime).toPrecision(2)
+
+    console.log("prodScore", prodScore)
    return productivityScoreBucket(prodScore)
         
 }
@@ -197,9 +200,9 @@ function calculateProductivityScore(predTime, actualTime) {
 function productivityScoreBucket(prodScore){
     result = []
     switch (true) {
-        case (prodScore === "Infinity"):
-            result.push('0')
-            result.push("You do not have a productivity score for today! As you add tasks and complete them, your daily productivity score will be available to you!")
+        case (Number.isNaN(prodScore) === true):
+            result.push('--')
+            result.push("You do not have a productivity score! As you add tasks and complete them, your productivity score will be available to you!")
             break;
         case (prodScore < .75):
             result.push(prodScore)
@@ -216,43 +219,24 @@ function productivityScoreBucket(prodScore){
         case (prodScore >= 1.5):
             result.push(prodScore)
             result.push("Oof. You might need a day off! Are you taking a day off at least once a week? Also, do you want to add some buffer time in your day, and plan spend more time on your tasks?");
-            // let startTimeStr = req.body.start;
-            // let startHour = Number(startTimeStr.substring(0, 2));
-            // switch (true) {
-            //     case (startHour < 12):
-            //         console.log("Hmm. Maybe you're not a morning person. " +
-            //             "What do you think about not assigning yourself tasks during the morning?");
-            //         break;
-            //     case (startHour < 17) :
-            //         console.log("Hmm. Maybe you're not a afternoon person. " +
-            //             "What do you think about not assigning yourself tasks during the afternoon?");
-            //         break;
-            //     case (startHour < 21):
-            //         console.log("Hmm. Maybe you're not a evening person. " +
-            //             "What do you think about not assigning yourself tasks during the evening?");
-            //         break;
-            //     case (startHour >= 21):
-            //         console.log("Hmm. Maybe you're not a night person. " +
-            //             "What do you think about not assigning yourself tasks during the night?");
-            //         break;
-            // }
     }
+
     return result
 }
 
 
 app.post('/goalTracker', async (req,res) => {
-    let id = JSON.stringify(req.body);
-    // console.log("User email:" + id);
-
-    //change this to look at creator id for that particular date, this will just look at priority for now!
-    //check current date and look for tasks due that day for that user.
-    const myCurrentDate = new Date();
-    const date = myCurrentDate.getFullYear() + '-' + (myCurrentDate.getMonth()+1) + '-' + myCurrentDate.getDate();
-    const tasks = await taskModel.find({"predictedEndDate":date});
-    let value = getTimesForProductivityScore(tasks)
+    id = req.body.credentials
+    const today = new Date(new Date().getTime() - new Date().getTimezoneOffset()*60*1000).toISOString().substr(0,10); 
+    const tasks = await taskModel.find({"creator":id, "predictedEndDate": today});
+    console.log("my tasks", tasks)
+    var value = getTimesForProductivityScore(tasks)
+    console.log("value is", value)
     score = calculateProductivityScore(value[0], value[1])
- 
+    console.log(score, "scoree")
+    if (score.length === 0){
+        score.push("--", "You do not have a productivity score yet. As you add tasks and check them off as complete, your productivity score will increase!")
+    }
     try {
         res.send(score);
     } 
@@ -261,59 +245,53 @@ app.post('/goalTracker', async (req,res) => {
     }
 })
 
+
+
 app.post('/goalTrackerWeek', async (req,res) => {
-    let id = JSON.stringify(req.body);
+    id = req.body.credentials
     const checkDates = []
     const result = []
   
     const myCurrentDate = new Date();
     var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
     var day = days[myCurrentDate.getDay()];
-    const date = myCurrentDate.getFullYear() + '-' +  (myCurrentDate.getMonth()+1) + '-' + myCurrentDate.getDate();
-
+    
+    const date = new Date(new Date().getTime() - new Date().getTimezoneOffset()*60*1000).toISOString().substr(0,10); 
 
     var myPastDate1 = new Date(myCurrentDate);
     myPastDate1.setDate(myPastDate1.getDate() - 6)  
-    // var day1 = days[myPastDate1.getDay()];
     const date1 =  myPastDate1.getFullYear() + '-' +  (myPastDate1.getMonth()+1) + '-' + myPastDate1.getDate();
-  
-
+    
     var myPastDate2 = new Date(myCurrentDate);
     myPastDate2.setDate(myPastDate2.getDate() - 5)
-    // var day2 = days[myPastDate2.getDay()];
     const date2 = myPastDate2.getFullYear() + '-' +  (myPastDate2.getMonth()+1) + '-' + myPastDate2.getDate();
     
     var myPastDate3 = new Date(myCurrentDate);
     myPastDate3.setDate(myPastDate3.getDate() - 4)
-    // var day3 = days[myPastDate3.getDay()];
     const date3 = myPastDate3.getFullYear() + '-' +  (myPastDate3.getMonth()+1) + '-' + myPastDate3.getDate();
 
     var myPastDate4 = new Date(myCurrentDate);
     myPastDate4.setDate(myPastDate4.getDate() - 3)
-    // var day4 = days[myPastDate4.getDay()];
     const date4 = myPastDate4.getFullYear() + '-' +  (myPastDate4.getMonth()+1) + '-' + myPastDate4.getDate();
 
     var myPastDate5 = new Date(myCurrentDate);
-    // myPastDate5.setDate(myPastDate5.getDate() - 2)
-    // var day5 = days[myPastDate5.getDay()];
+    myPastDate5.setDate(myPastDate5.getDate() - 2)
     const date5 = myPastDate5.getFullYear() + '-' +  (myPastDate5.getMonth()+1) + '-' + myPastDate5.getDate();
 
     var myPastDate6 = new Date(myCurrentDate);
     myPastDate6.setDate(myPastDate6.getDate() - 1)
-    // var day6 = days[myPastDate6.getDay()];
     const date6 = myPastDate6.getFullYear() + '-' +  (myPastDate6.getMonth()+1) + '-' + myPastDate6.getDate();
+    
     
 
     if (day === "Sunday"){
         checkDates.push(date1, date2, date3, date4, date5, date6, date)
-        // const tasks = await taskModel.find({"predictedEndDate":"2021-11-18"});
-
         totalProductivityScore = 0
         var totalPredictedTime = 0
         var totalActualTime = 0
 
         for (var i = 0; i < checkDates.length; i++){
-            const tasks = await taskModel.find({"predictedEndDate":checkDates[i]});
+            const tasks = await taskModel.find({"creator":id, "predictedEndDate": checkDates[i]})
             let value = getTimesForProductivityScore(tasks)
             if (
                 
@@ -340,9 +318,7 @@ app.post('/goalTrackerWeek', async (req,res) => {
 
     }
     else{
-        // result.push("1", "2", "3", "4", "5", "6", ["5", "You do not have a productivity score yet Please check back at the end of the week!"])
-        result.push(["You do not have a productivity score yet Please check back at the end of the week!"])
-        // console.log("result issss", result)
+        result.push(["You do not have a productivity score yet. Please check back at the end of the week!"])
     }
     
     // console.log("RESULTS", result)

@@ -13,12 +13,13 @@ function Tracker() {
     var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
     var day = days[myCurrentDate.getDay()];
     // const userObject = useContext(myContext);
+    const [hover, setHover] = useState(false);
 
 
     var myPastDate1 = new Date(myCurrentDate);
     myPastDate1.setDate(myPastDate1.getDate() - 6)
-    var day1 = days[myPastDate1.getDay()];
-    const date1 = (myPastDate1.getMonth()+1) + '/' + myPastDate1.getDate() + '/' + myPastDate1.getFullYear();
+    // var day1 = days[myPastDate1.getDay()];
+    // const date1 = (myPastDate1.getMonth()+1) + '/' + myPastDate1.getDate() + '/' + myPastDate1.getFullYear();
 
 
     const [productiveScore, setProductiveScore] = useState()
@@ -47,10 +48,11 @@ function Tracker() {
     }
 
     const userObject = useContext(myContext);
+    console.log("userObject", userObject.email)
 
     useEffect(() => {
-        productivityDayScore({"credentials": 'creator'})
-        productivityWeekScore({"credentials": 'creator'})
+        productivityDayScore({credentials: userObject.email})
+        productivityWeekScore({credentials: userObject.email})
     }, [])
 
 
@@ -89,14 +91,14 @@ function Tracker() {
     function processData(data){
         if (data.length === 1) {
             console.log("IN HERE")
-            setProductiveWeekMondayScore("N/A")
-            setProductiveWeekTuesdayScore("N/A")
-            setProductiveWeekWednesdayScore("N/A")
-            setProductiveWeekThursdayScore("N/A")
-            setProductiveWeekFridayScore("N/A")
-            setProductiveWeekSaturdayScore("N/A")
-            setProductiveWeekSundayScore("N/A")
-            setProductiveWeekScore(0)
+            setProductiveWeekMondayScore("--")
+            setProductiveWeekTuesdayScore("--")
+            setProductiveWeekWednesdayScore("--")
+            setProductiveWeekThursdayScore("--")
+            setProductiveWeekFridayScore("--")
+            setProductiveWeekSaturdayScore("--")
+            setProductiveWeekSundayScore("--")
+            setProductiveWeekScore("--")
             setProductiveWeekComment(data[0])
         }
         else{
@@ -107,13 +109,13 @@ function Tracker() {
             setProductiveWeekFridayScore(data[4])
             setProductiveWeekSaturdayScore(data[5])
             setProductiveWeekSundayScore(data[6])
-            console.log(data[7], 'data')
             setProductiveWeekScore(data[7][0])
             setProductiveWeekComment(data[7][1])
 
         }
 
     }
+
 
 
     return (
@@ -165,29 +167,19 @@ function Tracker() {
                 </WrapperHeader>}
                 <WrapperHeader>Your Tasks Have Taken</WrapperHeader>
                 <TodayMultiplier> {productiveScore}x </TodayMultiplier>
-                <WrapperHeader>less than the Amount of Time You Predicted</WrapperHeader>
+                <WrapperHeader>the Amount of Time You Predicted</WrapperHeader>
                 <WrapperMessage> {productiveComment}</WrapperMessage>
             </TodayWrapper>
             <ThisWeekWrapper>
                 <WrapperHeader>
-                    This Week: {day1}, {date1} - {day}, {date}
+                    This Week
                 </WrapperHeader>
                 <WrapperHeader>Your Tasks Have Taken</WrapperHeader>
                 <ThisWeekMultiplier>{productiveWeekScore}x</ThisWeekMultiplier>
-                <WrapperHeader>less than the Amount of Time You Predicted</WrapperHeader>
+                <WrapperHeader>the Amount of Time You Predicted</WrapperHeader>
+                
                 <WrapperMessage> {productiveWeekComment} </WrapperMessage>
-                <WrapperMessage>
-                    <h2>Summary:</h2>
-                    <li> On Monday, you were  {productiveWeekMondayScore}x, less productive than anticipated. </li>
-                    <li> On Tuesday, you were {productiveWeekTuesdayScore}x, less productive than anticipated. </li>
-                    <li> On Wednesday, you were {productiveWeekWednesdayScore}x, less productive than anticipated. </li>
-                    <li> On Thursday, you were {productiveWeekThursdayScore}x, less productive than anticipated.</li>
-                    <li> On Friday, you were  {productiveWeekFridayScore}x, less productive than anticipated. </li>
-                    <li> On Saturday, you were  {productiveWeekSaturdayScore}x, less productive than anticipated. </li>
-                    <li> On Sunday, you were  {productiveWeekSundayScore}x, less productive than anticipated. </li>
-
-
-                </WrapperMessage>
+             
             </ThisWeekWrapper>
         </Container>
     )
@@ -206,18 +198,6 @@ const Container = styled.div`
     flex-flow: row;
 `
 
-const dropdownStyle = {
-    background: '#fff',
-    border: 'none',
-    padding: '10px',
-    width: '100%',
-    margin: '0.25em 0 0.25em 0',
-    color: '#1B3D4A',
-    fontFamily: 'Proxima Nova',
-    fontSize: '1em',
-    textTransform: 'uppercase',
-    borderRadius: '25px'
-}
 
 const InfoWrapper = styled.div`
     width: 100%;
@@ -228,7 +208,24 @@ const InfoWrapper = styled.div`
     align-items: center;
     flex-flow: column nowrap;
 `
-
+const HoverWrapper = styled.div`
+    position: fixed;
+    background: #fff;
+    padding: 0.5em 1em 0.5em 1em;
+    border-radius: 10%; 
+    color: #1B3D4A;
+    margin-right: 1em;
+`
+const DetailsButton = styled.button`
+    background: transparent;
+    padding: 5px;
+    border-radius: 10px;
+    font-family: 'Proxima Nova';
+    color: #1B3D4A;
+    font-size: 1em;
+    text-align: right;
+    right: 0;
+`
 const PicWrapper = styled.div`
     height: 75px;
     width: 75px;

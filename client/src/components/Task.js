@@ -42,13 +42,13 @@ function Task({onClick}){
         setData(newdata)
     }
 
-    async function postData(url = '', data = '') {
+    async function postData(url = '', credentials) {
         const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
             },
-            body: data
+            body: JSON.stringify(credentials)
         })
         response.json().then(data => {
             let m = ''
@@ -63,52 +63,12 @@ function Task({onClick}){
         });
     }
 
-    /*async function getData(url = '') {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json'
-            },
-        })
-        response.json().then(data => {
-                alert(data);
-        }).catch(err => {
-            console.log(err);
-        });
-    }*/
 
     function schedule() {
         console.log("Making today's schedule for user: " + userObject.name)
-
-        postData('http://localhost:8080/tasks/schedule', userObject);
-        //getData('http://localhost:8080/tasks/schedule');
-        /*fetch('http://localhost:8080/tasks/schedule', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: creator
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error(response.statusText);
-            }
-            console.log("get your POST done")
-            console.log(response.json());
-
-        }).catch(err => {
-            console.log(err);
-        });*/
-
-       /* fetch('http://localhost:8080/tasks/schedule')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-            })
-            .catch(err => {
-                console.log(err);
-            });*/
-
+        postData('http://localhost:8080/tasks/schedule', {credentials: userObject.email});
         alert("scheduled!");
+
 
     }
 
@@ -255,7 +215,6 @@ function Task({onClick}){
                 {/*<ButtonWrapper>
                     <button type="button" onClick={onClick}>Delete</button>
                 </ButtonWrapper>*/}
-                <div>{message}</div>
                 <ButtonWrapper>
                     <button type="submit" style={submitButton}>Submit Task</button>
                     <DoneButton onClick={schedule}>Make a Schedule</DoneButton>

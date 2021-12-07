@@ -1,4 +1,3 @@
-// import {myFunction} from './index.js'
 const passport = require("passport");
 const express = require("express");
 const taskModel = require("./models/Task");
@@ -7,12 +6,8 @@ const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 const app = express();
 
-
-//app.use(express.bodyParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
-
-// TODO: send message if x not found, instead of throwing an error?
 
 
 
@@ -120,7 +115,7 @@ app.post("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
         }
 
         const newTask = new taskModel({
-            _id: new mongoose.Types.ObjectId, //req.params.id,
+            _id: new mongoose.Types.ObjectId,
             taskName: req.body.taskName,
             predictedEndDate: req.body.deadline,
             priority: taskPriority,
@@ -177,22 +172,13 @@ function getTimesForProductivityScore(tasks){
         totalPredTime += finalData[i].predTime
         totalActualTime += finalData[i].actualTime
     }
-   
-
-    console.log("totalPredTimeis", totalPredTime)
-    console.log("totalActualTimeis", totalActualTime)
-
-
     result.push(totalPredTime, totalActualTime)
     return result
 
 }
 
 function calculateProductivityScore(predTime, actualTime) {
-   
-    var prodScore = (actualTime/predTime).toPrecision(2)
-
-    console.log("prodScore", prodScore)
+   var prodScore = (actualTime/predTime).toPrecision(2)
    return productivityScoreBucket(prodScore)
         
 }
@@ -289,55 +275,29 @@ app.post('/goalTrackerWeek', async (req,res) => {
         totalProductivityScore = 0
         var totalPredictedTime = 0
         var totalActualTime = 0
-
         for (var i = 0; i < checkDates.length; i++){
             const tasks = await taskModel.find({"creator":id, "predictedEndDate": checkDates[i]})
             let value = getTimesForProductivityScore(tasks)
-            if (
-                
-                Number.isNaN(value[0]) === true
-                
-                ){
-                value[0] = 0
-            } else if( Number.isNaN(value[1]) === true){
-                value[1] = 0
-
-            }
-            
             score = calculateProductivityScore(value[0], value[1])
-            // console.log("score," , score)
             result.push(score[0])
             totalPredictedTime += value[0]
             totalActualTime += value[1]
         }
-
-    
         result.push(calculateProductivityScore(totalPredictedTime, totalActualTime))
-        // console.log("resulttt", result)
-       
-
     }
     else{
         result.push(["You do not have a productivity score yet. Please check back at the end of the week!"])
     }
-    
-    // console.log("RESULTS", result)
-    
     try {
         res.send(result);
     } 
     catch (error) {
         res.status(500).send(error);
     }
-
-
-  
-   
 })
 
 app.post('/signedin', (req, res) => {
     console.log(req.body);
-
     userModel.findOne({email: req.body.email}, (err,user)=> {
         if (err) {
             throw new Error("Error finding this user");
@@ -380,14 +340,13 @@ app.post('/tasks', (req, res) => {
         taskPriority = 3;
     }
     const newTask = new taskModel({
-        _id: new mongoose.Types.ObjectId, //req.params.id,
+        _id: new mongoose.Types.ObjectId, 
         creator: req.body.creatorId,
         taskName: req.body.taskName,
         startDate: req.body.startDate,
         complete: req.body.complete,
         difficulty: req.body.difficulty,
         predictedEndDate: req.body.deadline,
-        //priority: req.body.priority,
         priority: taskPriority,
         predictedTimeHours: req.body.PredictedTimeHours,
         predictedTimeMinutes: req.body.PredictedTimeMinutes,
@@ -404,12 +363,9 @@ app.post('/tasks', (req, res) => {
 
         console.log("found user " + user.name + ". We will be adding following task ");
         console.log(newTask);
-
-        //task model.create
         newTask.save((err) => {
             if (err) {
                 console.log(err)
-                // res.redirect('/');
                 alert("error when posting task, please try again");
                 throw new Error("error when posting task");
             }
@@ -423,15 +379,10 @@ app.post('/tasks', (req, res) => {
 
         });
 
-   
     });
 
     console.log("I received your POST request. This is what you sent me");
     console.log(newTask);
-
-    
-
-    //res.send(newTask);
 });
 
 
@@ -445,7 +396,5 @@ app.post("/users", async (req, res) => {
         res.status(500).send(error);
     }
 });
-
-//app post: task score algorithm
 
 module.exports = app;

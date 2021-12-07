@@ -1,4 +1,5 @@
 REFLECTING ON ITERATION 4
+
 While we delivered in most of our goals for iteration 4, we encountered a few set backs.
 
 **What challenges did we have?**

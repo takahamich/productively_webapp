@@ -2,6 +2,7 @@ const session = require("express-session");
 const passport = require("passport");
 const express = require("express");
 const mongoose = require("mongoose");
+const dbConnect = require("../db/dbConnect");
 const Router = require("./routes");
 const bodyParser = require('body-parser');
 const taskModel = require("./models/Task");
@@ -31,10 +32,7 @@ app.post('/', (req, res) => {
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 
-mongoose.connect(
-    `mongodb+srv://nolombardo:%40ndw3simplys%40id@cluster0.kjv7f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
-);
-const db = mongoose.connection;
+dbConnect();
 
 app.use(express.json());
 //app.use(cors({ origin: "https://localhost:3000", credentials: true })); //check
@@ -147,24 +145,6 @@ app.get("/auth/logout", (req, res) => {
     }
 });
 
-db.on("error", console.error.bind(console, "connection error: "));
-db.once("open", function () {
-    console.log("Connected successfully");
-    //console.log(`Tasks:`);
-    /*taskModel.find({}, function (err, result) {
-        if (err) return handleError(err);
-        // console.log(result);
-
-        for(var i = 0; i < result.length; i++) {
-            var obj = result[i];
-            myFunction(obj.startTime, obj.endTime);
-        }
-    })*/
-    // Schedule();
-
-    //Schedule();
-    
-});
 /*function myFunction(startTimeValue, endTimeValue) {
     console.log("IN HERE", startTimeValue, endTimeValue);
     return startTimeValue, endTimeValue  // The function returns the product of p1 and p2

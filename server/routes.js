@@ -9,8 +9,6 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
-
-
 app.get("/users", async (req, res) => { //gets all users
     const users = await userModel.find({});
 
@@ -22,12 +20,10 @@ app.get("/users", async (req, res) => { //gets all users
 });
 
 app.get("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
-    console.log("getting my tasks!");
     const tasks = await taskModel
         .find({creator: req.params.id, complete: false})
         .sort({ predictedEndDate: 'asc', priority: 'desc' });//user.tasks undefined
 
-    // find within user?
     try {
         res.send(tasks);
     } catch (error) {
@@ -96,9 +92,6 @@ app.post("/updateTask/:id", async (req, res) => {
 });
 
 app.post("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
-    console.log('Posting a new task to my tasks :p');
-    console.log(req.body);
-
     let taskPriority = 0;
     if (req.body.priority == "Low priority") {
         taskPriority = 1;
@@ -110,7 +103,6 @@ app.post("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
 
     userModel.findOne({email: req.params.id}, async (err, user) => {
         if (err) {
-            console.log('error finding user');
             return done(err, null);
         }
 
@@ -131,8 +123,6 @@ app.post("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
             creator: req.params.id,
         });
 
-        console.log('new task was created as follows: ');
-        console.log(newTask);
 
         taskModel.create(newTask, (err, task) => {
             if (err) {
@@ -141,7 +131,6 @@ app.post("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
             }
 
             user.tasks.push(newTask);
-            console.log(user.tasks);
             user.save((err) => {
                 return res.send(user.tasks);
             });

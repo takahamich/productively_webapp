@@ -1,6 +1,6 @@
 import React from 'react';
 import './Login.css';
-import time from '../time.png'
+import logo from '../m.OOSE_logo.png'
 import styled from "styled-components";
 
 function Login() {
@@ -12,9 +12,10 @@ function Login() {
     return(
         <Main>
             <div className="center">
-                <h1 style={textStyle}>Welcome!</h1>
-                <h3 style={smallTextStyle}>Please Sign In With Your Google Account </h3>
-                <h3 style={smallTextStyle}>To Access Your Dashboard </h3>
+                <img src={logo} alt="mOOSE logo" width={'250px'}/>
+                {/*<h1 style={textStyle}>Welcome!</h1>*/}
+                <h3 style={smallTextStyle}>Welcome! Please Sign In With Your</h3>
+                <h3 style={smallTextStyle}>Google Account To Access Your Dashboard</h3>
                 <div className="button" onClick={googleLogin}>
                     <img src='https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png' alt="Google Icon" />
                     <p>Login With Google</p>

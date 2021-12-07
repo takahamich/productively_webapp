@@ -118,15 +118,7 @@ In order to go beyond CRUD, we created an algorithm that automatically gives use
     
     (d) 1.5+ – gets the recommendation "Oof. Do you need a day off on [day of the week]s? Are you taking a day off at least once a week? Also, do you want to add some buffer time in your day, and plan spend more time on your tasks?"
   
-    Additionally, if the prodScore is 1.5+ AND the start time is during a certain time of day (defined below), then a second recommendation is displayed, claiming "Hmm. Maybe you're not a [timeOfDay] person. What do you think about not assigning yourself tasks during [timeOfDay]?" The timeOfDay is defined below:
-    
-    (a) Start of day until 11:59am, timeOfDay = Morning
 
-    (b) 12pm – 4:59pm, timeOfDay = Afternoon
-    
-    (c) 5pm – 8:59pm, timeOfDay = Evening
-
-    (d) 9pm – end of day, timeOfDay = Night
     
 Scheduling Algorithm:
 We implemented a rudimentary scheduling algorithm that:

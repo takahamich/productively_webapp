@@ -66,23 +66,23 @@ function Resources() {
                 </Category>
                 <a href="https://blog.usejournal.com/calendar-in-stead-of-to-do-lists-9ada86a512dd"
                       style={resourceLinkStyle}>Scheduling Multiplier</a>
-                <ResourceDescription>This is the description for the link above.</ResourceDescription>
+                <ResourceDescription>The article that started it all: tips for reshaping how to get things done.</ResourceDescription>
 
                 <Category>
                     For More
                 </Category>
                 <a href="https://www.coursera.org/learn/learning-how-to-learn"
                    style={resourceLinkStyle}>Learning How to Learn, Course by Barbara Oakley</a>
-                <ResourceDescription>This is the description for the link above.</ResourceDescription>
+                <ResourceDescription>The secrets behind learning, procrastination, creativity, getting things done, and more.</ResourceDescription>
                 <a href="https://fsou1.github.io/2020/06/12/Learning_how_to_learn/"
                    style={resourceLinkStyle}>Learning How to Learn, Summary #1</a>
-                <ResourceDescription>This is the description for the link above.</ResourceDescription>
+                <ResourceDescription>A brief summary of Dr. Oakley's course above.</ResourceDescription>
                 <a href="https://medium.com/learn-love-code/learnings-from-learning-how-to-learn-19d149920dc4"
                    style={resourceLinkStyle}>Learning How to Learn, Summary #2</a>
-                <ResourceDescription>This is the description for the link above.</ResourceDescription>
+                <ResourceDescription>Another brief summary of Dr. Oakley's course above.</ResourceDescription>
                 <a href="https://www.lifehack.org/878293/effective-to-do-list"
                    style={resourceLinkStyle}>Strategies for To Do Lists</a>
-                <ResourceDescription>This is the description for the link above.</ResourceDescription>
+                <ResourceDescription>How to turn "do" into "done".</ResourceDescription>
             </MainWrapper>
         </Container>
     )

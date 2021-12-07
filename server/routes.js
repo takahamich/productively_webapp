@@ -201,7 +201,7 @@ function productivityScoreBucket(prodScore){
     result = []
     switch (true) {
         case (Number.isNaN(prodScore) === true):
-            result.push('_ _')
+            result.push('--')
             result.push("You do not have a productivity score! As you add tasks and complete them, your productivity score will be available to you!")
             break;
         case (prodScore < .75):
@@ -263,6 +263,10 @@ app.post('/goalTracker', async (req,res) => {
         value[1] = 0
     }
     score = calculateProductivityScore(value[0], value[1])
+    if (score.length === 0){
+        console.log("yesss")
+        score.push("--", "You do not have a productivity score yet. As you add tasks, your productivity score will increase!")
+    }
     try {
         res.send(score);
     } 
@@ -283,16 +287,11 @@ app.post('/goalTrackerWeek', async (req,res) => {
     var day = days[myCurrentDate.getDay()];
     
     const date = new Date(new Date().getTime() - new Date().getTimezoneOffset()*60*1000).toISOString().substr(0,10); 
-  
-
 
     var myPastDate1 = new Date(myCurrentDate);
     myPastDate1.setDate(myPastDate1.getDate() - 6)  
     const date1 =  myPastDate1.getFullYear() + '-' +  (myPastDate1.getMonth()+1) + '-' + myPastDate1.getDate();
     
-    
-  
-
     var myPastDate2 = new Date(myCurrentDate);
     myPastDate2.setDate(myPastDate2.getDate() - 5)
     const date2 = myPastDate2.getFullYear() + '-' +  (myPastDate2.getMonth()+1) + '-' + myPastDate2.getDate();

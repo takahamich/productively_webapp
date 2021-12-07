@@ -91,14 +91,14 @@ function Tracker() {
     function processData(data){
         if (data.length === 1) {
             console.log("IN HERE")
-            setProductiveWeekMondayScore("_ _")
-            setProductiveWeekTuesdayScore("_ _")
-            setProductiveWeekWednesdayScore("_ _")
-            setProductiveWeekThursdayScore("_ _")
-            setProductiveWeekFridayScore("_ _")
-            setProductiveWeekSaturdayScore("_ _")
-            setProductiveWeekSundayScore("_ _")
-            setProductiveWeekScore("_ _")
+            setProductiveWeekMondayScore("--")
+            setProductiveWeekTuesdayScore("--")
+            setProductiveWeekWednesdayScore("--")
+            setProductiveWeekThursdayScore("--")
+            setProductiveWeekFridayScore("--")
+            setProductiveWeekSaturdayScore("--")
+            setProductiveWeekSundayScore("--")
+            setProductiveWeekScore("--")
             setProductiveWeekComment(data[0])
         }
         else{

@@ -1,4 +1,3 @@
-const passport = require("passport");
 const express = require("express");
 const taskModel = require("./models/Task");
 const userModel = require("./models/User");
@@ -8,16 +7,6 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
-
-app.get("/users", async (req, res) => { //gets all users
-    const users = await userModel.find({});
-
-    try {
-        res.send(users);
-    } catch (error) {
-        res.status(500).send(error);
-    }
-});
 
 app.get("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
     const tasks = await taskModel
@@ -55,23 +44,19 @@ app.put("/completed/:id", async (req, res) => {
         res.send(updatedTask);
     }catch (error) {
         res.status(500).send(error.message);
-        console.log(error.message);
     }
 });
 
 app.post("/deleteTask/:id", async (req, res) => {
     console.log("deleting task");
     const task_id = req.params.id;
-    console.log(task_id);
     taskModel.deleteOne({_id: task_id}, function(err) {
-        if (err) console.log(err);
+        if (err) res.status(500).send(err);
     });
 });
 
 app.post("/updateTask/:id", async (req, res) => {
-    console.log("updating task");
     const task_id = req.params.id;
-    console.log(task_id);
     let taskPriority = 0;
     if (req.body.priority == "Low priority" || req.body.priority == "1") {
         taskPriority = 1;
@@ -87,7 +72,7 @@ app.post("/updateTask/:id", async (req, res) => {
             predictedTimeMinutes: req.body.PredictedTimeMinutes, startDate: req.body.startDate,
             startTime: req.body.startTime, difficulty: req.body.difficulty},
         function(err) {
-        if (err) console.log(err);
+        if (err) res.status(500).send(err.message);
     });
 });
 
@@ -204,11 +189,8 @@ app.post('/goalTracker', async (req,res) => {
     id = req.body.credentials
     const today = new Date(new Date().getTime() - new Date().getTimezoneOffset()*60*1000).toISOString().substr(0,10); 
     const tasks = await taskModel.find({"creator":id, "predictedEndDate": today});
-    console.log("my tasks", tasks)
     var value = getTimesForProductivityScore(tasks)
-    console.log("value is", value)
     score = calculateProductivityScore(value[0], value[1])
-    console.log(score, "scoree")
     if (score.length === 0){
         score.push("--", "You do not have a productivity score yet. As you add tasks and check them off as complete, your productivity score will increase!")
     }
@@ -284,106 +266,5 @@ app.post('/goalTrackerWeek', async (req,res) => {
         res.status(500).send(error);
     }
 })
-
-app.post('/signedin', (req, res) => {
-    console.log(req.body);
-    userModel.findOne({email: req.body.email}, (err,user)=> {
-        if (err) {
-            throw new Error("Error finding this user");
-        }
-
-        if(!user) {
-            console.log('Could not find you in the database, Making a new user!');
-            const newUser = new userModel ({
-                _id: new mongoose.Types.ObjectId,
-                googleId: req.body.googleId,
-                name: req.body.name,
-                email: req.body.email,
-            });
-            console.log(newUser);
-            userModel.create(newUser, (err, user) => {
-                if (err) {
-                    res.redirect('/');
-                    console.log("Error while creating new user");
-                    throw new Error(err);
-                }
-            });
-        } else {
-            console.log('User was already in our database!');
-            res.send(user);
-        }
-    });
-
-});
-
-
-
-
-app.post('/tasks', (req, res) => {
-    let taskPriority = 0;
-    if (req.body.priority == "Low priority") {
-        taskPriority = 1;
-    } else if (req.body.priority == "Medium priority") {
-        taskPriority = 2;
-    } else {
-        taskPriority = 3;
-    }
-    const newTask = new taskModel({
-        _id: new mongoose.Types.ObjectId, 
-        creator: req.body.creatorId,
-        taskName: req.body.taskName,
-        startDate: req.body.startDate,
-        complete: req.body.complete,
-        difficulty: req.body.difficulty,
-        predictedEndDate: req.body.deadline,
-        priority: taskPriority,
-        predictedTimeHours: req.body.PredictedTimeHours,
-        predictedTimeMinutes: req.body.PredictedTimeMinutes,
-        actualTimeHours: req.body.actualTimeHours,
-        actualTimeMinutes: req.body.actualTimeMinutes,
-        startTime: req.body.start,
-        endTime: req.body.end,
-    });
-
-    userModel.findOne({email: newTask.creator}, (err,user)=> {
-        if (err) {
-            throw new Error(err);
-        }
-
-        console.log("found user " + user.name + ". We will be adding following task ");
-        console.log(newTask);
-        newTask.save((err) => {
-            if (err) {
-                console.log(err)
-                alert("error when posting task, please try again");
-                throw new Error("error when posting task");
-            }
-
-            user.tasks.push(newTask);
-            console.log('the user task array has been updated ' + user.tasks);
-            user.save((err) => {
-                res.send(user.tasks);
-            });
-
-
-        });
-
-    });
-
-    console.log("I received your POST request. This is what you sent me");
-    console.log(newTask);
-});
-
-
-app.post("/users", async (req, res) => {
-    const users = new userModel(req.body);
-
-    try {
-        await users.save();
-        res.send(users);
-    } catch (error) {
-        res.status(500).send(error);
-    }
-});
 
 module.exports = app;

@@ -35,22 +35,15 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 dbConnect();
 
 app.use(express.json());
-//app.use(cors({ origin: "https://localhost:3000", credentials: true })); //check
 
 app.set("trust proxy", 1);
 
 app.use(cookieParser());
-// app.use(express.bodyParser());
+
 app.use(session({
     secret: "secretcode",
     resave: true,
     saveUninitialized: true
-    //proxy: true,
-    // cookie: {
-    //     sameSite: "none",
-    //     secure: true,
-    //     maxAge: 1000 * 60 * 60 * 24 * 7 // One Week
-    // }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -75,14 +68,11 @@ passport.use(new GoogleStrategy({
     function (token, tokenSecret, profile, done) {
 
         userModel.findOne({ googleId: profile.id }, async (err, user) => {
-            console.log('trying to find user or create');
             if (err) {
-                console.log('error finding user');
                 return done(err, null);
             }
 
             if (!user) {
-                console.log('creating user');
                 const newUser = new userModel({
                     _id: new mongoose.Types.ObjectId,
                     googleId: profile.id,
@@ -90,17 +80,10 @@ passport.use(new GoogleStrategy({
                     email: profile.emails[0].value,
                     picture: profile.photos[0].value,
                 });
-                console.log('name: ' + newUser.name );
-                console.log('email: ' + newUser.email);
-                console.log('picture url: ' + newUser.picture);
                 await newUser.save();
                 return done(null, newUser);
             }
 
-            console.log('found user');
-            console.log('name: ' + user.name );
-            console.log('email: ' + user.email);
-            console.log('picture url: ' + user.picture);
             return done(null, user);
         })
 
@@ -110,7 +93,7 @@ app.get('/auth/google',
     passport.authenticate('google', { scope: [
             'https://www.googleapis.com/auth/userinfo.profile',
             'https://www.googleapis.com/auth/userinfo.email'
-        ] })); //or just 'profile' vs https://www.googleapis.com/auth/plus.login
+        ] }));
 
 app.get('/auth/google/callback',
     passport.authenticate('google', {
@@ -118,29 +101,21 @@ app.get('/auth/google/callback',
         failureRedirect: 'http://localhost:3000/'
     }),
     function(req, res) {
-        console.log('User :' + req.user);
         req.session.save();
-        //req.session.user = req.user;
-        console.log("session is: " + req.session);
         res.redirect('http://localhost:3000/home');
     });
 
 app.get("/getuser", (req, res) => {
-    console.log("tried to get user and found: ");
-    console.log(req.user);
     if(req.user) {
-        console.log('sending req.user!');
         return res.send(req.user);
     } else {
-        console.log("couldn't find user / user undefined");
+        return null;
     }
-    return null;
 });
 
 app.get("/auth/logout", (req, res) => {
     if (req.user) {
         req.logout();
-        console.log("logging out!");
         return res.send("done");
     }
 });

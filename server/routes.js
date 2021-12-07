@@ -1,4 +1,3 @@
-// import {myFunction} from './index.js'
 const passport = require("passport");
 const express = require("express");
 const taskModel = require("./models/Task");
@@ -7,14 +6,8 @@ const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 const app = express();
 
-
-//app.use(express.bodyParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
-
-// TODO: send message if x not found, instead of throwing an error?
-
-
 
 app.get("/users", async (req, res) => { //gets all users
     const users = await userModel.find({});
@@ -27,12 +20,10 @@ app.get("/users", async (req, res) => { //gets all users
 });
 
 app.get("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
-    console.log("getting my tasks!");
     const tasks = await taskModel
         .find({creator: req.params.id, complete: false})
         .sort({ predictedEndDate: 'asc', priority: 'desc' });//user.tasks undefined
 
-    // find within user?
     try {
         res.send(tasks);
     } catch (error) {
@@ -101,9 +92,6 @@ app.post("/updateTask/:id", async (req, res) => {
 });
 
 app.post("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
-    console.log('Posting a new task to my tasks :p');
-    console.log(req.body);
-
     let taskPriority = 0;
     if (req.body.priority == "Low priority") {
         taskPriority = 1;
@@ -115,12 +103,11 @@ app.post("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
 
     userModel.findOne({email: req.params.id}, async (err, user) => {
         if (err) {
-            console.log('error finding user');
             return done(err, null);
         }
 
         const newTask = new taskModel({
-            _id: new mongoose.Types.ObjectId, //req.params.id,
+            _id: new mongoose.Types.ObjectId,
             taskName: req.body.taskName,
             predictedEndDate: req.body.deadline,
             priority: taskPriority,
@@ -136,8 +123,6 @@ app.post("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
             creator: req.params.id,
         });
 
-        console.log('new task was created as follows: ');
-        console.log(newTask);
 
         taskModel.create(newTask, (err, task) => {
             if (err) {
@@ -146,7 +131,6 @@ app.post("/myTasks/:id", async (req, res) => { //gets all tasks for Calendar
             }
 
             user.tasks.push(newTask);
-            console.log(user.tasks);
             user.save((err) => {
                 return res.send(user.tasks);
             });
@@ -177,22 +161,13 @@ function getTimesForProductivityScore(tasks){
         totalPredTime += finalData[i].predTime
         totalActualTime += finalData[i].actualTime
     }
-   
-
-    console.log("totalPredTimeis", totalPredTime)
-    console.log("totalActualTimeis", totalActualTime)
-
-
     result.push(totalPredTime, totalActualTime)
     return result
 
 }
 
 function calculateProductivityScore(predTime, actualTime) {
-   
-    var prodScore = (actualTime/predTime).toPrecision(2)
-
-    console.log("prodScore", prodScore)
+   var prodScore = (actualTime/predTime).toPrecision(2)
    return productivityScoreBucket(prodScore)
         
 }
@@ -201,7 +176,7 @@ function productivityScoreBucket(prodScore){
     result = []
     switch (true) {
         case (Number.isNaN(prodScore) === true):
-            result.push('_ _')
+            result.push('--')
             result.push("You do not have a productivity score! As you add tasks and complete them, your productivity score will be available to you!")
             break;
         case (prodScore < .75):
@@ -219,29 +194,6 @@ function productivityScoreBucket(prodScore){
         case (prodScore >= 1.5):
             result.push(prodScore)
             result.push("Oof. You might need a day off! Are you taking a day off at least once a week? Also, do you want to add some buffer time in your day, and plan spend more time on your tasks?");
-            
-    
-            
-            // let startTimeStr = req.body.start;
-            // let startHour = Number(startTimeStr.substring(0, 2));
-            // switch (true) {
-            //     case (startHour < 12):
-            //         console.log("Hmm. Maybe you're not a morning person. " +
-            //             "What do you think about not assigning yourself tasks during the morning?");
-            //         break;
-            //     case (startHour < 17) :
-            //         console.log("Hmm. Maybe you're not a afternoon person. " +
-            //             "What do you think about not assigning yourself tasks during the afternoon?");
-            //         break;
-            //     case (startHour < 21):
-            //         console.log("Hmm. Maybe you're not a evening person. " +
-            //             "What do you think about not assigning yourself tasks during the evening?");
-            //         break;
-            //     case (startHour >= 21):
-            //         console.log("Hmm. Maybe you're not a night person. " +
-            //             "What do you think about not assigning yourself tasks during the night?");
-            //         break;
-            // }
     }
 
     return result
@@ -253,16 +205,13 @@ app.post('/goalTracker', async (req,res) => {
     const today = new Date(new Date().getTime() - new Date().getTimezoneOffset()*60*1000).toISOString().substr(0,10); 
     const tasks = await taskModel.find({"creator":id, "predictedEndDate": today});
     console.log("my tasks", tasks)
-    let value = getTimesForProductivityScore(tasks)
-    if (         
-        Number.isNaN(value[0]) === true
-        
-        ){
-        value[0] = 0
-    } else if( Number.isNaN(value[1]) === true){
-        value[1] = 0
-    }
+    var value = getTimesForProductivityScore(tasks)
+    console.log("value is", value)
     score = calculateProductivityScore(value[0], value[1])
+    console.log(score, "scoree")
+    if (score.length === 0){
+        score.push("--", "You do not have a productivity score yet. As you add tasks and check them off as complete, your productivity score will increase!")
+    }
     try {
         res.send(score);
     } 
@@ -283,16 +232,11 @@ app.post('/goalTrackerWeek', async (req,res) => {
     var day = days[myCurrentDate.getDay()];
     
     const date = new Date(new Date().getTime() - new Date().getTimezoneOffset()*60*1000).toISOString().substr(0,10); 
-  
-
 
     var myPastDate1 = new Date(myCurrentDate);
     myPastDate1.setDate(myPastDate1.getDate() - 6)  
     const date1 =  myPastDate1.getFullYear() + '-' +  (myPastDate1.getMonth()+1) + '-' + myPastDate1.getDate();
     
-    
-  
-
     var myPastDate2 = new Date(myCurrentDate);
     myPastDate2.setDate(myPastDate2.getDate() - 5)
     const date2 = myPastDate2.getFullYear() + '-' +  (myPastDate2.getMonth()+1) + '-' + myPastDate2.getDate();
@@ -320,55 +264,29 @@ app.post('/goalTrackerWeek', async (req,res) => {
         totalProductivityScore = 0
         var totalPredictedTime = 0
         var totalActualTime = 0
-
         for (var i = 0; i < checkDates.length; i++){
             const tasks = await taskModel.find({"creator":id, "predictedEndDate": checkDates[i]})
             let value = getTimesForProductivityScore(tasks)
-            if (
-                
-                Number.isNaN(value[0]) === true
-                
-                ){
-                value[0] = 0
-            } else if( Number.isNaN(value[1]) === true){
-                value[1] = 0
-
-            }
-            
             score = calculateProductivityScore(value[0], value[1])
-            // console.log("score," , score)
             result.push(score[0])
             totalPredictedTime += value[0]
             totalActualTime += value[1]
         }
-
-    
         result.push(calculateProductivityScore(totalPredictedTime, totalActualTime))
-        // console.log("resulttt", result)
-       
-
     }
     else{
         result.push(["You do not have a productivity score yet. Please check back at the end of the week!"])
     }
-    
-    // console.log("RESULTS", result)
-    
     try {
         res.send(result);
     } 
     catch (error) {
         res.status(500).send(error);
     }
-
-
-  
-   
 })
 
 app.post('/signedin', (req, res) => {
     console.log(req.body);
-
     userModel.findOne({email: req.body.email}, (err,user)=> {
         if (err) {
             throw new Error("Error finding this user");
@@ -411,14 +329,13 @@ app.post('/tasks', (req, res) => {
         taskPriority = 3;
     }
     const newTask = new taskModel({
-        _id: new mongoose.Types.ObjectId, //req.params.id,
+        _id: new mongoose.Types.ObjectId, 
         creator: req.body.creatorId,
         taskName: req.body.taskName,
         startDate: req.body.startDate,
         complete: req.body.complete,
         difficulty: req.body.difficulty,
         predictedEndDate: req.body.deadline,
-        //priority: req.body.priority,
         priority: taskPriority,
         predictedTimeHours: req.body.PredictedTimeHours,
         predictedTimeMinutes: req.body.PredictedTimeMinutes,
@@ -435,12 +352,9 @@ app.post('/tasks', (req, res) => {
 
         console.log("found user " + user.name + ". We will be adding following task ");
         console.log(newTask);
-
-        //task model.create
         newTask.save((err) => {
             if (err) {
                 console.log(err)
-                // res.redirect('/');
                 alert("error when posting task, please try again");
                 throw new Error("error when posting task");
             }
@@ -454,15 +368,10 @@ app.post('/tasks', (req, res) => {
 
         });
 
-   
     });
 
     console.log("I received your POST request. This is what you sent me");
     console.log(newTask);
-
-    
-
-    //res.send(newTask);
 });
 
 
@@ -476,7 +385,5 @@ app.post("/users", async (req, res) => {
         res.status(500).send(error);
     }
 });
-
-//app post: task score algorithm
 
 module.exports = app;

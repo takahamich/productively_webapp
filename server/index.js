@@ -10,7 +10,7 @@ const userModel = require("./models/User");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const cors = require('cors')
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 const cookieParser = require('cookie-parser');
 
 app.use(cors({credentials: true, origin: 'http://localhost:3000'})); //might not need to be commented out

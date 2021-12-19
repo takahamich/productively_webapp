@@ -66,7 +66,7 @@ function Task({onClick}){
 
     function schedule() {
         console.log("Making today's schedule for user: " + userObject.name)
-        postData('http://localhost:8080/tasks/schedule', {credentials: userObject.email});
+        postData('https://productively-back-end.herokuapp.com/tasks/schedule', {credentials: userObject.email});
         alert("scheduled!");
 
 
@@ -78,7 +78,7 @@ function Task({onClick}){
         // const profile = googleUser.getBasicProfile();
         data.creatorId = userObject.email;
 
-        fetch('http://localhost:8080/myTasks/' + userObject.email, {
+        fetch('https://productively-back-end.herokuapp.com/myTasks/' + userObject.email, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'

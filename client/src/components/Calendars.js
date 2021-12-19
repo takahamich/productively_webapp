@@ -52,7 +52,7 @@ function Calendars({userEmail}){
 
   useEffect(() => {
     console.log("use effect")
-    fetch('http://localhost:8080/myTasks/' + userObject.email)
+    fetch('https://productively-back-end.herokuapp.com/myTasks/' + userObject.email)
       .then(res => {
         return res.json()
       })

@@ -8,7 +8,7 @@ export default function Context(props) { //props: any
     const [userObject, setUserObject] = useState(null); //useState<any>();
 
     useEffect(() => {
-        axios.get("http://localhost:8080/getuser", {withCredentials: true}).then(res => { //was slightly diff
+        axios.get("https://productively-back-end.herokuapp.com/getuser", {withCredentials: true}).then(res => { //was slightly diff
             if (res.data) {
                 setUserObject(res.data);
             } else {

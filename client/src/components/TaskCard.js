@@ -47,7 +47,7 @@ function TaskCard({id, taskName, deadline, startDate, startTime, predictHours, p
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         };
-        fetch('http://localhost:8080/completed/' + id, requestOptions)
+        fetch('https://productively-back-end.herokuapp.com/completed/' + id, requestOptions)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(response.statusText);

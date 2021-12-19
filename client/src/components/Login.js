@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 function Login() {
     const googleLogin = () => { //was const not function = () => {
-        window.open("http://localhost:8080/auth/google", "_self");
+        window.open("https://productively-back-end.herokuapp.com/auth/google", "_self");
         //window.location.href = "localhost:8080/auth/google";
     }
 

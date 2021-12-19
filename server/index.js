@@ -13,6 +13,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 //const cookieParser = require('cookie-parser');
 const MongoStore = require('connect-mongo');
+const isDevMode = process.env.NODE_ENV === 'development';
 
 app.use(cors({credentials: true, origin: 'https://schedule-productively.herokuapp.com'})); //might not need to be commented out
 app.use(bodyParser.json());
@@ -39,12 +40,13 @@ app.use(express.json());
 
 //app.use(cookieParser());
 
-app.set("trust proxy", 1);
+app.set('trust proxy', 1);
+
 app.use(session({
     secret: "secretcode",
     resave: true,
     saveUninitialized: true,
-    cookie: { secure: true },
+    cookie: { httpOnly: true, secure: true, maxAge: 1000 * 60 * 60 * 48, sameSite: 'none' },
     store: MongoStore.create({
         mongoUrl: process.env.DB_URL
     })

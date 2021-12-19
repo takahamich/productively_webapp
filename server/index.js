@@ -13,7 +13,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 //const cookieParser = require('cookie-parser');
 const MongoStore = require('connect-mongo');
-const isDevMode = process.env.NODE_ENV === 'development';
+//const isDevMode = process.env.NODE_ENV === 'development';
 
 app.use(cors({credentials: true, origin: 'https://schedule-productively.herokuapp.com'})); //might not need to be commented out
 app.use(bodyParser.json());
@@ -229,7 +229,10 @@ function createTodaysSchedule(taskList, message) {
     //In the future, it may be better to let users to input their free time
     //Currently, assume the user has a whole day to work on the tasks (9 am to 11 pm)
     taskList.sort(compareWeight);
-    let currHour = 9;
+    let currHour = start.getHours();
+    if (start.getMinutes()> 30) {
+        currHour += 1;
+    }
     message.push("Today's schedule:");
     for(var i = 0; i < taskList.length; i++) {
         if (currHour > 23) {
@@ -238,7 +241,7 @@ function createTodaysSchedule(taskList, message) {
         start.setHours(currHour);
         message.push("Start time: " + start.getHours() + ":00");
         message.push("Task Name: " + taskList[i].taskName) ;
-        currHour =  currHour + taskList[i].predTime + 1;
+        currHour =  currHour + taskList[i].predTimeHr + 1;
     }
     return -1;
 }

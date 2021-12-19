@@ -38,7 +38,7 @@ function Tracker() {
     const [productiveWeekSundayScore, setProductiveWeekSundayScore] = useState()
 
     const logout = () => {
-        axios.get("http://localhost:8080/auth/logout", {
+        axios.get("https://productively-back-end.herokuapp.com/auth/logout", {
             withCredentials: true
         }).then(res => {
             if (res.data === "done") {
@@ -57,7 +57,7 @@ function Tracker() {
 
 
     async function productivityDayScore(credentials) {
-        const response = await fetch("http://localhost:8080/goalTracker", {
+        const response = await fetch("https://productively-back-end.herokuapp.com/goalTracker", {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -73,7 +73,7 @@ function Tracker() {
 
 
     async function productivityWeekScore(credentials) {
-        const response = await fetch("http://localhost:8080/goalTrackerWeek", {
+        const response = await fetch("https://productively-back-end.herokuapp.com/goalTrackerWeek", {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'

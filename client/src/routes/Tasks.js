@@ -17,7 +17,7 @@ function Tasks() {
     const [hover, setHover] = useState(false);
 
     const logout = () => {
-        axios.get("http://localhost:8080/auth/logout", {
+        axios.get("https://productively-back-end.herokuapp.com/auth/logout", {
             withCredentials: true
         }).then(res => {
             if (res.data === "done") {
@@ -30,7 +30,7 @@ function Tasks() {
     console.log('user object email:' + userObject.email);
 
     useEffect(() => {
-        fetch('http://localhost:8080/myTasks/' + userObject.email)
+        fetch('https://productively-back-end.herokuapp.com/myTasks/' + userObject.email)
         .then(response => response.json())
         .then(data => {
             for (let i = 0; i < data.length; i++) {

@@ -11,7 +11,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const cors = require('cors')
 const app = express();
 const port = process.env.PORT || 8080;
-const cookieParser = require('cookie-parser');
+//const cookieParser = require('cookie-parser');
 const MongoStore = require('connect-mongo');
 
 app.use(cors({credentials: true, origin: 'http://localhost:3000'})); //might not need to be commented out
@@ -37,14 +37,14 @@ dbConnect();
 
 app.use(express.json());
 
+//app.use(cookieParser());
+
 app.set("trust proxy", 1);
-
-app.use(cookieParser());
-
 app.use(session({
     secret: "secretcode",
     resave: true,
     saveUninitialized: true,
+    cookie: { secure: true },
     store: MongoStore.create({
         mongoUrl: process.env.DB_URL
     })

@@ -10,7 +10,7 @@ function Calendar() {
     const [toggle, setToggle] = useState(false);
 
     const logout = () => {
-        axios.get("http://localhost:8080/auth/logout", {
+        axios.get("https://productively-back-end.herokuapp.com/auth/logout", {
             withCredentials: true
         }).then(res => {
             if (res.data === "done") {

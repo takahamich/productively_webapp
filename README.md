@@ -159,17 +159,12 @@ Please note that 3 stars is the highest priority, and the value of "x" is still 
 
 
 
-<!-- USAGE EXAMPLES -->
+<!-- ONLINE DEPLOYMENT -->
 ## Usage
 
-Here's some pictures and videos of our app's current functionalities:
-* login button [video](https://youtu.be/UklJWX66Rfo)
-* login page [picture](https://drive.google.com/file/d/1X3XsPNYBNWl33epAO22P7pdT3T66ihoh/view?usp=sharing) 
-* calendar view [picture](https://drive.google.com/file/d/1NCyz7W5xhZiCl_BXgGYAqTOp2axKkR_-/view?usp=sharing)
-* task form [picture](https://drive.google.com/file/d/1v1PbLV-bKhWjl6JV1edpZpuNoXfsRbzC/view?usp=sharing) 
+You may use our app online with the following link: https://schedule-productively.herokuapp.com/
 
-NOTE: We are currently mostly deployed to Heroku, and are continuing to troubleshoot. 
-[Here is a link](https://moose-scheduling.herokuapp.com) to the front end of what we have deployed to Heroku.
+NOTE: Some users have reported that logging in may take a long time to load. Please allow up to 30 seconds for app to load while trying to log in if it does not load immediately.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

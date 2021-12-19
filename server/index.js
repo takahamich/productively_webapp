@@ -13,7 +13,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 const cookieParser = require('cookie-parser');
 
-app.use(cors({credentials: true, origin: 'https://schedule-productively.herokuapp.com/'})); //might not need to be commented out
+app.use(cors({credentials: true, origin: 'http://localhost:3000/'})); //might not need to be commented out
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
@@ -98,11 +98,11 @@ app.get('/auth/google',
 app.get('/auth/google/callback',
     passport.authenticate('google', {
         failureMessage: "Cannot login to Google, please try again later!",
-        failureRedirect: 'https://schedule-productively.herokuapp.com/'
+        failureRedirect: 'http://localhost:3000/'
     }),
     function(req, res) {
         req.session.save();
-        res.redirect('https://schedule-productively.herokuapp.com/home');
+        res.redirect('http://localhost:3000/home');
     });
 
 app.get("/getuser", (req, res) => {

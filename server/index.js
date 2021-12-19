@@ -14,7 +14,7 @@ const port = process.env.PORT || 8080;
 const cookieParser = require('cookie-parser');
 const MongoStore = require('connect-mongo');
 
-app.use(cors({credentials: true, origin: 'http://localhost:3000/'})); //might not need to be commented out
+app.use(cors({credentials: true, origin: 'http://localhost:3000'})); //might not need to be commented out
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 

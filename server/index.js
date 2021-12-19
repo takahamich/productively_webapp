@@ -120,23 +120,25 @@ app.get("/auth/logout", (req, res) => {
     }
 });
 
-let message = [];
+
 
 app.post('/tasks/schedule', (req, res) => {
     let id = req.body.credentials;
     console.log("User email:" + id);
     console.log("Handling POST request for schedule...");
-    message = Schedule(id);
-    res.send(message);
+    Schedule(id).then(
+        data => res.send(data)
+    );
 })
 
 
 
 
 // Scheduling Algorithm
-function Schedule(id = ''){
-    let result = findTasks(id);
+async function Schedule(id = ''){
     let message = [];
+    const result = await taskModel.find({creator: id, complete: false});
+
     let tasks = [];
     for(var i = 0; i < result.length; i++) {
         let obj = result[i];
@@ -146,8 +148,10 @@ function Schedule(id = ''){
         tasks.push({id:obj.id,
             taskName: obj.taskName,
             deadline: new Date(obj.predictedEndDate),
-            predTime:parseInt(obj.predictedTime),
-            value:parseInt(obj.priority) * parseInt(obj.predictedTime)})
+            predTimeHr:parseInt(obj.predictedTimeHours),
+            predTimeMin:parseInt(obj.predictedTimeMinutes),
+            value:parseInt(obj.priority) * parseInt(obj.predictedTimeHours)
+                * parseInt(obj.predictedTimeMinutes)/60.0 })
     }
 
     tasks.sort(compareDeadline);
@@ -157,7 +161,7 @@ function Schedule(id = ''){
     let tasksDueToday = [];
     let tasksToStart = [];
     for(var i = 0; i < tasks.length; i++) {
-        if (tasks[i].deadline.getDate() - today.getDate() == 1) {
+        if (tasks[i].deadline.getDate() - today.getDate() == -1) {
             tasksDueToday.push(tasks[i])
         }
         //Giving a task two buffer days before the deadline
@@ -166,7 +170,7 @@ function Schedule(id = ''){
         }
     }
     if (tasksDueToday.length == 0) {
-        message.push("Yay! You do not have any task due today, but you can start early on other tasks.");
+        message.push("You do not have any task due today, but you can start early on other tasks.");
         message.push("Here is a list of tasks to start:");
         createTodaysSchedule(tasksToStart, message)
     }
@@ -184,13 +188,8 @@ function Schedule(id = ''){
     }
     return message;
 
-
 }
 
-const findTasks = async function(id) {
-    try {  return await taskModel.find({})
-    } catch(err) { console.log(err) }
-}
 
 
 function compareDeadline( task1, task2 ) {
@@ -206,30 +205,22 @@ function compareDeadline( task1, task2 ) {
     return 0;
 }
 
+
 function compareWeight( task1, task2 ) {
     let w1 = task1.value;
     let w2 = task2.value;
     if ( w1 < w2 ){
         return -1;
     }
-
-    function compareWeight( task1, task2 ) {
-        let w1 = task1.value;
-        let w2 = task2.value;
-        if ( w1 < w2 ){
-            return -1;
-        }
-        if (w1 > w2){
-            return 1;
-        }
-        return 0;
+    if (w1 > w2){
+        return 1;
     }
     return 0;
 }
 
 function createTodaysSchedule(taskList, message) {
     let start = new Date();
-    //In the next iteration, it may be better to let users to input their free time
+    //In the future, it may be better to let users to input their free time
     //Currently, assume the user has a whole day to work on the tasks (9 am to 11 pm)
     taskList.sort(compareWeight);
     let currHour = 9;
@@ -242,32 +233,15 @@ function createTodaysSchedule(taskList, message) {
         message.push("Start time: " + start.getHours() + ":00");
         message.push("Task Name: " + taskList[i].taskName) ;
         currHour =  currHour + taskList[i].predTime + 1;
-    }}
-
-
-// });
-/*function WIS(taskList, p) {
-    var M = Array(taskList.length);
-    var pred = Array(taskList.length);
-    M.fill(0);
-    pred.fil(0);
-    for (var i = 1; i <= M.length; i++) {
-        var leaveWeight = M[i-1]; // total weight if we leave j
-        var takeWeight = taskList[j].value + M[p[i]];
-        if ( leaveWeight > takeWeight ) {
-            M[i] = leaveWeight; // better to leave j
-            pred[i] = i-1;
-        }
-        else {
-            M[i] = takeWeight; // better to take j
-            pred[i] = p[i]; // previous is p[j]
-        }
     }
-    return pred;
-}*/
+    return -1;
+}
+
+
 
 app.use(Router);
 
 
 
 //TEST BRANCH
+

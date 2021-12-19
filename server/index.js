@@ -12,6 +12,7 @@ const cors = require('cors')
 const app = express();
 const port = process.env.PORT || 8080;
 const cookieParser = require('cookie-parser');
+const MongoStore = require('connect-mongo');
 
 app.use(cors({credentials: true, origin: 'http://localhost:3000/'})); //might not need to be commented out
 app.use(bodyParser.json());
@@ -43,7 +44,10 @@ app.use(cookieParser());
 app.use(session({
     secret: "secretcode",
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: MongoStore.create({
+        mongoUrl: process.env.DB_URL
+    }),
 }));
 app.use(passport.initialize());
 app.use(passport.session());
